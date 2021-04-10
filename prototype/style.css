@@ -1,0 +1,167 @@
+:root {
+  --monospaceFont: 'IBM Plex Mono', monospace;
+  --sansSerifFont: 'Inter', 'Helvetica', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html, .app {
+  height: 100%;
+}
+
+body {
+  background-color: #f2f2f2;
+  font-family: var(--monospaceFont);
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1240px;
+  margin: 2rem auto 9rem auto;
+}
+
+.search {
+  position: relative;
+}
+
+.search img {
+  position: absolute;
+  top: .65rem;
+  left: .6rem;
+}
+
+.search input {
+  border: none;
+  border-bottom: 1px solid #C6C6C6;
+  background: none;
+  padding: .5rem;
+  padding-left: 2.2rem;
+  width: 26ch;
+
+  font-size: 1rem;
+  font-family: var(--monospaceFont);
+}
+
+.search input::placeholder {
+  color: #c6c6c6;
+}
+
+.search input:focus {
+  outline: none;
+}
+
+.registration {
+  display: flex;
+  gap: 1rem;
+}
+
+button {
+  color: #222222;
+  font-family: var(--monospaceFont);
+  font-size: .875rem;
+  padding: .5rem .8rem;
+  border: none;
+  background: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+button.primary {
+  background-color: white;
+}
+
+main {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.filters {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.filters > p {
+  margin: 0;
+  font-size: .875rem;
+}
+
+.toggle-buttons {
+  margin-left: 2rem;
+}
+
+.toggle-buttons input[type="radio"]{
+  display: none;
+}
+
+.toggle-buttons label {
+  font-size: .875rem;
+  padding: .5rem;
+  color: #222222;
+  cursor: pointer;
+}
+
+.toggle-buttons input[type="radio"]:checked + label {
+  background-color: white;
+  font-weight: 500;
+}
+
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5rem 3rem;
+}
+
+.post .top {
+  padding: .5rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post .top img {
+  display: block;
+  margin-right: 1rem;
+}
+
+.post .top .votes {
+  display: flex;
+  align-items: center;
+}
+
+.post .top .votes p {
+  margin: 0;
+  font-weight: bold;
+  color: #1e1e1e;
+  font-size: .625rem;
+}
+
+.post .top .user-info {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  text-decoration: none;
+}
+
+.post .top .user-info p {
+  font-family: var(--sansSerifFont);
+  font-size: .625rem;
+  flex-grow: 2;
+  color: #222222;
+  text-decoration: none;
+}
+
+.post img {
+  max-width: 100%;
+  display: block;
+}
+
+.post h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: .6rem 0 0 0;
+}
