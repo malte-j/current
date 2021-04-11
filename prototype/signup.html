@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrieren | current</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body style="display: grid">
+  <div class="app">
+    <header>
+      <div class="search">
+        <img src="./img/icon_magnifying_glass.svg" alt="search">
+        <input type="search" placeholder="suchen...">
+      </div>
+
+      <img src="/img/logo.svg" alt="current">
+
+      <div class="registration">
+        <button class="secondary" onclick="window.location.assign('/dashboard.html')">Anmelden</button>
+        <button class="primary light">Registrieren</button>
+      </div>
+
+      <div class="hamburgerIcon">
+        <img src="/img/icon_hamburger_open.svg" alt="Open Menu">
+      </div>
+    </header>
+
+    <main class="signup">
+      <form class="form" action="/dashboard.html">
+        <label for="name">name</label>
+        <input type="text" id="name" placeholder="Max Musterman">
+        <label for="email">email</label>
+        <input type="text" id="email" placeholder="placeholder@example.com">
+
+        <label for="password">passwort</label>
+        <input type="password" id="password" placeholder="*********">
+        <label for="password_repeat">passwort wiederholen</label>
+        <input type="password" id="password_repeat" placeholder="*********">
+
+        <div class="checkbox">
+          <input type="checkbox" name="agb" id="agb">
+          <label for="agb">Ich habe die <u>AGB</u> und <u>Datenschutzvereinbarung</u> gelesen und akzeptiert</label>
+        </div>
+
+        <input type="submit" value="Registrieren">
+      </form>
+    </main>
+  </div>
+</body>
+</html>

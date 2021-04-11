@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Current</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">  
+</head>
+<body>
+  <div class="app dashboard">
+    <aside class="menu">
+      <ul>
+        <li><a href="/">Überblick</a></li>
+        <li><a href="#">Mein Profil</a></li>
+        <li><a href="#">Meine Projekte</a>
+          <ul>
+            <li><a href="#">Projekt A</a></li>
+            <li><a href="#">Elektronikkram und so</a></li>
+            <li><a href="#">Sehr gutes Projekt</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="settings">
+        <img src="/img/avatar_placeholder.png" alt="dein Avatat">
+
+        <a href="#">Einstellungen</a>
+      </div>
+    </aside>
+
+    <main>
+      <nav>
+        <img src="/img/logo.svg" alt="current logo" class="logo">
+        <img src="/img/icon_hamburger_open.svg" alt="open menu" class="hamburger">
+      </nav>
+
+      <div class="posts">
+
+      </div>
+      <template id="postTemplate">
+        <article class="post-lg">
+          <img src="/img/thumbnail_placeholder_2.png" alt="thumbnail">
+          <div class="info">
+            <h2>Lorem Ipsum Dolor sit Amet conesidja lanw dan</h2>
+            <p>loia ainw oa naw idnain na ndiwa ndinwa idnawi ndoiw andinwa wan dnwad naidn anw dna</p>
+            <div class="userInfo">
+              <img src="/img/avatar_placeholder_2.png" alt="Avatar of User">
+              <p>Robert Monega</p>
+            </div>
+          </div>
+        </article>
+      </template>
+
+      <template id="updateTemplate">
+        <div class="updatePreview">
+          <div class="header">
+            <div class="title">Lorem Ipsum Dolor sit Amet conesidja lanw dan</div>
+            <div class="date">22.03.2021</div>
+          </div>
+          <p>loia ainw oa naw idnain na ndiwa ndinwa idnawi ndoiwandinwa wan dnwad naidn anw dna alkw nan lkwan lknwa nlkwanlkdnawlkn wnaklnd akw nwak ndawn klanw w a nkwn k nwkdn kw wd wdww wwkdnakdnakdwa</p>
+          <div class="bottom">
+            <div class="info">
+              <div class="type">Update</div>
+              <span>|</span>
+              <p>Name des nices, tollen Projekts</p>
+            </div>
+
+            <div class="updateUserInfo">
+              <p>Robert Monega</p>
+              <img src="/img/avatar_placeholder_2.png" alt="avatar of user">
+            </div>
+          </div>
+        </div>
+      </template>
+    </main>
+
+    <aside class="notifications">
+      <h1>Benachrichtigungen</h1>
+      <div class="list">
+        <div class="commentPreview">
+          <div class="info">Neuer Kommentar</div>
+          <h2>Name des Posts, der sehr gut ist</h2>
+          <p>“lorem ipsum dolor sit amet consecetur esset, con mino endek ek...”</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <script>
+    const posts = document.querySelector('.posts');
+    
+    const postTemplate = document.getElementById('postTemplate');
+    const updateTemplate = document.getElementById('updateTemplate');
+
+    for(let i = 0; i < 2; i++) {
+      let tempPost = postTemplate.content.cloneNode(true);
+      posts.appendChild(tempPost);
+    }
+
+    let tempUpdate = updateTemplate.content.cloneNode(true);
+    posts.appendChild(tempUpdate);
+    
+    for(let i = 0; i < 21; i++) {
+      let tempPost = postTemplate.content.cloneNode(true);
+      posts.appendChild(tempPost);
+    }
+
+
+  </script>
+</body>
+</html>
