@@ -1,6 +1,25 @@
+/* 🌍 General */
+
 :root {
   --monospaceFont: 'IBM Plex Mono', monospace;
   --sansSerifFont: 'Inter', 'Helvetica', sans-serif;
+
+  --font20: 1.25rem;
+  --font16: 1rem;
+  --font14: .875rem;
+  --font13: .8125rem;
+
+  --colDark: #0c0c0c;
+  --colFont: #222222;
+  --colDivLines: #cecece;
+  --colBg: #f2f2f2;
+  
+  --colPlaceholder: #a6a6a6;
+  --colBgInput: #ebebeb;
+  --colInputLine: #c8c8c8;
+
+  --colInfo: #40ce9b;
+  --colError: #cb4343;
 }
 
 * {
@@ -13,9 +32,21 @@ body, html, .app {
 }
 
 body {
-  background-color: #f2f2f2;
+  background-color: var(--colBg);
   font-family: var(--monospaceFont);
 }
+
+
+img {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 🗺️ Header */
 
 header {
   display: flex;
@@ -39,18 +70,18 @@ header {
 
 .search input {
   border: none;
-  border-bottom: 1px solid #C6C6C6;
+  border-bottom: 1px solid var(--colInputLine);
   background: none;
   padding: .5rem;
   padding-left: 2.2rem;
   width: 26ch;
 
-  font-size: 1rem;
+  font-size: var(--font16);
   font-family: var(--monospaceFont);
 }
 
 .search input::placeholder {
-  color: #c6c6c6;
+  color: var(--colPlaceholder);
 }
 
 .search input:focus {
@@ -62,10 +93,17 @@ header {
   gap: 1rem;
 }
 
+.hamburgerIcon {
+  display: none;
+}
+
+
+/* 🖱️ Buttons */
+
 button {
-  color: #222222;
+  color: col(--colFont);
   font-family: var(--monospaceFont);
-  font-size: .875rem;
+  font-size: var(--font14);
   padding: .5rem .8rem;
   border: none;
   background: none;
@@ -77,10 +115,7 @@ button.primary {
   background-color: white;
 }
 
-.hamburgerIcon {
-  display: none;
-}
-
+/* 📰 Main feed */
 
 main {
   max-width: 1240px;
@@ -92,16 +127,15 @@ main {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 
+  2rem;
   margin-bottom: 4rem;
 }
 
 .filters > p {
   margin: 0;
-  font-size: .875rem;
-}
-
-.toggle-buttons {
-  margin-left: 2rem;
+  font-size: var(--font14);
 }
 
 .toggle-buttons input[type="radio"]{
@@ -109,10 +143,11 @@ main {
 }
 
 .toggle-buttons label {
-  font-size: .875rem;
+  font-size: var(--font14);
   padding: .5rem;
-  color: #222222;
+  color: var(--colFont);
   cursor: pointer;
+  display: inline-block;
 }
 
 .toggle-buttons input[type="radio"]:checked + label {
@@ -133,7 +168,6 @@ main {
 }
 
 .post .top img {
-  display: block;
   margin-right: 1rem;
 }
 
@@ -160,13 +194,12 @@ main {
   font-family: var(--sansSerifFont);
   font-size: .625rem;
   flex-grow: 2;
-  color: #222222;
+  color: var(--colFont);
   text-decoration: none;
 }
 
 .post img {
   max-width: 100%;
-  display: block;
 }
 
 .post h2 {
@@ -212,6 +245,8 @@ main {
   }
 }
 
+/* 📋 Dashboard */
+
 .dashboard {
   display: grid;
   grid-template-columns: 300px 1fr 280px;
@@ -230,20 +265,19 @@ main {
 }
 
 .dashboard main::-webkit-scrollbar {
-  background-color: #f2f2f2;
+  background-color: var(--colBg);
   width: 4px;
 }
 
 .dashboard main::-webkit-scrollbar-thumb {
-  background-color: #cecece;
-  /* border-radius: 10px;; */
+  background-color: var(--colDivLines);
 }
 
 aside.menu {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  border-right: 1px solid #cecece;
+  border-right: 1px solid var(--colDivLines);
 }
 
 aside.menu > ul {
@@ -257,8 +291,8 @@ aside.menu > ul > li > a {
 aside.menu ul {
   list-style-type: none;
   margin: 0;
-  font-size: .875rem;
-  color: #222222;
+  font-size: var(--font14);
+  color: var(--colFont);
 }
 
 aside.menu li a{
@@ -269,33 +303,26 @@ aside.menu li a{
   text-overflow: ellipsis;
 }
 
-aside.menu a {
-  color: inherit;
-  text-decoration: none;
-}
-
-
 aside.menu .settings {
   display: flex;
   align-items: center;
-  border-top: 1px solid #cecece;
+  border-top: 1px solid var(--colDivLines);
 
   justify-content: center;
   padding: 2.6rem;
 }
 
 aside.menu .settings img {
-  display: block;
   margin-right: 2rem;
 }
 
 aside.menu .settings a {
-  font-size: .875rem;
+  font-size: var(--font14);
   font-weight: 500;
 }
 
 aside.notifications {
-  border-left: 1px solid #cecece;
+  border-left: 1px solid var(--colDivLines);
 }
 
 .dashboard main nav {
@@ -334,16 +361,13 @@ aside.notifications {
 }
 
 .post-lg > img {
-  display: block;
   margin-right: 2rem;
-  /* min-width: 100px; */
-
 }
 
 .post-lg h2 {
   display: block;
-  font-size: .875rem;
-  color: #222222;
+  font-size: var(--font14);
+  color: var(--colFont);
   font-weight: 500;
   margin: 0;
 }
@@ -361,7 +385,7 @@ aside.notifications {
   display: flex;  
   align-items: center;
   justify-content: flex-start;
-  font-size: .875rem;
+  font-size: var(--font14);
 }
 
 
@@ -370,7 +394,6 @@ aside.notifications {
 }
 
 .post-lg .userInfo img {
-  display: block;
   margin-right: 1rem;
 }
 
@@ -389,7 +412,7 @@ aside.notifications {
 .updatePreview {
   background: #fff;
   padding: 1rem;
-  font-size: .875rem;
+  font-size: var(--font14);
 }
 
 .updatePreview .header {
@@ -421,7 +444,7 @@ aside.notifications {
 }
 
 .updatePreview .info .type {
-  color: #40CE9B;
+  color: var(--colInfo);
   font-weight: 800;
 }
 
@@ -431,7 +454,6 @@ aside.notifications {
 }
 
 .updatePreview .updateUserInfo img {
-  display: block;
   margin-left: 1rem;
 }
 
@@ -444,20 +466,20 @@ aside.notifications {
 }
 
 .dashboard .notifications h1 {
-  font-size: .875rem;
+  font-size: var(--font14);
   font-weight: 500;
   text-align: center;
   margin: 1rem 0 4rem 0;
 }
 
 .dashboard .commentPreview {
-  font-size: .875rem;
+  font-size: var(--font14);
   background: white;
   padding: .8rem;
 }
 
 .dashboard .commentPreview .info {
-  color: #40CE9B;
+  color: var(--colInfo);
   font-weight: 900;
 }
 
@@ -502,8 +524,8 @@ input[type="text"], input[type="password"] {
   font-family: inherit;
   outline: none;
   border: none;
-  background: #EBEBEB;
-  border-bottom: 1px solid #C8C8C8;
+  background: var(--colBgInput);
+  border-bottom: 1px solid var(--colInputLine);
   padding: .5rem .7rem;
   margin-bottom: 2rem;
 }
@@ -520,7 +542,7 @@ input[type="submit"] {
   font-family: inherit;
   outline: none;
   border: none;
-  background: #0c0c0c;
+  background: var(--colDark);
   color: #fff;
   padding: .5rem 1.3rem;
   font-weight: 500;
@@ -528,7 +550,7 @@ input[type="submit"] {
 }
 
 label {
-  font-size: .8125rem;
+  font-size: var(--font13);
   font-weight: 500;
   margin-bottom: .3rem;
   display: block;
@@ -536,5 +558,5 @@ label {
 
 .checkbox label {
   font-weight: 400;
-  font-size: .8125rem;
+  font-size: var(--font13);
 }
