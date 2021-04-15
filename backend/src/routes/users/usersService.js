@@ -32,3 +32,15 @@ export async function findUserByEmail(email) {
   }
 }
 
+
+export async function createUser(username, email, password) {
+  let newUser = new User();
+  newUser.email = email;
+  newUser.username = username;
+  newUser.password = password;
+  newUser.save()
+}
+
+export async function deleteUser(_id) {
+  await User.deleteOne({_id: _id})
+}

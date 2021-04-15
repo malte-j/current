@@ -5,7 +5,6 @@ import logger from 'morgan';
 import routes from './routes';
 import db from "./db/db"
 
-
 var app = express();
 
 db.init();

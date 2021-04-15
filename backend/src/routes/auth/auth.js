@@ -13,7 +13,7 @@ router.post('/',
     try {
       let b64LoginData =  req.headers.authorization.split(' ')[1];
       const credentials = Buffer.from(b64LoginData, 'base64').toString('ascii');
-      [username, password] = credentials.split(':');
+      [username, password] = credentials.split(/:(.+)/);
     } catch(e) {
       return res.status(403).send("Wrong format of authorization header");
     }
