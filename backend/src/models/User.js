@@ -24,6 +24,8 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  emailVerified: {
+      }
 }, {timestamps: true})
 
 userSchema.pre('save', function (next) {
@@ -42,7 +44,7 @@ userSchema.pre('save', function (next) {
 )
 
 userSchema.methods.comparePassword = async function(candidatePassword){
-  const match = await bcrypt.compare(candidatePassword,this.passwordHash)
+  const match = await bcrypt.compare(candidatePassword,this.password)
   
   return match;
 }

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import debug from '../services/debug';
 
 export function init() {
   const hostname = process.env.MONGO_HOSTNAME;
@@ -10,11 +11,12 @@ export function init() {
   if(!hostname || !port) {
     throw new Error("Missing MongoDB environment variables");
   }
-  console.log(`mongodb://${hostname}:${port}/${dbName}`)
+  debug(`Connecting to DB: mongodb://${hostname}:${port}/${dbName}`)
 
   try {
     mongoose.connect(`mongodb://${hostname}:${port}/${dbName}`, {
       useNewUrlParser: true,
+      autoIndex: false,
       useUnifiedTopology: true,
       user: username,
       pass: password,
@@ -31,10 +33,12 @@ export function init() {
 
   db.on('error', (e) => {
     console.error(e);
+    debug("DB Error");
+    debug(e);
   })
 
   db.once('open', () => {
-    console.log("db connection established")
+    debug("db connection established")
   })
 }
 

@@ -1,8 +1,6 @@
 import app from '../app';
-import debugClient from 'debug';
+import debug from '../services/debug'
 import http from 'http';
-
-const debug = debugClient('current:server')
 
 /**
  * Get port from environment and store in Express.
@@ -15,8 +13,9 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+let server = http.createServer(app);
 
+ 
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -84,3 +83,4 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+export default server;

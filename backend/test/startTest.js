@@ -6,7 +6,7 @@ exec("docker-compose --env-file .env.test up -d", (e, stdout, stderr) => {
     return;
   }
   if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`${stderr}`);
       return;
   }
   console.log(`stdout: ${stdout}`);

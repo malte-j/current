@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node ./src/bin/www",
-    "test": "jest",
+    "start": "DEBUG=current:server node --require dotenv/config --experimental-specifier-resolution=node ./src/bin/www",
+    "test": "DOTENV_CONFIG_PATH=.env.test node --experimental-vm-modules --require dotenv/config node_modules/.bin/jest",
     "pretest": "node ./test/startTest.js",
     "posttest": "node ./test/endTest.js"
   },

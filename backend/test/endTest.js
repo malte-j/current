@@ -6,8 +6,8 @@ exec("docker-compose --env-file .env.test down -v", (e, stdout, stderr) => {
     return;
   }
   if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`${stderr}`);
       return;
   }
   console.log(`stdout: ${stdout}`);
-}) 
+})

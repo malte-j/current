@@ -1,21 +1,7 @@
-http://localhost:3000
-
-###
-
-POST http://localhost:3000/users
-Content-Type: application/json
-
-{
-"userID": "admin",
-"userName": "Thomas Schreiber"
-}
-
-###
-
 POST http://localhost:3000/auth
 Authorization: Basic YWRtaW46cGFzc3dvcmQ=
 
 ###
 
 GET http://localhost:3000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYxODQ0MjgxOCwiZXhwIjoxNjIwMDYxNTYwODYyfQ.HDTxjX8uOuMnTxPJWa_elylnK4FdVdfKg7OZ7WoCTVw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYxODUwNDk0MCwiZXhwIjoxNjE4ODA0OTQwfQ.XJB-6gzD3ZKhXZ9e9zOMX3-uc_BbIQxZU3wJdCHw6lg
