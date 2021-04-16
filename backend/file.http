@@ -5,3 +5,24 @@ Authorization: Basic YWRtaW46cGFzc3dvcmQ=
 
 GET http://localhost:3000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYxODUxMzk4NywiZXhwIjoxNjE4ODEzOTg3fQ.PjCk6Ln5mtt1_CIn6rMeJBiX8_W4L3onNdtT0Nq5Qbg
+
+###
+# Create user
+
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+  "username": "testusr3",
+  "password": "edfm302mwdw0r3m",
+  "email": "testusr3@malts.me"
+}
+
+###
+# Verify user email
+
+POST http://localhost:3000/users/verifyEmail
+content-type: application/json
+{
+  "emailVerificationToken": "akwnd92n13"
+}

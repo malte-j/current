@@ -11,12 +11,15 @@ const userSchema = new Schema({
     index: true,
     unique: true,
     required: true,
+    validate: {
+      validator: testUsername,
+      message: props => `${props.value} hat nicht das passende Format für Nutzernamen.`
+    },
   },
   email: {
     type:String,
     unique:true,
     index: true,
-    uniqueCaseInsensitive: true,
     uniqueCaseInsensitive: true
   },
   isAdmin: {
@@ -30,6 +33,19 @@ const userSchema = new Schema({
   emailVerified: {
     type: Boolean,
     default: false
+  },
+  emailVerificationToken: {
+    type: String,
+    index: true,
+    default: () => {
+      const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let randomString = '';
+      for (var i = 0; i < 20; i++) {
+        var randomPos = Math.floor(Math.random() * charSet.length);
+        randomString += charSet.substring(randomPos,randomPos+1);
+      }
+      return randomString;
+    }
   }
 }, {timestamps: true})
 
@@ -75,3 +91,7 @@ userSchema.plugin(uniqueValidator);
 const User = mongoose.model('User', userSchema);
 
 export default User
+
+export function testUsername(username) {
+  return(/[a-zA-Z0-9]+([a-zA-Z0-9\-_]){2,14}/.test(username))
+}

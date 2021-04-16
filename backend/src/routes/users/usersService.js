@@ -1,4 +1,5 @@
 import User from '../../models/User';
+import { sendEmailVerification } from '../../services/sendMail';
 
 export async function getUsers() {
   let users;
@@ -38,9 +39,28 @@ export async function createUser(username, email, password) {
   newUser.email = email;
   newUser.username = username;
   newUser.password = password;
-  newUser.save()
+  const createdUser = await newUser.save() 
+  sendEmailVerification(createdUser.email);
+  return createdUser;
 }
 
 export async function deleteUser(_id) {
   await User.deleteOne({_id: _id})
+}
+
+export async function verifyUserEmail(emailVerificationToken) {
+  const user = await User.findOne({
+    emailVerificationToken: emailVerificationToken
+  });
+
+  if(!user)
+    throw new Error("verification token not recognized");
+
+  if(user.emailVerified)
+    throw new Error("Email already verified");
+
+  user.emailVerified = true;
+  user.emailVerificationToken = undefined;
+
+  return await user.save()
 }

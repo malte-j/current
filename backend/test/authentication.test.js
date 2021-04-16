@@ -16,5 +16,6 @@ describe('Authenticate', () => {
 })
 
 afterAll(async () => {
+  app.close();
 	await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
 });
