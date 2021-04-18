@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
+import validator from 'validator';
+
 
 import bcrypt from 'bcrypt';
 
@@ -12,7 +14,7 @@ const userSchema = new Schema({
     unique: true,
     required: true,
     validate: {
-      validator: testUsername,
+      validator: validateUsername,
       message: props => `${props.value} hat nicht das passende Format für Nutzernamen.`
     },
   },
@@ -20,6 +22,7 @@ const userSchema = new Schema({
     type:String,
     unique:true,
     index: true,
+    validator: validateEmail,
     uniqueCaseInsensitive: true
   },
   isAdmin: {
@@ -29,6 +32,14 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+    validate: {
+      validator: password => {console.log(password) ; return password.length >= 8},
+      message: "has to be at least 8 characters long"
+    }
+  },
+  _profilePicture: {
+    type: Schema.Types.ObjectId,
+    ref: 'Image'
   },
   emailVerified: {
     type: Boolean,
@@ -55,6 +66,10 @@ userSchema.pre('save', function (next) {
   if (!user.isModified('password'))
     return next();
 
+  // if(user.password.length < 8) {
+  //   return next(new Error("Password has to be longer than 8 characters"));
+  // }
+  
   bcrypt.hash(user.password,10).then((hashedPassword) => {
     user.password = hashedPassword;
     next();
@@ -88,10 +103,19 @@ userSchema.methods.comparePassword = async function(candidatePassword){
 
 userSchema.plugin(uniqueValidator);
 
+userSchema.pre('findOneAndUpdate', function(next) {
+  this.options.runValidators = true;
+  next();
+});
+
 const User = mongoose.model('User', userSchema);
 
 export default User
 
-export function testUsername(username) {
-  return(/[a-zA-Z0-9]+([a-zA-Z0-9\-_]){2,14}/.test(username))
+export function validateUsername(username) {
+  return(/^[a-zA-Z0-9]+([a-zA-Z0-9\-_]){2,14}$/.test(username))
+}
+
+export function validateEmail(email) {
+  return validator.isEmail(email)
 }

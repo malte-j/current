@@ -47,7 +47,7 @@ router.post('/',
  */
 router.delete('/',
   async (req, res) => {
-
+    return res.status(501).send();
   }
 )
 

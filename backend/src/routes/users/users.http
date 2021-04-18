@@ -1,0 +1,41 @@
+### Create User
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+  "username": "test",
+  "password": "testPassword",
+  "email": "test@demo.com"
+}
+
+# 607c5aa944a4162179834961
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdjNWFhOTQ0YTQxNjIxNzk4MzQ5NjEiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4NzYyNDA5LCJleHAiOjE2MTkwNjI0MDl9.Vfdx00xuNDz1mhHFadYLG36spPm9pc8GddUpUM6LdBc
+
+
+### Get User
+GET http://localhost:3000/users/
+
+
+### Verify Email ( token printed in server log )
+PATCH http://localhost:3000/users/
+content-type: application/json
+
+{
+  "emailVerificationToken": "ThZErSxeXntiafLCGA3r"
+}
+
+
+### Change password
+PATCH http://localhost:3000/users/:userId
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdjYTU1NjUxZTA5YzI1N2M1NWU3ODIiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4NzgxNTI2LCJleHAiOjE2MTkwODE1MjZ9.Lg1qwIilkKxQvSCLMrrsUkirq9-WHINiKIHrcdGPVKE
+content-type: application/json
+
+{
+  "password": "testPassword"
+}
+
+
+### Delete User
+DELETE http://localhost:3000/users/:userId
+Authorization: Bearer 1234
+

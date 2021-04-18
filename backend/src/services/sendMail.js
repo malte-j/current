@@ -37,6 +37,8 @@ export async function sendEmailVerification(email) {
 
   const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${user.emailVerificationToken}`;
 
+  debug("sending verification mail with url: " + verificationUrl)
+
   return await sendEmail({
     to: user.email,
     from: 'hi@current.land',
@@ -48,7 +50,9 @@ export async function sendEmailVerification(email) {
     },
     "mail_settings": {
       "sandbox_mode": {
-        "enable": process.env.NODE_ENV == 'test'
+        // @TODO: Enable
+        "enable": process.env.NODE_ENV == 'test' || true
+
       }
     }
   }) 

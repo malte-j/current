@@ -64,3 +64,16 @@ export async function verifyUserEmail(emailVerificationToken) {
 
   return await user.save()
 }
+
+export async function changePassword(userId, newPassword) {
+  if(!userId || !newPassword)
+    throw new Error("Missing userId or Password")
+
+  return User.findOneAndUpdate(
+    { _id: userId },
+    {
+      password: newPassword
+    },
+    { runValidators: true, context: 'query' }
+  )
+}

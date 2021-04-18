@@ -13,6 +13,9 @@ export function init() {
   }
   debug(`Connecting to DB: mongodb://${hostname}:${port}/${dbName}`)
 
+  mongoose.set('useFindAndModify', false);
+
+
   try {
     mongoose.connect(`mongodb://${hostname}:${port}/${dbName}`, {
       useNewUrlParser: true,

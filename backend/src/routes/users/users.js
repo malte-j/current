@@ -1,8 +1,7 @@
 import express from 'express';
-import validator from 'express-validator';
-const { body, validationResult } = validator;
-import { getUsers, createUser } from './usersService'
-import { isAuthenticated, isAdmin, verifyUserEmail } from '../auth/authService'
+import { getUsers, createUser, verifyUserEmail, changePassword } from './usersService'
+import { isAuthenticated, isAdmin, createSessionToken } from '../auth/authService'
+import debug from '../../services/debug';
 
 const router = express.Router();
 
@@ -17,37 +16,45 @@ router.get('/',
 
 // CREATE User
 router.post('/',
-  body('username').notEmpty(),
-  body('email').isEmail(),
-  body('password').isLength({ min: 5 }),
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) 
-      return res.status(400).json({ errors: errors.array() });
-
     const email = req.body.email;
     const username = req.body.username;
     const unencryptedPassword = req.body.password;
 
     try {
       const newUser = await createUser(username, email, unencryptedPassword);
+      
+      // Log user in after account creation
+      const { token } = await createSessionToken(newUser.email, newUser.password);
+      res.header("Authorization", "Bearer " + token)
+
       return res.json({
+        _íd: newUser._id,
         username: newUser.username,
         email: newUser.email,
         isAdmin: newUser.isAdmin,
         emailVerified: newUser.emailVerified
       });
     } catch (e) {
-      return res.status(400).json(e)
+      return res.status(400).json(e.message)
     }
   }
 );
 
-// UPDATE User
-router.patch('/',
+// Update User
+//   Change Password
+router.patch('/:userId',
+  isAuthenticated,
   async (req, res) => {
-   // @TODO
+    const newPassword = req.body.password
 
+    try {
+      await changePassword(req.user._id, newPassword);
+      return res.json({status: "success"})
+    } catch(e) {
+      return res.status(400).json({ error: e.message })
+    }
+    
   }
 )
 
@@ -58,17 +65,22 @@ router.delete('/',
   }
 )
 
+// Verify Email
 router.patch('/',
-  body('emailVerificationToken').length(20),
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) 
-      return res.status(400).json({ errors: errors.array() });
+    try {
+      const verifiedUser = await verifyUserEmail(req.body.emailVerificationToken);
+      debug("user successfully verified: " + verifiedUser.username)
 
-    verifyUserEmail(req.body.emailVerificationToken);
-    // @TODO: Verify that this is working!!!
+      return res.json({
+        status: "success"
+      })
+    } catch(e) {
+      return res.status(400).json({
+        error: e.message
+      })
+    }
   }
 )
-
 
 export const usersRouter = router;

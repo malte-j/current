@@ -17,6 +17,7 @@ export async function createSessionToken(email, password) {
   const privateKey = process.env.JWT_PRIVATE_KEY;
 
   const token = jwt.sign({
+    _id: user._id,
     username: user.username,
     email: user.email,
     isAdmin: user.isAdmin
@@ -27,7 +28,7 @@ export async function createSessionToken(email, password) {
 
 export function isAuthenticated(req, res, next) {
   if(!req.headers.authorization)
-    return res.status(403).json({ error: "Not Authorized" });
+    return res.status(401).json({ error: "Not Authorized" });
 
   try {
     // jwt.verify throws an error if token could not be verified
@@ -37,19 +38,19 @@ export function isAuthenticated(req, res, next) {
     return next();
 
   } catch(e) {
-    return res.status(403).json({ error: "Not Authorized" });
+    return res.status(401).json({ error: "Not Authorized" });
   }
 }
 
 export function isAdmin(req) {
   if(!req.headers.authorization)
-    return res.status(403).json({ error: "Not Authorized" });
+    return res.status(403).json({ error: "Forbidden" });
 
   try {
     const user = decodeToken(req.headers.authorization);
-
+    return user.isAdmin === true;
   } catch(e) {
-
+    return false;
   }
 }
 
