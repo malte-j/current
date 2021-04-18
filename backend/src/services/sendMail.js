@@ -1,6 +1,5 @@
 import mail from '@sendgrid/mail';
 import debug from './debug';
-import { findUserByEmail } from '../routes/users/usersService' 
 
 if(!process.env.SENDGRID_API_KEY)
   throw new Error("Sendgrid api key missing")
@@ -29,13 +28,8 @@ export async function sendEmail(msg) {
   }
 }
 
-export async function sendEmailVerification(email) {
-  let user = await findUserByEmail(email);
-
-  if(!user) 
-    throw new Error("User not found");
-
-  const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${user.emailVerificationToken}`;
+export async function sendEmailVerification(verificationToken) {
+   const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${verificationToken}`;
 
   debug("sending verification mail with url: " + verificationUrl)
 

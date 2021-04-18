@@ -40,7 +40,7 @@ export async function createUser(username, email, password) {
   newUser.username = username;
   newUser.password = password;
   const createdUser = await newUser.save() 
-  sendEmailVerification(createdUser.email);
+  sendEmailVerification(createdUser.emailVerificationToken);
   return createdUser;
 }
 
