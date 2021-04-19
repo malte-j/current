@@ -2,11 +2,23 @@ import Post from '../../models/Post'
 
 // READ multiple Post
 export async function getPosts(user, skip, limit) {
-  let filterSettings = {}
+  let searchSettings = {}
   if(user)
-    filterSettings.user = user;
+    searchSettings.user = user;
   
-  Post.find(filterSettings, )
+  let sortOptions = {
+    sort: {
+      date: "desc"
+    }
+  } 
+  
+  if(limit) 
+    sortOptions.limit = limit;
+
+  if(skip)
+    sortOptions.skip = skip;
+
+  Post.find(searchSettings, "_user title markdownBody _thumbnail createdAt", sortOptions)
 }
 
 

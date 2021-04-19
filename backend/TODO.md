@@ -17,6 +17,7 @@
   - ☒ Change password (PATCH /users)
   - ☒ Delete User (DELETE /users)
 
+- ☐ Add example .env file
 --- 
 
 ☒ Done \
