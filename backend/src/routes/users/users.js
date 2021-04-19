@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, createUser, verifyUserEmail, changePassword } from './usersService'
+import { getUsers, createUser, verifyUserEmail, changePassword, deleteUser } from './usersService'
 import { isAuthenticated, isAdmin, createSessionToken } from '../auth/authService'
 import debug from '../../services/debug';
 
@@ -9,8 +9,12 @@ const router = express.Router();
 router.get('/', 
   isAuthenticated,
   async (req, res, next) => {
-    let users = await getUsers();
-    res.send("users");
+    try {
+      let users = await getUsers();
+      res.send(users);
+    } catch(e) {
+      res.status(400).send({error: e})
+    }
   }
 );
 
@@ -29,7 +33,7 @@ router.post('/',
       res.header("Authorization", "Bearer " + token)
 
       return res.json({
-        _íd: newUser._id,
+        id: newUser.id,
         username: newUser.username,
         email: newUser.email,
         isAdmin: newUser.isAdmin,
@@ -41,27 +45,38 @@ router.post('/',
   }
 );
 
-// Update User
+// UPDATE User
 //   Change Password
 router.patch('/:userId',
   isAuthenticated,
   async (req, res) => {
-    const newPassword = req.body.password
+    if(req.params.userId !== req.user._id && !isAdmin(req))
+      return res.status(403).send({error: "not authorized"})
+
+    const newPassword = req.body.password;
 
     try {
-      await changePassword(req.user._id, newPassword);
-      return res.json({status: "success"})
+      await changePassword(req.params.userId, newPassword);
+      return res.json({status: "success"});
     } catch(e) {
-      return res.status(400).json({ error: e.message })
+      return res.status(400).json({ error: e.message });
     }
-    
   }
 )
 
 // DELETE User
-router.delete('/',
+router.delete('/:userId',
+  isAuthenticated,
   async (req, res) => {
-    // @TODO
+    if(req.params.userId !== req.user._id && !isAdmin(req))
+      return res.status(403).send({error: "not authorized"})
+
+    try {
+      deleteUser(req.user._id);
+      return res.json({status: "success"})
+    } catch(e) {
+      return res.status(400).json({error: e});
+    }
   }
 )
 

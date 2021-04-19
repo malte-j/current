@@ -33,7 +33,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     validate: {
-      validator: password => {console.log(password) ; return password.length >= 8},
+      validator: password => password.length >= 8,
       message: "has to be at least 8 characters long"
     }
   },
@@ -66,10 +66,6 @@ userSchema.pre('save', function (next) {
   if (!user.isModified('password'))
     return next();
 
-  // if(user.password.length < 8) {
-  //   return next(new Error("Password has to be longer than 8 characters"));
-  // }
-  
   bcrypt.hash(user.password,10).then((hashedPassword) => {
     user.password = hashedPassword;
     next();

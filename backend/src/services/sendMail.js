@@ -28,8 +28,8 @@ export async function sendEmail(msg) {
   }
 }
 
-export async function sendEmailVerification(verificationToken) {
-   const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${verificationToken}`;
+export async function sendEmailVerification(user) {
+   const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${user.verificationToken}`;
 
   debug("sending verification mail with url: " + verificationUrl)
 

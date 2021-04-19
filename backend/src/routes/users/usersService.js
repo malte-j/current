@@ -2,15 +2,14 @@ import User from '../../models/User';
 import { sendEmailVerification } from '../../services/sendMail';
 
 export async function getUsers() {
-  let users;
-
-  try {
-    users = User.find
-  } catch(e) {
-    users = []
-  }
-
-  return users;
+  let users = await User.find();
+  return users.map(({isAdmin, emailVerified, _id, email, username, createdAt}) => ({
+    isAdmin,
+    emailVerified,
+    _id, email,
+    username,
+    createdAt
+  }));
 }
 
 export async function findUserByEmail(email) {
@@ -19,11 +18,11 @@ export async function findUserByEmail(email) {
     
     if(!user && email === 'admin') {
       let adminUser = new User();
-      adminUser.username = "admin";
-      adminUser.email = "admin";
+      adminUser.username = 'admin';
+      adminUser.email = 'admin';
       adminUser.isAdmin = true;
-      adminUser.password = "password" 
-      user = await adminUser.save()
+      adminUser.password = 'password'; 
+      user = await adminUser.save();
     }
 
     return user;
@@ -39,13 +38,13 @@ export async function createUser(username, email, password) {
   newUser.email = email;
   newUser.username = username;
   newUser.password = password;
-  const createdUser = await newUser.save() 
-  sendEmailVerification(createdUser.emailVerificationToken);
+  const createdUser = await newUser.save();
+  sendEmailVerification(createdUser);
   return createdUser;
 }
 
 export async function deleteUser(_id) {
-  await User.deleteOne({_id: _id})
+  await User.deleteOne({_id: _id});
 }
 
 export async function verifyUserEmail(emailVerificationToken) {
@@ -54,20 +53,20 @@ export async function verifyUserEmail(emailVerificationToken) {
   });
 
   if(!user)
-    throw new Error("verification token not recognized");
+    throw new Error('verification token not recognized');
 
   if(user.emailVerified)
-    throw new Error("Email already verified");
+    throw new Error('Email already verified');
 
   user.emailVerified = true;
   user.emailVerificationToken = undefined;
 
-  return await user.save()
+  return await user.save();
 }
 
 export async function changePassword(userId, newPassword) {
   if(!userId || !newPassword)
-    throw new Error("Missing userId or Password")
+    throw new Error('Missing userId or Password');
 
   return User.findOneAndUpdate(
     { _id: userId },
@@ -75,5 +74,5 @@ export async function changePassword(userId, newPassword) {
       password: newPassword
     },
     { runValidators: true, context: 'query' }
-  )
+  );
 }

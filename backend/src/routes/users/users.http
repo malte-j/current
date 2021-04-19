@@ -8,12 +8,13 @@ content-type: application/json
   "email": "test@demo.com"
 }
 
-# 607c5aa944a4162179834961
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdjNWFhOTQ0YTQxNjIxNzk4MzQ5NjEiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4NzYyNDA5LCJleHAiOjE2MTkwNjI0MDl9.Vfdx00xuNDz1mhHFadYLG36spPm9pc8GddUpUM6LdBc
+# 607df374d11842e77fa72e50
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
 
 
-### Get User
+### Get Users
 GET http://localhost:3000/users/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
 
 
 ### Verify Email ( token printed in server log )
@@ -36,6 +37,6 @@ content-type: application/json
 
 
 ### Delete User
-DELETE http://localhost:3000/users/:userId
-Authorization: Bearer 1234
+DELETE http://localhost:3000/users/607df374d11842e77fa72e50
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
 
