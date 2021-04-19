@@ -44,7 +44,7 @@ export async function createUser(username, email, password) {
 }
 
 export async function deleteUser(_id) {
-  await User.deleteOne({_id: _id});
+  return User.deleteOne({_id: _id});
 }
 
 export async function verifyUserEmail(emailVerificationToken) {

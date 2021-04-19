@@ -1,10 +1,5 @@
 # TODO
 
- 
-- USERS
-  - ☐ Change password (PATCH /users)
-  - ☐ Delete User (DELETE /users)
-
 - POST
   - ☐ Read Posts (GET /posts, query options for)
     - ☐ Pagination
@@ -17,6 +12,10 @@
 - Image
   - ☐ Upload Image
   - ☐ Delete Image 
+
+- USERS
+  - ☒ Change password (PATCH /users)
+  - ☒ Delete User (DELETE /users)
 
 --- 
 

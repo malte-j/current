@@ -7,19 +7,23 @@ const imageSchema = new Schema({
     ref: 'User'
   },
   url: {
-    type: String,
+    type: String
   },
   name: {
     type: String,
+    required: true
   },
   width: {
-    type: Number
+    type: Number,
+    required: true
   },
   height: {
-    type: Number
+    type: Number,
+    required: true
   },
   format: {
-    type: String
+    type: String,
+    required: true
   }
 }, {timestamps: true})
 
