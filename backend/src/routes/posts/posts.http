@@ -1,4 +1,32 @@
-### Get Postsd
+### Get Posts
 GET http://localhost:3000/posts/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
 
+### Get 2 most recent posts
+GET http://localhost:3000/posts/?limit=3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
+
+
+### Create post
+POST http://localhost:3000/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
+Content-Type: application/json
+
+{
+  "title": "Demo title",
+  "markdownBody": "# HELLO there"
+}
+
+###
+DELETE http://localhost:3000/posts/607eafb08e8dca52cae2cf68
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
+
+### Update post
+PATCH http://localhost:3000/posts/607eafb08e8dca52cae2cf69
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
+Content-Type: application/json
+
+{
+  "title": "WAY BETTER TITLE",
+  "markdownBody": "# HELLO there!"
+}

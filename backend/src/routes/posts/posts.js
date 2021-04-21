@@ -16,7 +16,7 @@ router.post('/',
 
     try {
       const createdPost = await createPost(title, markdownBody, _user, _thumbnail);
-      return createdPost; 
+      res.json(createdPost);
     } catch(e) {
       return res.status(400).json({
         error: e
@@ -48,8 +48,8 @@ router.get('/:postId',
 router.get('/',
   async (req, res, next) => {
     const user = req.query.user;
-    const skip = req.query.skip
-    const limit = req.query.limit;
+    const skip = parseInt(req.query.skip)
+    const limit = parseInt(req.query.limit);
 
     try {
       const posts = await getPosts(user, skip, limit)
@@ -68,20 +68,20 @@ router.get('/',
  */
 
 router.patch('/:postId',
+  isAuthenticated,
   async (req, res, next) => {
     const postId = req.params.postId;
     const title = req.body.title;
     const markdownBody = req.body.markdownBody;
     const _thumbnail = req.body._thumbnail;
+    const user = req.user;
     
-    // @TODO: check if post belongs to user
-
     try {
-      const post = await updatePost(postId, title, markdownBody, _thumbnail);
+      const post = await updatePost(postId, title, markdownBody, _thumbnail, user);
       return res.json(post)
     } catch(e) {
       return res.status(400).send({
-        error: e
+        error: e.message
       })
     } 
   }
@@ -92,17 +92,16 @@ router.patch('/:postId',
  */
 
 router.delete('/:postId',
+  isAuthenticated,
   async (req, res, next) => {
     const postId = req.params.postId;
-
-    if(req.params.userId !== req.user._id && !isAdmin(req))
-      return res.status(403).send({error: "not authorized"})
-    
-    // @TODO: check if post belongs to user
+    const user = req.user;
 
     try {
-      return await deletePost(postId);
+      const deletedPost = await deletePost(postId, user);
+      return res.json({status: "success"})
     } catch(e) {
+      console.log(e)
       return res.status(400).json({error: e})
     }
   }

@@ -1,12 +1,13 @@
 import app from '../app';
 import debug from '../services/debug'
 import http from 'http';
+import config from '../config'
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(config.port || '3000');
 app.set('port', port);
 
 /**
@@ -20,7 +21,7 @@ let server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-if (process.env.NODE_ENV !== 'test') {
+if (config.env !== 'test') {
   server.listen(port)
 }
 

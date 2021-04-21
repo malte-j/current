@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 import debug from '../services/debug';
+import config from '../config'
 
 export function init() {
-  const hostname = process.env.MONGO_HOSTNAME;
-  const port = process.env.MONGO_PORT;
-  const dbName = process.env.MONGO_DB_NAME;
-  const username = process.env.MONGO_ADMIN_USERNAME;
-  const password = process.env.MONGO_ADMIN_PASSWORD;
+  const hostname = config.db.hostname;
+  const port = config.db.port;
+  const dbName = config.db.name;
+  const username = config.db.username;
+  const password = config.db.password;
 
   if(!hostname || !port) {
     throw new Error("Missing MongoDB environment variables");

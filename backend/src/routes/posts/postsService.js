@@ -3,6 +3,7 @@ import Post from '../../models/Post'
 // READ multiple Post
 export async function getPosts(user, skip, limit) {
   let searchSettings = {}
+
   if(user)
     searchSettings.user = user;
   
@@ -18,7 +19,7 @@ export async function getPosts(user, skip, limit) {
   if(skip)
     sortOptions.skip = skip;
 
-  Post.find(searchSettings, "_user title markdownBody _thumbnail createdAt", sortOptions)
+  return Post.find(searchSettings, "_user title markdownBody _thumbnail createdAt", sortOptions).exec()
 }
 
 
@@ -39,15 +40,29 @@ export async function createPost(title, markdownBody, _user, _thumbnail) {
 }
 
 // DELETE Post 
-export async function deletePost(_id) {
+export async function deletePost(_id, user) {
+  let post = await Post.findById(_id)
+
+  if(!post)
+    throw new Error("Post not found");
+  
+  if(!post._user.equals(user._id) && !user.isAdmin)
+    throw new Error("Not authorized")
+      
   return Post.deleteOne({
     _id: _id
   })
 }
 
 // UPDATE Post
-export async function updatePost(_id, title, markdownBody, _thumbnail) {
-  let post = Post.findById(_id);
+export async function updatePost(_id, title, markdownBody, _thumbnail, user) {
+  let post = await Post.findById(_id);
+
+  if(!post)
+    throw new Error("Post not found")
+
+  if(!post._user.equals(user._id) && !user.isAdmin)
+    throw new Error("Not authorized")
 
   if(title)
     post.title = title;

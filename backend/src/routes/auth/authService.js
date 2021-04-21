@@ -1,5 +1,6 @@
 import { findUserByEmail } from '../users/usersService'
 import jwt from 'jsonwebtoken'
+import config from '../../config'
 
 export async function createSessionToken(email, password) {
 
@@ -13,8 +14,8 @@ export async function createSessionToken(email, password) {
   if(!passwordMatch)
     throw new error("password incorrect")
 
-  const expirationTime = process.env.JWT_EXPIRY_TIME;
-  const privateKey = process.env.JWT_PRIVATE_KEY;
+  const expirationTime = config.jwt.expiryTime;
+  const privateKey = config.jwt.privateKey;
 
   const token = jwt.sign({
     _id: user._id,
@@ -56,6 +57,6 @@ export function isAdmin(req) {
 
 export function decodeHeader(authorizationHeader) {
   let token = authorizationHeader.split(" ")[1];
-  var privateKey = process.env.JWT_PRIVATE_KEY;
+  var privateKey = config.jwt.privateKey;
   return jwt.verify(token, privateKey, { algorithm: "HS256" });
 }

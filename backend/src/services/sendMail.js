@@ -1,7 +1,8 @@
 import mail from '@sendgrid/mail';
 import debug from './debug';
+import config from '../config'
 
-if(!process.env.SENDGRID_API_KEY)
+if(!config.mail.apiKey)
   throw new Error("Sendgrid api key missing")
 
 mail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -29,7 +30,7 @@ export async function sendEmail(msg) {
 }
 
 export async function sendEmailVerification(user) {
-   const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${user.verificationToken}`;
+   const verificationUrl = `${config.frontendUrl}/verifyEmail?token=${user.verificationToken}`;
 
   debug("sending verification mail with url: " + verificationUrl)
 
@@ -44,9 +45,7 @@ export async function sendEmailVerification(user) {
     },
     "mail_settings": {
       "sandbox_mode": {
-        // @TODO: Enable
-        "enable": process.env.NODE_ENV == 'test' || true
-
+        "enable": config.env == 'test' || config.mail.disable
       }
     }
   }) 
