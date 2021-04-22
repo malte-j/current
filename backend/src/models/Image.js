@@ -12,7 +12,8 @@ const imageSchema = new Schema({
   format: {
     type: String,
     required: true
-  }
+  },
+  lqip: String
 }, {timestamps: true})
 
 const Image = mongoose.model('Image', imageSchema);

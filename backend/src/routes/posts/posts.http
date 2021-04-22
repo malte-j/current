@@ -2,8 +2,10 @@
 GET http://localhost:3000/posts/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
 
-### Get 2 most recent posts
-GET http://localhost:3000/posts/?limit=3
+### Get 2 most recent posts and skip 1
+GET http://localhost:3000/posts/
+  ?limit=3
+  ?skip=1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
 
 
@@ -17,7 +19,7 @@ Content-Type: application/json
   "markdownBody": "# HELLO there"
 }
 
-###
+### DELETE POST
 DELETE http://localhost:3000/posts/607eafb08e8dca52cae2cf68
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
 

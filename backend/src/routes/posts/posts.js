@@ -53,7 +53,6 @@ router.get('/',
 
     try {
       const posts = await getPosts(user, skip, limit)
-      
       return res.json(posts)
     } catch(e) {
       return res.status(400).send({
@@ -98,7 +97,7 @@ router.delete('/:postId',
     const user = req.user;
 
     try {
-      const deletedPost = await deletePost(postId, user);
+      await deletePost(postId, user);
       return res.json({status: "success"})
     } catch(e) {
       console.log(e)
