@@ -7,11 +7,17 @@ import config from '../../config';
 
 
 
-// export async function uploadImage(name, url, width, height) {
+export async function getImage(id, format, width, height) {
+  
+  // try to find image with id.*$ in database
+  // fs.access
+  // express sendFile
 
-//   // filename format: uuid;
 
-// }
+  // GET /i/awindowan.avif?w=120&h=1000
+  // filename format: uuid;
+
+}
 
 export function uploadMiddleware() {
   return multer({
