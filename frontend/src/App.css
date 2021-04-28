@@ -1,0 +1,47 @@
+/* 🌍 Globals */
+
+:root {
+  --monospaceFont: 'IBM Plex Mono', monospace;
+  --sansSerifFont: 'Inter', 'Helvetica', sans-serif;
+
+  --font20: 1.25rem;
+  --font16: 1rem;
+  --font14: .875rem;
+  --font13: .8125rem;
+
+  --colDark: #0c0c0c;
+  --colFont: #222222;
+  --colDivLines: #cecece;
+  --colBg: #f2f2f2;
+  
+  --colPlaceholder: #a6a6a6;
+  --colBgInput: #ebebeb;
+  --colInputLine: #c8c8c8;
+
+  --colInfo: #40ce9b;
+  --colError: #cb4343;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html, #root, .app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--colBg);
+  font-family: var(--monospaceFont);
+  color: var(--colFont);
+}
+
+img {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

@@ -1,0 +1,15 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+
+  .logo {
+    height: 38px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 1rem;
+  }
+}

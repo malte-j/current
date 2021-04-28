@@ -1,9 +1,0 @@
-.nav {
-  display: flex;
-
-  background: rgb(241, 241, 241);
-
-  button {
-    border: 1px solid red;
-  }
-}

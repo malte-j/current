@@ -1,3 +1,11 @@
 import React from 'react'
+import Nav from '../components/Nav/Nav'
 
-export default () => <h3>Protected</h3>
+export default () => {
+  return (
+    <div className="">
+      <Nav/>
+      protected
+    </div>
+  )
+}

@@ -1,0 +1,40 @@
+.search {
+  position: relative;
+
+  .inputElement {
+    background: none;
+    padding-left: 2.2rem;
+    font-size: var(--font-16);
+  }
+
+  .icon {
+    position: absolute;
+    top: .65rem;
+    left: .6rem;
+  }
+}
+
+.inputElement {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  outline: none;
+  border: none;
+  background: var(--colBgInput);
+  border-bottom: 1px solid var(--colInputLine);
+  padding: .5rem .7rem;
+
+  &::placeholder {
+    color: var(--colPlaceholder);
+  }
+  
+}
+
+.labelElement {
+  font-size: var(--font13);
+  font-weight: 500;
+  margin-bottom: .3rem;
+  display: block;
+  
+}
+

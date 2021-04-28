@@ -5,9 +5,9 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import Nav from './components/Nav/Nav';
+import './App.css'
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import Protected from './pages/Protected';
 import Public from './pages/Public';
 import { ProvideAuth } from './services/Auth';
@@ -18,22 +18,11 @@ function App() {
   return (
     <ProvideAuth>
       <Router>
-        <div className="App">
-          <Nav/>
-
-          <ul>
-            <li>
-              <Link to="/public">Public Page</Link>
-            </li>
-            <li>
-              <Link to="/protected">Protected Page</Link>
-            </li>
-          </ul>
-          
+        <div className="app">
           <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
+            <Route exact path="/">
+              <Home/>
+            </Route>
             <Route path='/login'>
               <Login/>
             </Route>
