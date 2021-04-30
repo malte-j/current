@@ -19,9 +19,9 @@ export async function findUserByEmail(email) {
     if(!user && email === 'admin') {
       let adminUser = new User();
       adminUser.username = 'admin';
-      adminUser.email = 'admin';
+      adminUser.email = 'admin@example.com';
       adminUser.isAdmin = true;
-      adminUser.password = 'password'; 
+      adminUser.password = 'dwaln2o018hdn91h72bd01'; 
       user = await adminUser.save();
     }
 

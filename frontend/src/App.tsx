@@ -6,12 +6,13 @@ import {
   Link,
 } from "react-router-dom";
 import './App.css'
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Protected from './pages/Protected';
 import Public from './pages/Public';
 import { ProvideAuth } from './services/Auth';
 import PrivateRoute from './services/PrivateRoute';
+import RedirectOnAuth from './services/RedirectOnAuth';
 
 function App() {
 
@@ -23,8 +24,12 @@ function App() {
             <Route exact path="/">
               <Home/>
             </Route>
-            <Route path='/login'>
+
+            <RedirectOnAuth to="/">
               <Login/>
+            </RedirectOnAuth>
+            
+            <Route path='/login'>
             </Route>
             <Route path='/public'>
               <Public/>

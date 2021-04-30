@@ -9,11 +9,12 @@ interface TextInputProps {
   placeholder?: string,
   label?: string,
   value?: string,
+  className?: string,
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-export default function TextInput({type = "text", id, name, required, placeholder, label, value, onChange}:TextInputProps) {
-  return <div className={`${s[type]}`}>
+export default function TextInput({type = "text", id, name, required, placeholder, label, value, onChange, className = ""}:TextInputProps) {
+  return <div className={`${s[type]} ${className}`}>
     {
       type == 'search' ? 
       <img className={s.icon} src="/icons/magnifying_glass.svg" alt="search icon"/>

@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import cookieParser from 'cookie-parser'
 import logger from 'morgan';
@@ -11,6 +12,13 @@ db.init();
 
 app.disable('x-powered-by');  
 app.use(logger('dev'));
+app.use(cors({
+  origin: 'http://localhost:3001',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Authorization'],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+}))
+// app.use(cors('localhost:3001'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
