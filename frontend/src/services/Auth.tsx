@@ -22,28 +22,29 @@ const fakeAuth = {
   isAuthenticated: false,
   bearer: '',
   async signin(username: string, password:string):Promise<User> {
-    // const res = await fetch('http://localhost:3000/auth', {
-    //   method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    //   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    //   headers: {
-    //     'Authorization': `Basic ${btoa(username + ':' + password)}`
-    //   },
-    // })
+    const res = await fetch('http://localhost:3000/auth', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Authorization': `Basic ${btoa(username + ':' + password)}`
+      },
+    })
 
-    // let d = await res.json();
+    let d = await res.json();
 
     
     // res.headers.forEach(e => console.log(e));
 
-    // fakeAuth.bearer = res.headers.get('Authorization') as string;
+    fakeAuth.bearer = res.headers.get('Authorization') as string;
 
+    console.log(fakeAuth.bearer)
     fakeAuth.isAuthenticated = true;
-    return {
-      email: "example",
-      isAdmin: true,
-      username: "Example"
-    }
-    // return d;
+    // return {
+    //   email: "example",
+    //   isAdmin: true,
+    //   username: "Example"
+    // }
+    return d;
   },
   async signout() {
     await sleep(2000);

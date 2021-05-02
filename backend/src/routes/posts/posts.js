@@ -11,7 +11,7 @@ router.post('/',
   async (req, res) => {
     const title = req.body.title;
     const markdownBody = req.body.markdownBody;
-    const _thumbnail = req.body._thumbnail;
+    const _thumbnail = req.body.thumbnail;
     const _user = req.user._id;
 
     try {

@@ -1,5 +1,5 @@
 import express from 'express';
-import {  createImage, uploadMiddleware } from './imagesService';
+import {  createImage, getImageInfo, getImagesInfo } from './imagesService';
 import { isAuthenticated } from '../auth/authService'
 import multer from 'multer';
 import mongoose from 'mongoose';
@@ -41,6 +41,33 @@ router.post('/',
     } catch(e) {
       console.log(e)
       return res.status(400).json({error: e})
+    }
+  }
+)
+
+router.get('/:imageId',
+  (req, res, next) => {
+    if(!req.is('application/json'))
+      return express.static(path.join(path.resolve(), '/public/img'))
+    else
+      next()
+  },
+  async (req, res) => {
+    const imageId = req.query.imageId;
+    try {
+      let images;
+
+      if(imageId) {
+        images = await getImageInfo(imageId);
+      } else {
+        images = await getImagesInfo();
+      }
+
+      return res.json(images)
+    } catch(e) {
+      return res.error(400).json({
+        error: e
+      })
     }
   }
 )

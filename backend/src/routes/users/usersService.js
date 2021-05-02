@@ -1,5 +1,6 @@
 import User from '../../models/User';
 import { sendEmailVerification } from '../../services/sendMail';
+import validator from 'validator';
 
 export async function getUsers() {
   let users = await User.find();
@@ -10,6 +11,12 @@ export async function getUsers() {
     username,
     createdAt
   }));
+}
+
+export async function getUser(usernameOrEmail) {
+  if(validator.isEmail(usernameOrEmail)) {
+    
+  }
 }
 
 export async function findUserByEmail(email) {

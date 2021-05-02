@@ -4,21 +4,26 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useAuth } from "../../services/Auth";
 import TextInput from '../../components/TextInput/TextInput'
 
-import s from './Login.module.scss';
+import s from './Signup.module.scss';
 import Nav from "../../components/Nav/Nav";
 import Button from "../../components/Button/Button";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 
-export default function Login() {
+export default function Signup() {
   const history = useHistory();
   const location = useLocation<LocationState>();
   const auth = useAuth();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
 
 
   let login: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
+    if(password !== passwordRepeat)
+      throw new Error("e");
 
     try {
       await auth.signin(username, password);
@@ -49,6 +54,17 @@ export default function Login() {
               name="username"
               placeholder="Max Mustermann"
               label="name"
+              required
+            />
+            <TextInput
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              id="login_email"
+              name="email"
+              type="email"
+              placeholder="name@example.com"
+              label="email"
+              required
             />
             <TextInput
               value={password}
@@ -58,8 +74,19 @@ export default function Login() {
               placeholder="********"
               label="passwort"
               type="password"
+              required
             />
-            <Button className={s.loginButton} type='submit' color='dark' value='Login' />
+            <TextInput
+              value={passwordRepeat}
+              onChange={e => setPasswordRepeat(e.target.value)}
+              id="login_password_repeat"
+              name="passwordRepeat"
+              placeholder="********"
+              label="passwort"
+              type="password"
+              required
+            />
+            <Button className={s.signupButton} type='submit' color='dark' value='Login' />
           </form>
         </div>
       </ContentWrapper>

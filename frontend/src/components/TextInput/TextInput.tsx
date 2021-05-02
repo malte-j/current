@@ -2,7 +2,7 @@ import React from 'react';
 import s from './TextInput.module.scss'
 
 interface TextInputProps {
-  type?: 'password' | 'text' | 'search',
+  type?: 'password' | 'text' | 'search' | 'email',
   id?: string,
   name?: string,
   required?: boolean,

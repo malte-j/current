@@ -7,16 +7,13 @@ import config from '../../config';
 
 
 
-export async function getImage(id, format, width, height) {
-  
-  // try to find image with id.*$ in database
-  // fs.access
-  // express sendFile
+export async function getImageInfo(id) {
+  return Image.findOne(id);
+}
 
 
-  // GET /i/awindowan.avif?w=120&h=1000
-  // filename format: uuid;
-
+export async function getImagesInfo() {
+  return Image.find();
 }
 
 export function uploadMiddleware() {

@@ -5,11 +5,10 @@ import {
 } from "react-router-dom";
 import { useAuth } from './Auth';
 
-export default function RedirectOnAuth({ children, to, ...rest }: {children: React.ReactNode, to: string}) {
+export default function RedirectOnAuth({ children, to, path }: {children: React.ReactNode, to: string, path: string}) {
   let auth = useAuth();
   return (
-    <Route
-      {...rest}
+    <Route path={path}
       render={() =>
         auth.user ? (
           <Redirect to={to} />

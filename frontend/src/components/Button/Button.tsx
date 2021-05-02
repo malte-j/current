@@ -8,17 +8,27 @@ interface ButtonProps {
   weight?: string,
   value?: string,
   className?: string,
+  width?: string,
   onClick?(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void
 };
 
-const Button:React.FunctionComponent<ButtonProps> = ({color, onClick, children, size, type, value, className = ''}) => {
+const Button:React.FunctionComponent<ButtonProps> = ({color, onClick, children, size, type, value, className = '', width='auto'}) => {
   if(type === 'submit')
     return (
-      <input type="submit" className={`${className} ${s.button} ${color ? s[color] : ''} ${size ? s[size] : ''} `} value={value}/>
+      <input
+        type="submit"
+        className={`${className} ${s.button} ${color ? s[color] : ''} ${size ? s[size] : ''} `}
+        style={{width: width}}
+        value={value}
+      />
     )
 
   return (
-    <button onClick={onClick} className={`${s.button} ${color ? s[color] : ''} ${size ? s[size] : ''} `}>
+    <button
+      onClick={onClick}
+      className={`${s.button} ${color ? s[color] : ''} ${size ? s[size] : ''} `}
+      style={{width: width}}
+    >
       { children }
     </button>
   )
