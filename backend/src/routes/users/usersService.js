@@ -7,7 +7,8 @@ export async function getUsers() {
   return users.map(({isAdmin, emailVerified, _id, email, username, createdAt}) => ({
     isAdmin,
     emailVerified,
-    _id, email,
+    _id, 
+    email,
     username,
     createdAt
   }));
