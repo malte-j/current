@@ -1,0 +1,11 @@
+### Get Posts
+POST http://localhost:3000/images/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDgxNzJjM2ZmMDU4MzMzZTQwZjM1NWMiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMDEzOTMxOCwiZXhwIjoxNjIwNDM5MzE4fQ.RRU9LBrNroRH8jZMAbQvLdif3fruBTDngCPVFEmwHbU
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="example.jpg"
+Content-Type: image/jpeg
+< ./example.jpg
+--WebAppBoundary--
+###

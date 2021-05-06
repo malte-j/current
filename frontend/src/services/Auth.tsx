@@ -39,11 +39,6 @@ const fakeAuth = {
 
     console.log(fakeAuth.bearer)
     fakeAuth.isAuthenticated = true;
-    // return {
-    //   email: "example",
-    //   isAdmin: true,
-    //   username: "Example"
-    // }
     return d;
   },
   async signout() {

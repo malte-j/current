@@ -14,3 +14,9 @@ export class ApplicationError extends Error {
     this.date = new Date();
   }
 }
+
+export function sendError(res, status, message) {
+  return res.status(status).json({
+    error: message
+  }).send();
+}

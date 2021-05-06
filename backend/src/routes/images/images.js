@@ -40,12 +40,16 @@ router.post('/',
       res.json(newImage);
     } catch(e) {
       console.log(e)
-      return res.status(400).json({error: e})
+      return res.status(400).json({error: e.message})
     }
   }
 )
 
+/**
+ * Get a single image
+ */
 router.get('/:imageId',
+  // if user tries to access a file
   (req, res, next) => {
     if(!req.is('application/json'))
       return express.static(path.join(path.resolve(), '/public/img'))
@@ -71,5 +75,21 @@ router.get('/:imageId',
     }
   }
 )
+
+
+/**
+ * Get a list of images
+ */
+router.get('/',
+  async (req, res) => {
+    try {
+      const images = await getImagesInfo();
+      return res.json(images)
+    } catch(e) {
+      return sendError(req, 400, e.message)
+    }
+  }
+)
+
 
 export const imagesRouter = router;
