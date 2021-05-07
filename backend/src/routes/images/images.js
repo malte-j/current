@@ -1,8 +1,11 @@
 import express from 'express';
 import {  createImage, getImageInfo, getImagesInfo } from './imagesService';
 import { isAuthenticated } from '../auth/authService'
+import fs from 'fs/promises';
+import path from 'path';
 import multer from 'multer';
 import mongoose from 'mongoose';
+import sharp from 'sharp';
 
 let upload = multer({
   limits: {
@@ -15,12 +18,14 @@ let upload = multer({
     },
     filename: (req, file, cb) => {
       const name = new mongoose.Types.ObjectId();
-      const ext = file.mimetype.split('/')[1];
+      // let ext = file.mimetype.split('/')[1];
+      // ext = ext === 'jpeg' ? 'jpg' : ext;
       file.originalname = name;
-      cb(null, `${name}.${ext}`)
+      cb(null, `${name}`)
     }
   }),
   filter: (req, file, cb) => {
+    console.log(file.mimetype)
     if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
       cb(null, true);
     } else {
@@ -48,32 +53,55 @@ router.post('/',
 /**
  * Get a single image
  */
-router.get('/:imageId',
+router.get('/:image',
   // if user tries to access a file
   (req, res, next) => {
-    if(!req.is('application/json'))
-      return express.static(path.join(path.resolve(), '/public/img'))
-    else
-      next()
-  },
-  async (req, res) => {
-    const imageId = req.query.imageId;
-    try {
-      let images;
+    const requestedFileRegex = /^([A-Za-z0-9_-]{24})(\.)(png|jpg|webp)$/i;
+    const filteredFileReq = requestedFileRegex.exec(req.params.image);
 
-      if(imageId) {
-        images = await getImageInfo(imageId);
-      } else {
-        images = await getImagesInfo();
-      }
+    // check if file request is in correct format
+    if(!filteredFileReq)
+      return res.sendStatus(400);
+    
+    // get file metadata
+    const id      = filteredFileReq[1];
+    const format  = filteredFileReq[3];
+    const width   = req.query.width;
+    const height  = req.query.height;
 
-      return res.json(images)
-    } catch(e) {
-      return res.error(400).json({
-        error: e
-      })
+    const filename = `${id}_${width}x${height}.${format}`;
+    const sendFileOptions = {
+      maxAge: '1y',
+      root: path.join(process.cwd(), 'public/img'),
+      lastModified: false,
+      dotfiles: 'deny',
     }
+
+    // try sending cached image
+    res.sendFile(filename, sendFileOptions, (err) => {
+      if(err) {
+        // try generating resized image
+        sharp(path.join(process.cwd(), 'public/img/', id))
+      } else {
+
+      }
+    });
+
+    
+
   }
+  // async (req, res) => {
+  //   console.log("got to retrieving images")
+  //   const imageId = req.query.imageId;
+  //   try {
+  //     let image = await getImageInfo(req.params.image);
+  //     return res.json(image)
+  //   } catch(e) {
+  //     return res.error(400).json({
+  //       error: e
+  //     })
+  //   }
+  // }
 )
 
 
