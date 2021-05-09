@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=current:server node --require dotenv/config --experimental-specifier-resolution=node ./src/bin/www",
+    "start": "node --require dotenv/config --experimental-specifier-resolution=node ./src/bin/www",
     "test": "DOTENV_CONFIG_PATH=.env.test node --experimental-vm-modules --require dotenv/config node_modules/.bin/jest || npm run cleanup",
     "pretest": "node ./test/startTest.js",
     "cleanup": "node ./test/endTest.js"

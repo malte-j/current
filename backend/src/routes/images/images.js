@@ -1,11 +1,13 @@
 import express from 'express';
 import {  createImage, getImageInfo, getImagesInfo } from './imagesService';
 import { isAuthenticated } from '../auth/authService'
-import fs from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 import mongoose from 'mongoose';
 import sharp from 'sharp';
+import debug from 'debug';
+const log = debug('route:images')
 
 let upload = multer({
   limits: {
@@ -55,19 +57,31 @@ router.post('/',
  */
 router.get('/:image',
   // if user tries to access a file
-  (req, res, next) => {
-    const requestedFileRegex = /^([A-Za-z0-9_-]{24})(\.)(png|jpg|webp)$/i;
+  (req, res) => {
+    const requestedFileRegex = /^([A-Za-z0-9_-]{24})(\.)(png|jpg|webp|jpg|avif)$/i;
     const filteredFileReq = requestedFileRegex.exec(req.params.image);
+    log('request for image: ' + req.params.image);
 
     // check if file request is in correct format
-    if(!filteredFileReq)
+    if(!filteredFileReq) 
       return res.sendStatus(400);
     
     // get file metadata
     const id      = filteredFileReq[1];
     const format  = filteredFileReq[3];
-    const width   = req.query.width;
-    const height  = req.query.height;
+    let width   = req.query.width;
+    let height  = req.query.height;
+
+    // check if width has correct format
+    width = parseInt(width);
+    if(!width)
+      return res.sendStatus(400);
+
+    // check if height has correct format
+    height = parseInt(height);
+    if(!height)
+      return res.sendStatus(400);
+
 
     const filename = `${id}_${width}x${height}.${format}`;
     const sendFileOptions = {
@@ -79,29 +93,25 @@ router.get('/:image',
 
     // try sending cached image
     res.sendFile(filename, sendFileOptions, (err) => {
+      // if sending didn't succeed, try generating image
       if(err) {
+        log('image not found, generating...')
         // try generating resized image
-        sharp(path.join(process.cwd(), 'public/img/', id))
-      } else {
+        const sharpOutput = sharp(path.join(process.cwd(), 'public/img/', id))
+          .resize(width, height)
+          .toFormat(format)
 
+        // pipe output to response
+        sharpOutput.pipe(res)
+
+        // pipe output to file
+        let fileOutStream = fs.createWriteStream(path.join(process.cwd(), 'public/img', filename))
+        sharpOutput.pipe(fileOutStream);
+      } else {
+        log('successfully sent image')
       }
     });
-
-    
-
   }
-  // async (req, res) => {
-  //   console.log("got to retrieving images")
-  //   const imageId = req.query.imageId;
-  //   try {
-  //     let image = await getImageInfo(req.params.image);
-  //     return res.json(image)
-  //   } catch(e) {
-  //     return res.error(400).json({
-  //       error: e
-  //     })
-  //   }
-  // }
 )
 
 
