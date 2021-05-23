@@ -24,7 +24,7 @@ export async function findUserByEmail(email) {
   try {
     let user = await User.findOne({email: email}).exec();
     
-    if(!user && email === 'admin') {
+    if(!user && email === 'admin@example.com') {
       let adminUser = new User();
       adminUser.username = 'admin';
       adminUser.email = 'admin@example.com';

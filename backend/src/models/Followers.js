@@ -12,5 +12,9 @@ const followersSchema = new Schema({
   },
 })
 
+
+followersSchema.index({_from: 1, _to:1}, {unique: true})
+
 const Followers = mongoose.model('Followers', followersSchema);
+
 export default Followers;

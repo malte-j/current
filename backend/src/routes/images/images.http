@@ -1,11 +1,18 @@
-### Get Posts
+###
 POST http://localhost:3000/images/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDgxNzJjM2ZmMDU4MzMzZTQwZjM1NWMiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMDEzOTMxOCwiZXhwIjoxNjIwNDM5MzE4fQ.RRU9LBrNroRH8jZMAbQvLdif3fruBTDngCPVFEmwHbU
-Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDk5OTE2ZWI2NTY4YjM5N2QwNTUyODkiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMDY3Njk3NCwiZXhwIjoxNjIwOTc2OTc0fQ.sEHOq2dn8Q90mZaBXf2NldtEyxAQV9wr8eij74mjDdc
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
---WebAppBoundary
+------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="image"; filename="example.jpg"
 Content-Type: image/jpeg
-< ./example.jpg
---WebAppBoundary--
+
+< ./../../../test/example.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 
+GET http://localhost:3000/images/6094489b93a8a534dc6a8dbb
+Content-Type: application/json
 ###
+GET http://localhost:3000/images/
+Content-Type: application/json
