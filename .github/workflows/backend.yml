@@ -36,8 +36,8 @@ jobs:
         image: mongo
         # Provide the password for postgres
         env:
-          MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_USERNAME}
-          MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ADMIN_PASSWORD}
+          MONGO_INITDB_ROOT_USERNAME: ${{env.MONGO_ADMIN_USERNAME}}
+          MONGO_INITDB_ROOT_PASSWORD: ${{env.MONGO_ADMIN_PASSWORD}}
         ports:
           - 27018:27018
           
