@@ -22,7 +22,7 @@ env:
   ADMIN_USERNAME: admin
   ADMIN_EMAIL: admin@example.com
   ADMIN_PASSWORD: exampleadminpassword
-
+  DEBUG: current:*, service:*, route:*
 jobs:
   run-tests:
     runs-on: ubuntu-latest

@@ -19,7 +19,7 @@ router.post('/',
       const newImage = await createImage(req.file, req.user);
       res.json(newImage);
     } catch(e) {
-      console.log(e)
+      log(e)
       return res.status(400).json({error: e.message})
     }
   }
