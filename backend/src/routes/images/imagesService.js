@@ -3,6 +3,8 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import Image from '../../models/Image';
 import config from '../../config';
+import debug from 'debug';
+const log = debug('service:images');
 
 /**
  * Multer middleware for file upload
@@ -13,6 +15,7 @@ export const uploadMiddleware = multer({
   },
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
+      log(process.cwd());
       cb(null, process.cwd() + '/public/img')
     },
     filename: (req, file, cb) => {
