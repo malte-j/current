@@ -1,13 +1,11 @@
 # TODO
-- Image
-  - ☐ Upload Image
-  - ☐ Delete Image 
 
-- USERS
-  - ☒ Change password (PATCH /users)
-  - ☒ Delete User (DELETE /users)
+☐ Add route for deleting an image
+  - Delete image from database
+  - Delete original image from disk
+  - Delete cached images from disk
 
-- ☐ Add example .env file
+
 --- 
 
 ☒ Done \

@@ -20,7 +20,6 @@ export function init() {
   try {
     mongoose.connect(`mongodb://${hostname}:${port}/${dbName}`, {
       useNewUrlParser: true,
-      autoIndex: false,
       useUnifiedTopology: true,
       user: username,
       pass: password,

@@ -28,6 +28,7 @@ app.use('/posts', routes.posts);
 app.use('/users', routes.users);
 app.use('/auth', routes.auth);
 app.use('/images', routes.images);
+app.use('/followers', routes.followers);
 
 
 export default app;

@@ -10,8 +10,7 @@ content-type: application/json
 
 ### Get Users
 GET http://localhost:3000/users/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDgxNzJjM2ZmMDU4MzMzZTQwZjM1NWMiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMDMwMTYxNSwiZXhwIjoxNjIwNjAxNjE1fQ._mD3UziWsF42wntw0qdvVyBN66jQfqEQmmdQa9I1Wzg
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDk5OTE2ZWI2NTY4YjM5N2QwNTUyODkiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMTYxOTMxNSwiZXhwIjoxNjIxOTE5MzE1fQ.tlhaHU9rWYr4w31apB5YHHpe-OXYkK2kwASZ8bbVOg8
 
 ### Verify Email ( token printed in server log )
 PATCH http://localhost:3000/users/

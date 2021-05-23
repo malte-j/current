@@ -1,3 +1,0 @@
-### Login
-POST http://localhost:3000/auth
-Authorization: Basic YWRtaW46cGFzc3dvcmQ=
