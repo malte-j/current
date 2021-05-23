@@ -1,5 +1,7 @@
 <h1 align="center"><br><a href="https://current.land">current.land</a> - backend<br><br></h1>
 
+[![Backend CI](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml/badge.svg)](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml)
+
 ## Starten
 Um die Anwendung ausführen zu können, müssen mehrere Sachen ausgewählt werden:
 
