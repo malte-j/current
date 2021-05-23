@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import debug from '../services/debug';
+import debug from 'debug';
+const log = debug('current:db');
 import config from '../config'
 
 export function init() {
@@ -12,7 +13,7 @@ export function init() {
   if(!hostname || !port) {
     throw new Error("Missing MongoDB environment variables");
   }
-  debug(`Connecting to DB: mongodb://${hostname}:${port}/${dbName}`)
+  log(`Connecting to DB: mongodb://${hostname}:${port}/${dbName}`)
 
   mongoose.set('useFindAndModify', false);
 
@@ -36,12 +37,12 @@ export function init() {
 
   db.on('error', (e) => {
     console.error(e);
-    debug("DB Error");
-    debug(e);
+    log("DB Error");
+    log(e);
   })
 
   db.once('open', () => {
-    debug("db connection established")
+    log("db connection established")
   })
 }
 

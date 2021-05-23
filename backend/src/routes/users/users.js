@@ -1,7 +1,8 @@
 import express from 'express';
 import { getUsers, createUser, verifyUserEmail, changePassword, deleteUser } from './usersService'
 import { isAuthenticated, isAdmin, createSessionToken } from '../auth/authService'
-import debug from '../../services/debug';
+import debug from 'debug';
+const log = debug('route:users');
 
 const router = express.Router();
 
@@ -85,7 +86,7 @@ router.patch('/',
   async (req, res) => {
     try {
       const verifiedUser = await verifyUserEmail(req.body.emailVerificationToken);
-      debug("user successfully verified: " + verifiedUser.username)
+      log("user successfully verified: " + verifiedUser.username)
 
       return res.json({
         status: "success"

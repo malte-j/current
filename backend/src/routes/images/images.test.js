@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../../bin/www";
+import config from '../../config';
 
 let agent = request.agent(app)
 
@@ -9,7 +10,8 @@ describe("", () => {
   it('should authenticate as admin', async (done) => {
     const res = await agent
       .post('/auth')
-      .auth('admin', 'admin')
+      // @TODO change to config
+      .auth(config.admin.email, config.admin.password)
       .send()
     expect(res.statusCode).toEqual(200)
     expect(res.header).toHaveProperty('authorization');

@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import Image from '../../models/Image';
 import config from '../../config';
 
-
 /**
  * Multer middleware for file upload
  */
@@ -14,13 +13,9 @@ export const uploadMiddleware = multer({
   },
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-    console.log(file)
-
       cb(null, process.cwd() + '/public/img')
     },
     filename: (req, file, cb) => {
-    console.log(file)
-
       const name = new mongoose.Types.ObjectId();
       const ext = file.mimetype.split('/')[1];
       file.originalname = name;
@@ -37,34 +32,12 @@ export const uploadMiddleware = multer({
   }
 }).single('image')
 
-// export async function getImage(requestedFile, width, height) {
-//   if(!width && !height)
-//     throw new Error('Either height or width must be specified')
-
-//   const requestedFileRegex = /^([A-Za-z0-9_-]{24})(\.)(png|jpg|webp|jpg|avif)$/i;
-//   const filteredRequestedFile = requestedFileRegex.exec(requestedFile);
-
-//   if(!filteredRequestedFile) 
-//     throw new Error('Requested file format is incorrect');
-  
-//   const id      = filteredFileReq[1];
-//   const format  = filteredFileReq[3];
-
-//   const filename = `${id}_${width}x${height}.${format}`;
-
-//   const sendFileOptions = {
-//     maxAge: '1y',
-//     root: path.join(process.cwd(), 'public/img'),
-//     lastModified: false,
-//     dotfiles: 'deny',
-//   }
-// }
-
-
 export async function createImage(image, user) {
   if(!image)
     throw new Error("No image provided");
 
+  // generate LQIP for given image, with a maximum
+  // of 20px in either width or height
   const lqipData = await sharp(image.path)
     .resize(20, 20, {
       fit: sharp.fit.inside,
@@ -72,16 +45,14 @@ export async function createImage(image, user) {
     })
     .toBuffer()
 
+  // create a new entry in the database for the uploaded file 
   let imageDbEntry = new Image({
     _id: new mongoose.Types.ObjectId(image.originalname),
     _user: new mongoose.Types.ObjectId(user._id),
     format: image.mimetype.split('/')[1],
     lqip: `data:image/png;base64,${lqipData.toString('base64')}`
   });
-
   imageDbEntry.save();
-
-  console.log(imageDbEntry)
   
   return {
     id: imageDbEntry._id,

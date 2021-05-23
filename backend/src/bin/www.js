@@ -1,5 +1,6 @@
 import app from '../app';
-import debug from '../services/debug'
+import debug from 'debug';
+const log = debug('current:server')
 import http from 'http';
 import config from '../config'
 
@@ -85,6 +86,6 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    log('Listening on ' + bind);
 }
 export default server;

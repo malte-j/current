@@ -18,6 +18,10 @@ env:
   JWT_EXPIRY_TIME: 300
   JWT_PRIVATE_KEY: SzYQDXNesQcXe9Xa5myP2dkALW
   FRONTEND_URL: https://localhost:5001
+  DISABLE_EMAILS: true
+  ADMIN_USERNAME: admin
+  ADMIN_EMAIL: admin@example.com
+  ADMIN_PASSWORD: exampleadminpassword
 
 jobs:
   test-db:

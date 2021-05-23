@@ -1,4 +1,5 @@
 import User from '../../models/User';
+import config from '../../config'
 import { sendEmailVerification } from '../../services/sendMail';
 import validator from 'validator';
 
@@ -24,12 +25,12 @@ export async function findUserByEmail(email) {
   try {
     let user = await User.findOne({email: email}).exec();
     
-    if(!user && email === 'admin@example.com') {
+    if(!user && email === config.admin.email) {
       let adminUser = new User();
-      adminUser.username = 'admin';
-      adminUser.email = 'admin@example.com';
+      adminUser.username = config.admin.username;
+      adminUser.email = config.admin.email;
       adminUser.isAdmin = true;
-      adminUser.password = 'dwaln2o018hdn91h72bd01'; 
+      adminUser.password = config.admin.password; 
       user = await adminUser.save();
     }
 

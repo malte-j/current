@@ -1,12 +1,13 @@
 import mail from '@sendgrid/mail';
-import debug from './debug';
+import debug from 'debug';
+const log = debug("service:sendMail")
 import config from '../config'
 
-if(!config.mail.apiKey)
-  throw new Error("Sendgrid api key missing")
-
-mail.setApiKey(process.env.SENDGRID_API_KEY)
-
+if(!config.mail.apiKey){ 
+  log("API key not found");
+} else {
+  mail.setApiKey(config.mail.apiKey)
+}
 
 // example message
 // const msg = {
@@ -17,6 +18,8 @@ mail.setApiKey(process.env.SENDGRID_API_KEY)
 //   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 // }
 export async function sendEmail(msg) {
+  if(config.mail.disable)
+    return;
   try {
     let mailRes = await mail.send(msg);
     debug("mail successfully send");
@@ -30,7 +33,10 @@ export async function sendEmail(msg) {
 }
 
 export async function sendEmailVerification(user) {
-   const verificationUrl = `${config.frontendUrl}/verifyEmail?token=${user.verificationToken}`;
+  if(config.mail.disable)
+    return;  
+  
+  const verificationUrl = `${config.frontendUrl}/verifyEmail?token=${user.verificationToken}`;
 
   debug("sending verification mail with url: " + verificationUrl)
 

@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "../../bin/www";
 import mongoose from 'mongoose';
+import config from '../../config'
 
 let agent = request.agent(app)
 
@@ -10,7 +11,7 @@ describe('Authentication test', () => {
   it('should authenticate as admin', async (done) => {
     const res = await agent
       .post('/auth')
-      .auth('admin', 'admin')
+      .auth(config.admin.email, config.admin.password)
       .send()
     expect(res.statusCode).toEqual(200)
     expect(res.header).toHaveProperty('authorization');
