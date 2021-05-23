@@ -1,0 +1,52 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches: [ master ]
+
+env:
+  MONGO_ADMIN_USERNAME: adminusr
+  MONGO_ADMIN_PASSWORD: T6ATUYMKMW5EN7ZV
+  MONGO_HOSTNAME: mongo
+  MONGO_PORT: 27018
+  MONGO_DB_NAME=: current
+  JWT_EXPIRY_TIME: 300
+  JWT_PRIVATE_KEY: SzYQDXNesQcXe9Xa5myP2dkALW
+  FRONTEND_URL: https://localhost:5001
+
+jobs:
+  test-db:
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:10.18-jessie
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      mongo:
+        # Docker Hub image
+        image: mongo
+        # Provide the password for postgres
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_USERNAME}
+          MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ADMIN_PASSWORD}
+        ports:
+          - 27018:27018
+          
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js v14
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+    - run: npm ci
+      working-directory: backend
+    - run: npm test
+      working-directory: backend
+      
