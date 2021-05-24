@@ -3,6 +3,8 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import Image from '../../models/Image';
 import config from '../../config';
+import fs from 'fs';
+import path from 'path';
 import debug from 'debug';
 const log = debug('service:images');
 
@@ -16,7 +18,9 @@ export const uploadMiddleware = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       log(process.cwd());
-      cb(null, process.cwd() + '/public/img')
+      const filepath = path.join(process.cwd(), '/public/img'); 
+      fs.mkdirSync(filepath);
+      cb(null, filepath);
     },
     filename: (req, file, cb) => {
       const name = new mongoose.Types.ObjectId();
