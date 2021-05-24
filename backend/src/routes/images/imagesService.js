@@ -19,7 +19,7 @@ export const uploadMiddleware = multer({
     destination: (req, file, cb) => {
       log(process.cwd());
       const filepath = path.join(process.cwd(), '/public/img'); 
-      fs.mkdirSync(filepath);
+      fs.mkdirSync(filepath, {recursive: true});
       cb(null, filepath);
     },
     filename: (req, file, cb) => {
