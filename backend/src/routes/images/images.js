@@ -1,6 +1,6 @@
 import express from 'express';
-import {  createImage, getImageInfo, getImagesInfo, uploadMiddleware } from './imagesService';
-import { isAuthenticated } from '../auth/authService'
+import {  createImage, getImagesInfo, uploadMiddleware } from './imagesService';
+import { isAuthenticatedMiddleware } from '../../services/authMiddleware';
 import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
@@ -12,7 +12,7 @@ const router = express.Router();
 export const imagesRouter = router;
 
 router.post('/', 
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   uploadMiddleware,
   async (req, res) => {
     try {
