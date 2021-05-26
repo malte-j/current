@@ -1,7 +1,7 @@
 FROM node:14-alpine
 ENV NODE_ENV=production
 WORKDIR /app
-COPY ["./package.json", "./package-lock.json*", "./"]
+COPY ["./backend/package.json", "./backend/package-lock.json*", "./"]
 RUN npm ci
-COPY ./src .
+COPY ./backend/src .
 CMD ["node", "--experimental-specifier-resolution=node", "./bin/www"]
