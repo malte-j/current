@@ -52,6 +52,7 @@ router.post('/',
 router.patch('/:userId',
   isAuthenticatedMiddleware,
   async (req, res) => {
+    // @TODO: move to service
     if(req.params.userId !== req.user._id && !isAdmin(req))
       return res.status(403).send({error: "not authorized"})
 
@@ -70,6 +71,7 @@ router.patch('/:userId',
 router.delete('/:userId',
   isAuthenticatedMiddleware,
   async (req, res) => {
+    // @TODO: move to service
     if(req.params.userId !== req.user._id && !isAdmin(req))
       return res.status(403).send({error: "not authorized"})
 
