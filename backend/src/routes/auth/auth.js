@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSessionToken, isAuthenticated } from './authService';
+import { createSessionToken } from './authService';
 
 const router = express.Router();
 

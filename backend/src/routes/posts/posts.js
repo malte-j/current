@@ -1,13 +1,14 @@
 import express from 'express';
 import { getPosts, getPostById, createPost, deletePost, updatePost } from './postsService';
-import { isAuthenticated, isAdmin } from '../auth/authService';
+import { isAuthenticatedMiddleware } from '../../services/authMiddleware';
+
 const router = express.Router();
 
 /**
  * CREATE Post
  */
 router.post('/',
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   async (req, res) => {
     const title = req.body.title;
     const markdownBody = req.body.markdownBody;
@@ -67,7 +68,7 @@ router.get('/',
  */
 
 router.patch('/:postId',
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   async (req, res, next) => {
     const postId = req.params.postId;
     const title = req.body.title;
@@ -91,7 +92,7 @@ router.patch('/:postId',
  */
 
 router.delete('/:postId',
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   async (req, res, next) => {
     const postId = req.params.postId;
     const user = req.user;

@@ -1,6 +1,7 @@
 import express from 'express';
 import { getUsers, createUser, verifyUserEmail, changePassword, deleteUser } from './usersService'
-import { isAuthenticated, isAdmin, createSessionToken } from '../auth/authService'
+import { createSessionToken } from '../auth/authService'
+import { isAuthenticatedMiddleware, isAdmin } from '../../services/authMiddleware';
 import debug from 'debug';
 const log = debug('route:users');
 
@@ -8,7 +9,7 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/', 
-  isAuthenticated,
+isAuthenticatedMiddleware,
   async (req, res, next) => {
     try {
       let users = await getUsers();
@@ -49,8 +50,9 @@ router.post('/',
 // UPDATE User
 //   Change Password
 router.patch('/:userId',
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   async (req, res) => {
+    // @TODO: move to service
     if(req.params.userId !== req.user._id && !isAdmin(req))
       return res.status(403).send({error: "not authorized"})
 
@@ -67,8 +69,9 @@ router.patch('/:userId',
 
 // DELETE User
 router.delete('/:userId',
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   async (req, res) => {
+    // @TODO: move to service
     if(req.params.userId !== req.user._id && !isAdmin(req))
       return res.status(403).send({error: "not authorized"})
 

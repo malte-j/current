@@ -1,6 +1,6 @@
 import express from 'express';
 import { followUser, getFollowers, getFollowing, unfollow } from './followersService';
-import { isAuthenticated } from '../auth/authService';
+import { isAuthenticatedMiddleware } from '../../services/authMiddleware';
 import debug from 'debug';
 const log = debug('service:followers');
 
@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Route for following annother user
 router.post('/:userToFollow',
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   async (req, res) => {
     try {
       const followEdge = await followUser(req.user._id, req.params.userToFollow);
@@ -49,7 +49,7 @@ router.get('/following/:user',
 )
 
 router.delete('/:user',
-  isAuthenticated,
+  isAuthenticatedMiddleware,
   async (req, res) => {
     try {
       let following = await unfollow(req.params.user, req.user._id);
