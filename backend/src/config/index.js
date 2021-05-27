@@ -16,7 +16,7 @@ export default {
   },
   mail: {
     apiKey: process.env.SENDGRID_API_KEY,
-    disable: process.env.DISABLE_EMAILS
+    disable: process.env.DISABLE_EMAILS === true || process.env.DISABLE_EMAILS === 'true' || process.env.DISABLE_EMAILS === 'TRUE'
   },
   admin: {
     username: process.env.ADMIN_USERNAME,

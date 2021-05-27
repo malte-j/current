@@ -11,6 +11,9 @@ const log = debug('route:images')
 const router = express.Router();
 export const imagesRouter = router;
 
+/**
+ * CREATE Image
+ */
 router.post('/', 
   isAuthenticatedMiddleware,
   uploadMiddleware,
@@ -26,7 +29,7 @@ router.post('/',
 )
 
 /**
- * Get a single image
+ * GET Image
  */
 router.get('/:image',
   (req, res) => {
@@ -96,7 +99,7 @@ router.get('/:image',
 
 
 /**
- * Get a list of images
+ * GET Images
  */
 router.get('/',
   async (req, res) => {

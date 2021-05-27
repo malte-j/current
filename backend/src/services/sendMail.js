@@ -18,27 +18,26 @@ if(!config.mail.apiKey){
 //   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 // }
 export async function sendEmail(msg) {
-  if(config.mail.disable)
-    return;
   try {
     let mailRes = await mail.send(msg);
-    debug("mail successfully send");
+    log("mail successfully send");
     return mailRes;
   } catch(e) {
-
-    debug("error sending email:");
-    debug(e);
+    log("error sending email:");
+    log(e);
     throw e;
   }
 }
 
 export async function sendEmailVerification(user) {
-  if(config.mail.disable)
+  if(!config.mail.apiKey) {
+    log("Not sending email because API key is missing")
     return;  
+  }
   
-  const verificationUrl = `${config.frontendUrl}/verifyEmail?token=${user.verificationToken}`;
+  const verificationUrl = `${config.frontendUrl}/verifyEmail?token=${user.emailVerificationToken}`;
 
-  debug("sending verification mail with url: " + verificationUrl)
+  log("sending verification mail with url: " + verificationUrl)
 
   return await sendEmail({
     to: user.email,
@@ -51,7 +50,7 @@ export async function sendEmailVerification(user) {
     },
     "mail_settings": {
       "sandbox_mode": {
-        "enable": config.env == 'test' || config.mail.disable
+        "enable": config.mail.disable
       }
     }
   }) 

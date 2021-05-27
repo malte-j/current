@@ -39,6 +39,11 @@ export const uploadMiddleware = multer({
   }
 }).single('image')
 
+/**
+ * Creates the Database entry for a newly uploaded image
+ * @param {Object} image Multer object of the uploaded image
+ * @param {Object} user Object containing the uploading user
+ */
 export async function createImage(image, user) {
   if(!image)
     throw new Error("No image provided");
@@ -68,10 +73,17 @@ export async function createImage(image, user) {
   }
 }
 
+/**
+ * Gets the database info for a single image
+ * @param {string} id ID of the image
+ */
 export async function getImageInfo(id) {
   return Image.findOne(id);
 }
 
+/**
+ * Gets the database info for all images
+ */
 export async function getImagesInfo() {
   return Image.find();
 }

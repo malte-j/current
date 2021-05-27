@@ -1,6 +1,11 @@
 import Post from '../../models/Post'
 
-// READ multiple Post
+/**
+ * Gibt alle Posts zurück, und kann durch die Parameter Nutzer, Skip und Limit gefiltert werden.
+ * @param {String} user ID of the user to search for 
+ * @param {number} skip how many entries should be skipped
+ * @param {number} limit limit to n entries
+ */
 export async function getPosts(user, skip, limit) {
   let searchSettings = {}
 
@@ -23,13 +28,22 @@ export async function getPosts(user, skip, limit) {
 }
 
 
-// READ single Post by id
+/**
+ * Returns a single post
+ * @param {string} _id id of the user
+ */
 export async function getPostById(_id) {
   return Post.findById(_id);
 }
 
 
-// CREATE Post
+/**
+ * Creates a new post
+ * @param {string} title title of the post
+ * @param {string} markdownBody body of the post in markdown format
+ * @param {string} _user ID of the user
+ * @param {string} _thumbnail ID of the thumbnail image
+ */
 export async function createPost(title, markdownBody, _user, _thumbnail) {
   let newPost = new Post();
   newPost.title = title;
@@ -39,7 +53,12 @@ export async function createPost(title, markdownBody, _user, _thumbnail) {
   return newPost.save();
 }
 
-// DELETE Post 
+
+/**
+ * Delete a post
+ * @param {string} _id Id of the post
+ * @param {string} user Id of the requesting user
+ */
 export async function deletePost(_id, user) {
   let post = await Post.findById(_id)
 
@@ -54,7 +73,15 @@ export async function deletePost(_id, user) {
   })
 }
 
-// UPDATE Post
+
+/**
+ * Update a post. If a value is undefined, it does not get saved.
+ * @param {string} _id ID of the post
+ * @param {string} title title of the post
+ * @param {string} markdownBody body of the post in markdown format
+ * @param {*} _thumbnail ID of the thumbnail image
+ * @param {*} user ID of the user
+ */
 export async function updatePost(_id, title, markdownBody, _thumbnail, user) {
   let post = await Post.findById(_id);
 

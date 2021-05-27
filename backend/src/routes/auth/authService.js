@@ -1,7 +1,12 @@
-import { findUserByEmail } from '../users/usersService'
-import jwt from 'jsonwebtoken'
-import config from '../../config'
+import { findUserByEmail } from '../users/usersService';
+import jwt from 'jsonwebtoken';
+import config from '../../config';
 
+/**
+ * Creates a session token for a user
+ * @param {string} email Email of the user
+ * @param {string} password Password of the user
+ */
 export async function createSessionToken(email, password) {
 
   const user = await findUserByEmail(email);
@@ -28,6 +33,10 @@ export async function createSessionToken(email, password) {
 } 
 
 
+/**
+ * Verifies a JWT and returns the containing Object
+ * @param {string} token JWT to verifiy
+ */
 export function verifyToken(token) {
   const privateKey = config.jwt.privateKey;
   try {

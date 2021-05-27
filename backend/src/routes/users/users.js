@@ -7,20 +7,25 @@ const log = debug('route:users');
 
 const router = express.Router();
 
-/* GET users listing. */
+/**
+ * GET Users
+ */
 router.get('/', 
 isAuthenticatedMiddleware,
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       let users = await getUsers();
-      res.send(users);
+      res.json(users);
     } catch(e) {
       res.status(400).send({error: e})
     }
   }
 );
 
-// CREATE User
+
+/**
+ * CREATE New User
+ */
 router.post('/',
   async (req, res) => {
     const email = req.body.email;
@@ -47,44 +52,47 @@ router.post('/',
   }
 );
 
-// UPDATE User
-//   Change Password
+
+/**
+ * UPDATE User password
+ */
 router.patch('/:userId',
   isAuthenticatedMiddleware,
   async (req, res) => {
-    // @TODO: move to service
-    if(req.params.userId !== req.user._id && !isAdmin(req))
-      return res.status(403).send({error: "not authorized"})
-
     const newPassword = req.body.password;
 
     try {
-      await changePassword(req.params.userId, newPassword);
+      await changePassword(req.params.userId, newPassword, req.user);
       return res.json({status: "success"});
     } catch(e) {
+      log(e);
       return res.status(400).json({ error: e.message });
     }
   }
 )
 
-// DELETE User
+
+/**
+ * DELETE User
+ */
 router.delete('/:userId',
   isAuthenticatedMiddleware,
   async (req, res) => {
-    // @TODO: move to service
-    if(req.params.userId !== req.user._id && !isAdmin(req))
-      return res.status(403).send({error: "not authorized"})
-
     try {
-      deleteUser(req.user._id);
+      console.log(req)
+      await deleteUser(req.params.userId, req.user);
       return res.json({status: "success"})
     } catch(e) {
-      return res.status(400).json({error: e});
+      log(e);
+      return res.status(400).json({error: e.message});
     }
   }
 )
 
-// Verify Email
+
+/**
+ * UPDATE User email verification status
+ */
 router.patch('/',
   async (req, res) => {
     try {

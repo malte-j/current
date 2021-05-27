@@ -31,7 +31,7 @@ router.post('/',
  * READ Post
  */
 router.get('/:postId',
-  async (req, res, next) => {
+  async (req, res) => {
     const postId = req.params.postId;
 
     try {
@@ -47,7 +47,7 @@ router.get('/:postId',
  * READ Posts
  */
 router.get('/',
-  async (req, res, next) => {
+  async (req, res) => {
     const user = req.query.user;
     const skip = parseInt(req.query.skip)
     const limit = parseInt(req.query.limit);
@@ -63,13 +63,13 @@ router.get('/',
   }
 );
 
-/**
- * Update Post
- */
 
+/**
+ * UPDATE Post
+ */
 router.patch('/:postId',
   isAuthenticatedMiddleware,
-  async (req, res, next) => {
+  async (req, res) => {
     const postId = req.params.postId;
     const title = req.body.title;
     const markdownBody = req.body.markdownBody;
@@ -87,13 +87,13 @@ router.patch('/:postId',
   }
 );
 
-/**
- * Delete Post
- */
 
+/**
+ * DELETE Post
+ */
 router.delete('/:postId',
   isAuthenticatedMiddleware,
-  async (req, res, next) => {
+  async (req, res) => {
     const postId = req.params.postId;
     const user = req.user;
 
