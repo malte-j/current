@@ -34,7 +34,7 @@ export async function findUserByEmail(email, restricted) {
     if(restricted)
       userReq = userReq.select("isAdmin _id username email createdAt")
 
-    let user = userReq.exec();
+    let user = await userReq.exec();
 
     if(!user && email === config.admin.email) {
       let adminUser = new User();
