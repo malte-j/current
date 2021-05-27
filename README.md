@@ -3,5 +3,4 @@
 [![Backend CI](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml/badge.svg)](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml)
 
 
-Browsersync command: `npx browser-sync -w --no-open --no-notify`
-
+Eine neue Plattform für deine Elektornikprojekte.

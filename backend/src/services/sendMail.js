@@ -30,14 +30,13 @@ export async function sendEmail(msg) {
 }
 
 export async function sendEmailVerification(user) {
+  const verificationUrl = `${config.frontendUrl}/verifyEmail?token=${user.emailVerificationToken}`;
+  log("sending verification mail with url: " + verificationUrl)
+
   if(!config.mail.apiKey) {
     log("Not sending email because API key is missing")
     return;  
   }
-  
-  const verificationUrl = `${config.frontendUrl}/verifyEmail?token=${user.emailVerificationToken}`;
-
-  log("sending verification mail with url: " + verificationUrl)
 
   return await sendEmail({
     to: user.email,

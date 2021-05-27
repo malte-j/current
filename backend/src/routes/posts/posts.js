@@ -35,7 +35,8 @@ router.get('/:postId',
     const postId = req.params.postId;
 
     try {
-      return await getPostById(postId);
+      const post =  await getPostById(postId);
+      return res.json(post);
     } catch(e) {
       return res.status(400).json({error: e})
     }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, createUser, verifyUserEmail, changePassword, deleteUser } from './usersService'
+import { getUsers, createUser, verifyUserEmail, changePassword, deleteUser, findUserByEmail } from './usersService'
 import { createSessionToken } from '../auth/authService'
 import { isAuthenticatedMiddleware, isAdmin } from '../../services/authMiddleware';
 import debug from 'debug';
@@ -16,6 +16,25 @@ isAuthenticatedMiddleware,
     try {
       let users = await getUsers();
       res.json(users);
+    } catch(e) {
+      res.status(400).send({error: e})
+    }
+  }
+);
+
+
+/**
+ * GET User by Email
+ */
+router.get('/:userEmail', 
+isAuthenticatedMiddleware,
+  async (req, res) => {
+    try {
+      let user = await findUserByEmail(req.params.userEmail, true);
+      if(!user)
+        return res.sendStatus(404);
+        
+      res.json({user});
     } catch(e) {
       res.status(400).send({error: e})
     }
@@ -79,7 +98,6 @@ router.delete('/:userId',
   isAuthenticatedMiddleware,
   async (req, res) => {
     try {
-      console.log(req)
       await deleteUser(req.params.userId, req.user);
       return res.json({status: "success"})
     } catch(e) {

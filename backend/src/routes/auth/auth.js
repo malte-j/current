@@ -34,6 +34,7 @@ router.post('/',
     res.header("Authorization", "Bearer " + token)
 
     res.json({
+      id: user._id,
       email: user.email,
       username: user.username,
       isAdmin: user.isAdmin

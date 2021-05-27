@@ -7,7 +7,7 @@ Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0g
 Content-Disposition: form-data; name="image"; filename="example.jpg"
 Content-Type: image/jpeg
 
-< ./../../../test/example.jpg
+< ./../example.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ### 

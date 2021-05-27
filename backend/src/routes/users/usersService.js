@@ -24,11 +24,18 @@ export async function getUsers() {
 /**
  * Finds a User by email
  * @param {string} email Email of the User
+ * @param {boolean} restricted Restricts access to save values only
  */
-export async function findUserByEmail(email) {
+export async function findUserByEmail(email, restricted) {
   try {
-    let user = await User.findOne({email: email}).exec();
+
+    let userReq = User.findOne({email: email});
     
+    if(restricted)
+      userReq = userReq.select("isAdmin _id username email createdAt")
+
+    let user = userReq.exec();
+
     if(!user && email === config.admin.email) {
       let adminUser = new User();
       adminUser.username = config.admin.username;

@@ -3,14 +3,14 @@ POST http://localhost:3000/users
 content-type: application/json
 
 {
-  "username": "test",
+  "username": "malte5",
   "password": "testPassword",
-  "email": "test@demo.com"
+  "email": "hello5@malts.me"
 }
 
 ### Get Users
 GET http://localhost:3000/users/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDk5OTE2ZWI2NTY4YjM5N2QwNTUyODkiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMTYxOTMxNSwiZXhwIjoxNjIxOTE5MzE1fQ.tlhaHU9rWYr4w31apB5YHHpe-OXYkK2kwASZ8bbVOg8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFhYTAwNGU3NzY2NDQ5Zjc1MjY2OTIiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMjA3NDE3OSwiZXhwIjoxNjIyMzc0MTc5fQ.B23DFXE13QOgBvPUC2BKqKsVIYswmpbEG5s7q0XW1t0
 
 ### Verify Email ( token printed in server log )
 PATCH http://localhost:3000/users/
@@ -32,6 +32,6 @@ content-type: application/json
 
 
 ### Delete User
-DELETE http://localhost:3000/users/607df374d11842e77fa72e50
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdkZjM3NGQxMTg0MmU3N2ZhNzJlNTAiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZGVtby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjE4ODY3MDYwLCJleHAiOjE2MTkxNjcwNjB9.6ig482lMkS4nOuG24C1m33y6NlSxUs_kDZwju43yCnU
+DELETE http://localhost:3000/users/60aee1a560f0ae3b1abec4b0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFlZTRiM2NmZWVmMDNlYWJhMjg5NmQiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyMjA3NDU0NywiZXhwIjoxNjIyMzc0NTQ3fQ.CRRBFthhmaDj0pY-MM2zXts8rlVLh7OcvEJjsApM-xY
 

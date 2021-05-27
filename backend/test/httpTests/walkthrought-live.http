@@ -1,0 +1,9 @@
+### Create User
+POST https://api.current.land/users
+content-type: application/json
+
+{
+  "username": "ihr_name_hier",
+  "password": "testPassword",
+  "email": "ihre_email_hier@example.com"
+}

@@ -24,7 +24,7 @@ export async function getPosts(user, skip, limit) {
   if(skip)
     sortOptions.skip = skip;
 
-  return Post.find(searchSettings, "_user title markdownBody _thumbnail createdAt", sortOptions).exec()
+  return Post.find(searchSettings, "_user title markdownBody _thumbnail createdAt", sortOptions).populate('_thumbnail', "_id format lqip").exec()
 }
 
 
@@ -33,7 +33,7 @@ export async function getPosts(user, skip, limit) {
  * @param {string} _id id of the user
  */
 export async function getPostById(_id) {
-  return Post.findById(_id);
+  return Post.findById(_id).populate('_thumbnail', "_id format lqip").exec();
 }
 
 

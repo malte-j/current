@@ -1,0 +1,138 @@
+### Login as Admin
+# @name login
+POST http://localhost:3000/auth
+Authorization: Basic admin@example.com dwaln2o018hdn91h72bd01
+
+
+###
+@authToken = {{login.response.headers.Authorization}}
+@adminId = {{login.response.body.id}}
+
+
+### Get Users
+GET http://localhost:3000/users
+Authorization: {{authToken}}
+
+### Create a new Post
+# @name post
+POST http://localhost:3000/posts/
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Example Post Title",
+  "markdownBody": "# Headline \n \n Body content \n \n **bold text**"
+}
+
+
+###
+@postId = {{post.response.body._id}}
+
+
+### Get all Posts
+GET http://localhost:3000/posts
+
+
+### Get new Post
+GET http://localhost:3000/posts/{{postId}}
+
+
+### Upload Image
+# @name image
+POST http://localhost:3000/images/
+Authorization: {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="example.jpg"
+Content-Type: image/jpeg
+
+< ./../example.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+###
+@imageId = {{image.response.body.id}}
+
+
+### Get thumbnail size Image
+GET http://localhost:3000/images/{{imageId}}.jpg/?width=400&height=200
+
+
+### Get avatar size Image as WebP
+GET http://localhost:3000/images/{{imageId}}.webp/?width=100&height=100
+
+
+### Set image as post thumbnail
+PATCH http://localhost:3000/posts/{{postId}}
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Post title, now with thumbnail",
+  "_thumbnail": "{{imageId}}"
+}
+
+
+### Get Post with thumbnail
+GET http://localhost:3000/posts/{{postId}}
+
+
+### Create a new User
+# @name newUser
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+  "username": "exampleuser",
+  "password": "correcthorsebatterystaple",
+  "email": "user@example.com"
+}
+
+
+###
+@newuserId = {{newUser.response.body.id}}
+
+
+### Verify User email (look at console, id is logged)
+PATCH http://localhost:3000/users/
+content-type: application/json
+
+{
+  "emailVerificationToken": "INSERT TOKEN HERE"
+}
+
+
+### Get Users ( Email should now be verified for new User)
+GET http://localhost:3000/users
+Authorization: {{authToken}}
+
+
+### Follow User
+POST http://localhost:3000/followers/{{newuserId}}
+Authorization: {{authToken}}
+
+
+### View Users we follow
+GET http://localhost:3000/followers/following/{{adminId}}
+Authorization: {{authToken}}
+
+
+### Stop following the User
+DELETE  http://localhost:3000/followers/{{newuserId}}
+Authorization: {{authToken}}
+
+
+### Verify we are not following anymore
+GET http://localhost:3000/followers/following/{{adminId}}
+Authorization: {{authToken}}
+
+
+### Delete new User
+DELETE http://localhost:3000/users/{{newuserId}}
+Authorization: {{authToken}}
+
+
+### Try getting deleted User ( Should fail with 404 )
+GET http://localhost:3000/users/user@example.com
+Authorization: {{authToken}}
