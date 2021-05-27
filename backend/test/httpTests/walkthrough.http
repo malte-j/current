@@ -1,7 +1,7 @@
 ### Login as Admin
 # @name login
 POST http://localhost:3000/auth
-Authorization: Basic admin@example.com dwaln2o018hdn91h72bd01
+Authorization: Basic admin@example.com exampleadminpassword
 
 
 ###
