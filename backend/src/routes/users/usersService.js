@@ -135,3 +135,57 @@ export async function changePassword(userId, newPassword, user) {
     }
   );
 }
+
+export async function updateUser(updatedUser, requestingUser) {
+  // Get User
+  const user = User.findById(updatedUser.id);
+  if(!user)
+    throw new Error("User not found");
+  
+  // update username
+  if(updatedUser.username) {
+    if(requestingUser.isAdmin) {
+      user.username = updatedUser.username;
+    } else {
+      throw new Error("User not authorized");
+    }
+  }
+
+  // update email
+  if(updatedUser.email) {
+    if(requestingUser.isAdmin) {
+      user.email = updatedUser.email;
+    } else {
+      throw new Error("User not authorized");
+    }
+  }
+
+  // update password
+  if(updatedUser.password) {
+    if(updatedUser.id === requestingUser._id || requestingUser.isAdmin) {
+      user.password = updatedUser.password;
+    } else {
+      throw new Error("User not authorized");
+    }
+  }
+
+  // update emailVerified
+  if(updatedUser.emailVerified) {
+    if(requestingUser.isAdmin) {
+      user.emailVerified = updatedUser.emailVerified;
+    } else {
+      throw new Error("User not authorized");
+    }
+  }
+
+  // update user role
+  if(updatedUser.isAdmin) {
+    if(requestingUser.isAdmin) {
+      user.isAdmin = updatedUser.isAdmin;
+    } else {
+      throw new Error("User not authorized");
+    }
+  }
+
+  return user.save();
+}

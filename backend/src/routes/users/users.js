@@ -73,15 +73,29 @@ router.post('/',
 
 
 /**
- * UPDATE User password
+ * UPDATE User
  */
 router.patch('/:userId',
   isAuthenticatedMiddleware,
   async (req, res) => {
-    const newPassword = req.body.password;
+    const id = req.params.userId;
+    const username = req.body.username;
+    const email = req.body.email;
+    const isAdmin = req.body.isAdmin;
+    const password = req.body.password;
+    const emailVerified = req.body.password;
+    const password = req.body.password;
 
     try {
-      await changePassword(req.params.userId, newPassword, req.user);
+      await updateUser({
+        id,
+        username,
+        email,
+        isAdmin,
+        password,
+        emailVerified,
+        password
+      }, req.user);
       return res.json({status: "success"});
     } catch(e) {
       log(e);
@@ -89,7 +103,6 @@ router.patch('/:userId',
     }
   }
 )
-
 
 /**
  * DELETE User
