@@ -1,5 +1,8 @@
 interface User {
-  username: String,
-  email: String,
-  isAdmin: boolean
+  id: string,
+  username: string,
+  email: string,
+  isAdmin: boolean,
+  authToken: string,
+  emailVerified: boolean
 }

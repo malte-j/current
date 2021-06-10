@@ -21,6 +21,7 @@ function sleep(ms: number) {
 const fakeAuth = {
   isAuthenticated: false,
   bearer: '',
+
   async signin(username: string, password:string):Promise<User> {
     const res = await fetch('http://localhost:3000/auth', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -30,16 +31,14 @@ const fakeAuth = {
       },
     })
 
-    let d = await res.json();
-
-    
-    // res.headers.forEach(e => console.log(e));
-
+    let signedInUser = await res.json();
     fakeAuth.bearer = res.headers.get('Authorization') as string;
-
-    console.log(fakeAuth.bearer)
     fakeAuth.isAuthenticated = true;
-    return d;
+
+    return {
+      ...signedInUser,
+      authToken: fakeAuth.bearer 
+    };
   },
   async signout() {
     await sleep(2000);

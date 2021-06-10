@@ -19,6 +19,7 @@ export default function Home() {
       <Button color="light">
         <Link to="/dashboard">Zum Dashboard</Link>
       </Button>
+
     </ContentWrapper>
     
   </div>

@@ -13,6 +13,7 @@ export default function Sidebar() {
     
       <ul>
         <li><NavLink to="/">Überblick</NavLink></li>
+        <NavLink to='/users'>Nutzerverwaltung</NavLink>
         <li><NavLink to="/me">Mein Profil</NavLink></li>
         <li><a href="#">Meine Projekte</a>
           <ul>

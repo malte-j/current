@@ -1,0 +1,107 @@
+.editor {
+  margin: 2rem 0 2rem 0;
+  overflow-x: scroll;
+  max-width: 100%;
+  
+  table {
+    font-size: var(--font14);
+    margin: 0 auto;
+  
+    th {
+      text-align: left;
+      font-weight: 400;
+      color: rgb(110, 109, 109);
+    }
+  
+    th, td {
+      padding: .6rem 0 0 .4rem;
+    }
+  
+    td {
+      padding-bottom: .4rem;
+      border-bottom: 1px dotted var(--colDivLines);
+    }
+    
+    input {
+      font-size: var(--font14);
+      
+      background: none;
+      font-family: inherit;
+      border: none;
+
+      &:focus {
+        outline: none; 
+        // padding: .4rem;
+        background: rgb(235, 235, 235);
+      }
+    }
+
+    select {
+      font-size: var(--font14);
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0 .4rem 0 0;
+      &:focus {
+        outline: none; 
+        background: rgb(235, 235, 235);
+      }
+    }
+
+    button {
+      font-weight: bold;
+      font-family: inherit;
+      color: #6D6D6D;
+      font-size: 0.75rem;
+      border: none;
+      outline: none;
+      background: #E2E2E2;
+      padding: .3rem .7rem;
+      border-radius: 0.125rem;
+      &.delete {
+        color: #7E0808;
+        background: #F06C6C;
+      }
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      display: none;
+
+      &:checked + label::before {
+        background: #C4C4C4;
+      }
+
+      &:checked + label::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        height: .6rem;
+        width: .6rem;
+        clip-path: polygon(30% 41%, 17% 55%, 46% 85%, 87% 37%, 73% 22%, 46% 56%);
+        background: var(--colBg);
+        border: 3px solid var(--colBg);
+        pointer-events: none;
+      }
+
+      & + label {
+        padding-left: 1.8rem;
+        position: relative;
+        user-select: none;
+        
+        &::before {
+          content: "";
+          cursor: pointer;
+          position: absolute;
+          left: 0;
+          height: .6rem;
+          width: .6rem;
+          border: 3px solid #C4C4C4;
+          border-radius: 0.14rem;
+          // background-color: #6D6D6D;
+        }
+      }
+    }
+
+  }
+}

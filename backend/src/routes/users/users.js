@@ -82,7 +82,6 @@ router.patch('/:userId',
     const username = req.body.username;
     const email = req.body.email;
     const isAdmin = req.body.isAdmin;
-    const password = req.body.password;
     const emailVerified = req.body.password;
     const password = req.body.password;
 

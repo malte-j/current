@@ -45,10 +45,11 @@ export default function Login() {
             <TextInput
               value={username}
               onChange={e => setUsername(e.target.value)}
-              id="login_username"
+              id="login_email"
               name="username"
-              placeholder="Max Mustermann"
-              label="name"
+              placeholder="name@example.com"
+              label="email"
+              type="email"
             />
             <TextInput
               value={password}
