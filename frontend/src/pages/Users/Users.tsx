@@ -19,8 +19,8 @@ export default function Dashboard() {
       </div>
     </main>
 
-    <div className={s.notifications} >
+    {/* <div className={s.notifications} >
       <p>Hallo, <b>{auth.user?.username}</b>!</p>
-    </div>
+    </div> */}
   </div>)
 }

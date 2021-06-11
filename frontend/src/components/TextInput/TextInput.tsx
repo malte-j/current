@@ -9,11 +9,12 @@ interface TextInputProps {
   placeholder?: string,
   label?: string,
   value?: string,
+  minLength?: number,
   className?: string,
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-export default function TextInput({type = "text", id, name, required, placeholder, label, value, onChange, className = ""}:TextInputProps) {
+export default function TextInput({type = "text", id, minLength, name, required, placeholder, label, value, onChange, className = ""}:TextInputProps) {
   return <div className={`${s[type]} ${className}`}>
     {
       type == 'search' ? 
@@ -35,6 +36,7 @@ export default function TextInput({type = "text", id, name, required, placeholde
       className={s.inputElement} 
       value={value}
       onChange={onChange}
+      minLength={minLength}
     />
   </div>
 }

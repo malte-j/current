@@ -1,6 +1,6 @@
 .editor {
   margin: 2rem 0 2rem 0;
-  overflow-x: scroll;
+  overflow-x: auto;
   max-width: 100%;
   
   table {
@@ -24,14 +24,13 @@
     
     input {
       font-size: var(--font14);
-      
+      color: var(--font-col);
       background: none;
       font-family: inherit;
       border: none;
 
       &:focus {
         outline: none; 
-        // padding: .4rem;
         background: rgb(235, 235, 235);
       }
     }
@@ -42,6 +41,8 @@
       border: none;
       font-family: inherit;
       padding: 0 .4rem 0 0;
+      cursor: pointer;
+
       &:focus {
         outline: none; 
         background: rgb(235, 235, 235);
@@ -56,17 +57,51 @@
       border: none;
       outline: none;
       background: #E2E2E2;
+      cursor: pointer;
       padding: .3rem .7rem;
       border-radius: 0.125rem;
+      user-select: none;
+
       &.delete {
         color: #7E0808;
         background: #F06C6C;
       }
     }
 
+    input[type="submit"] {
+      display: none;
+      
+      + label {
+        cursor: pointer;
+        display: inline;
+        user-select: none;
+        img {
+          display: inline;
+        }
+      }
+    }
+
+    .saveButtons {
+      border-bottom: none;
+      white-space: pre;
+      button {
+        background: none;
+        margin: 0 .2rem;
+        padding: 0;
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .deleteRow {
+      border-bottom: none;
+    }
+
     input[type="checkbox"] {
       appearance: none;
-      display: none;
+      margin: 0;
+      // display: none;
 
       &:checked + label::before {
         background: #C4C4C4;
@@ -88,6 +123,7 @@
         padding-left: 1.8rem;
         position: relative;
         user-select: none;
+        cursor: pointer;
         
         &::before {
           content: "";
@@ -98,10 +134,62 @@
           width: .6rem;
           border: 3px solid #C4C4C4;
           border-radius: 0.14rem;
-          // background-color: #6D6D6D;
+        }
+      }
+    }
+    
+  }
+  
+  .label {
+    color: rgb(110, 109, 109);
+    display: none;
+  }
+
+  @media (max-width: 1100px) {
+    table, tbody {
+      display: block;
+
+      .saveButtons {
+        grid-column: span 2;
+        grid-row: 7;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+
+        button {
+          display: flex;
+          gap: .3rem;
+
+          span {
+            display: initial;
+          }
         }
       }
     }
 
+    .label {
+      display: block;
+      margin: 0;
+      padding: 0;
+      
+    }
+
+    th {
+      display: none;
+    }
+
+    tr {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+
+      td {
+        padding: .4rem 0 1rem 0;
+        border-bottom: none;
+      }
+      border-bottom: 1px dotted var(--colDivLines);
+    }
+
+    
   }
 }
