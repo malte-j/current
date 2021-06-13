@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, createUser, verifyUserEmail, changePassword, deleteUser, findUserByEmail } from './usersService'
+import { getUsers, createUser, verifyUserEmail, changePassword, updateUser, deleteUser, findUserByEmail } from './usersService'
 import { createSessionToken } from '../auth/authService'
 import { isAuthenticatedMiddleware, isAdmin } from '../../services/authMiddleware';
 import debug from 'debug';
@@ -82,7 +82,7 @@ router.patch('/:userId',
     const username = req.body.username;
     const email = req.body.email;
     const isAdmin = req.body.isAdmin;
-    const emailVerified = req.body.password;
+    const emailVerified = req.body.emailVerified;
     const password = req.body.password;
 
     try {

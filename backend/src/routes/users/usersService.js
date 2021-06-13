@@ -137,15 +137,12 @@ export async function changePassword(userId, newPassword, user) {
 }
 
 export async function updateUser(updatedUser, requestingUser) {
-  // Get User
-  const user = User.findById(updatedUser.id);
-  if(!user)
-    throw new Error("User not found");
-  
+  let updates = {}  
+
   // update username
   if(updatedUser.username) {
     if(requestingUser.isAdmin) {
-      user.username = updatedUser.username;
+      updates.username = updatedUser.username;
     } else {
       throw new Error("User not authorized");
     }
@@ -154,7 +151,7 @@ export async function updateUser(updatedUser, requestingUser) {
   // update email
   if(updatedUser.email) {
     if(requestingUser.isAdmin) {
-      user.email = updatedUser.email;
+      updates.email = updatedUser.email;
     } else {
       throw new Error("User not authorized");
     }
@@ -162,8 +159,8 @@ export async function updateUser(updatedUser, requestingUser) {
 
   // update password
   if(updatedUser.password) {
-    if(updatedUser.id === requestingUser._id || requestingUser.isAdmin) {
-      user.password = updatedUser.password;
+    if(updatedUser.id == requestingUser._id || requestingUser.isAdmin) {
+      updates.password = updatedUser.password;
     } else {
       throw new Error("User not authorized");
     }
@@ -172,7 +169,7 @@ export async function updateUser(updatedUser, requestingUser) {
   // update emailVerified
   if(updatedUser.emailVerified) {
     if(requestingUser.isAdmin) {
-      user.emailVerified = updatedUser.emailVerified;
+      updates.emailVerified = updatedUser.emailVerified;
     } else {
       throw new Error("User not authorized");
     }
@@ -181,11 +178,23 @@ export async function updateUser(updatedUser, requestingUser) {
   // update user role
   if(updatedUser.isAdmin) {
     if(requestingUser.isAdmin) {
-      user.isAdmin = updatedUser.isAdmin;
+      updates.isAdmin = updatedUser.isAdmin;
     } else {
       throw new Error("User not authorized");
     }
   }
 
-  return user.save();
+  return User.findOneAndUpdate(
+    {
+      _id: updatedUser.id
+    },
+    {
+      ...updates
+    },
+    {
+      runValidators: true,
+      context: 'query',
+      returnOriginal: false
+    }
+  );
 }

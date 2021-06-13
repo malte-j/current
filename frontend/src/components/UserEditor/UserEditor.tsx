@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useAuth } from "../../services/Auth";
+import Button from "../Button/Button";
 import PasswordModal from "./PasswordModal";
 import s from './UserEditor.module.scss';
 
 interface TempUser extends User {
   modified: boolean,
   password?: string
-
 }
 
 export default function UserEditor() {
@@ -36,6 +36,10 @@ export default function UserEditor() {
     }))
   }  
 
+
+  /**
+   * Fetch Users on Component load
+   */
   useEffect(()=>{
     console.log()
     const get = async ()=>{
@@ -60,6 +64,9 @@ export default function UserEditor() {
     }, []
   )
 
+  /**
+   * Create editable users array when fetched users changes
+   */
   useEffect(() => {
     setUsers(usersRes.map(user => ({
       ...user,
@@ -68,6 +75,12 @@ export default function UserEditor() {
     })))
   }, [usersRes])
 
+
+  /**
+   * Sets the username of a temporary user
+   * @param userId ID of the User
+   * @param value The new Username
+   */
   function setUsername(userId: string, value: string) {
     setUsers(users.map(user=>{
       if(user.id == userId) {
@@ -82,6 +95,11 @@ export default function UserEditor() {
     }))
   }
 
+  /**
+   * Sets the password of a temporary user
+   * @param userId ID of the User
+   * @param value New password for the User
+   */
   function setPassword(userId: string, value: string) {
     setUsers(users.map(user=>{
       if(user.id == userId) {
@@ -96,6 +114,11 @@ export default function UserEditor() {
     }))
   }
 
+  /**
+   * Sets the email of a temporary user
+   * @param userId ID of the User
+   * @param value Edited email for the User
+   */
   function setEmail(userId: string, value: string) {
     setUsers(users.map(user=>{
       if(user.id == userId) {
@@ -110,6 +133,11 @@ export default function UserEditor() {
     }))
   }
 
+  /**
+   * Sets the Admin Status of a temporary user
+   * @param userId ID of the User
+   * @param value  Sets the role of the user to admin or user
+   */
   function setIsAdmin(userId: string, value: string) {
     setUsers(users.map(user=>{
       if(user.id == userId) {
@@ -124,7 +152,11 @@ export default function UserEditor() {
     }))
   }
 
-  
+  /**
+   * Sets the email verification status of a temporary user
+   * @param userId ID of the User 
+   * @param value Set to true if the Users email is verified
+   */
   function setEmailVerified(userId: string, value: boolean) {
     setUsers(users.map(user=>{
       if(user.id == userId) {
@@ -139,6 +171,11 @@ export default function UserEditor() {
     }))
   }
 
+
+  /**
+   * Resets a modified temporary user to the original state 
+   * @param userId ID of the user
+   */
   function clearModifiedUser(userId: string) {
     setUsers(users.map(user=>{
       if(user.id == userId) {
@@ -156,19 +193,62 @@ export default function UserEditor() {
     }))
   }
 
+  /**
+   * Saves a temporary User
+   * @param userId ID of the User
+   */
+  async function saveUser(userId: string) {
+    if(!auth.user)
+      return;
+
+    const userToUpdate = users.find(user => user.id == userId);
+    if(!userToUpdate)
+      throw new Error("User that should be updated could not be found.");
+
+    const res = await fetch(`http://localhost:3000/users/${userToUpdate.id}`, {
+      method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Authorization': auth.user.authToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...userToUpdate
+      })
+    })
+
+    let jsonRes = await res.json();
+
+    setUsers(users.map(user => {
+      if(user.id == userId) {
+        return {
+          ...user,
+          modified: false
+        }
+      } else {
+        return user;
+      }
+    }))
+  }
+
   return (
     <div className={s.editor}>
-      {
+      { 
+        // The current password modal, is null unless password change requested
         passwordModal
       }
       
       {
+        // A form for each user in the table so we can use the native form handling
         users.map(user => (
-          <form key={user.id} onSubmit={e => {e.preventDefault(); console.log(e)}} id={`form_${user.id}`}>
+          <form key={user.id} onSubmit={e => {e.preventDefault(); saveUser(user.id)}} id={`form_${user.id}`}>
           </form>
 
         ))
       }
+
+      <Button className={ s.addUser } color="light">+ Nutzer hinzufügen</Button>
+
 
       <table>
         <thead>
@@ -188,7 +268,6 @@ export default function UserEditor() {
                 <td className={s.saveButtons} style={{"visibility": user.modified ? "visible" : "hidden"}}>
                   <button onClick={() => clearModifiedUser(user.id)}>
                     <img src="/icons/cancel.svg" alt="cancel" />
-                    {/* <span>ABBRUCH</span> */}
                   </button>
                   <input form={`form_${user.id}`} type="submit" value="" id={`submit_${user.id}`}/>
                   <label htmlFor={`submit_${user.id}`}>
@@ -216,8 +295,8 @@ export default function UserEditor() {
                 </td>
 
                 <td>                
-                  <input type="checkbox" name="verified" id="input_checkbox" checked={user.emailVerified} onChange={(e)=>setEmailVerified(user.id, e.target.checked)} />
-                  <label htmlFor="input_checkbox">{user.emailVerified?"JA":"NEIN"}</label>
+                  <input type="checkbox" name="verified" id={`isVerified_${user.id}`} checked={user.emailVerified} onChange={(e)=>setEmailVerified(user.id, e.target.checked)} />
+                  <label htmlFor={`isVerified_${user.id}`}>{user.emailVerified?"JA":"NEIN"}</label>
                 </td>
                 <td className={s.label}>PASSWORD</td>
                 <td className={s.label}></td>
@@ -225,7 +304,7 @@ export default function UserEditor() {
                   onClick={e=> setPasswordModal(
                     <PasswordModal
                     closeModal={() => setPasswordModal(null)}
-                    setPassword={e => {alert(e) ;setPasswordModal(null) }}
+                    setPassword={value => {setPassword(user.id, value) ;setPasswordModal(null) }}
                   />)}
                 >
                   ÄNDERN

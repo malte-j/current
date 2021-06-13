@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Modal from '../Modal/Modal';
 import Button from "../Button/Button";
 import TextInput from "../TextInput/TextInput";
 import s from "./PasswordModal.module.scss";
@@ -43,9 +44,8 @@ export default function PasswordModal(props: Props) {
 
 
   return (
-    <div id="password_modal_wrapper" className={s.wrapper} onClick={e => handleOutsideClick(e)}>
-      <div className={s.inner}>
-        <form id="passwordform" onSubmit={e => savePassword(e)}>
+    <Modal closeModal={ props.closeModal }>
+      <form className={s.form} id="passwordform" onSubmit={e => savePassword(e)}>
           <TextInput
             label="PASSWORD"
             type="password"
@@ -81,12 +81,6 @@ export default function PasswordModal(props: Props) {
 
           </div>
         </form>
-
-        {/* <label htmlFor="password_input">PASSWORD</label>
-        <input type="password" id="password_input" />
-        <label htmlFor="password_repeat_input">PASSWORD WIEDERHOLEN</label>
-        <input type="password" name="password" id="password_repeat_input" /> */}
-      </div>
-    </div>
+    </Modal>
   )
 }

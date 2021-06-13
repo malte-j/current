@@ -8,6 +8,7 @@ $hamburgerWidth: 800px;
   align-items: center;
   top:0;
   height: var(--navHeight);
+  z-index: 10;
 
   .logo {
     height: 38px;

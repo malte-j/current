@@ -26,7 +26,7 @@ const Button:React.FunctionComponent<ButtonProps> = ({color, onClick, children, 
   return (
     <button
       onClick={onClick}
-      className={`${s.button} ${color ? s[color] : ''} ${size ? s[size] : ''} `}
+      className={`${className} ${s.button} ${color ? s[color] : ''} ${size ? s[size] : ''} `}
       style={{width: width}}
     >
       { children }
