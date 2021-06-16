@@ -13,7 +13,7 @@ export async function getUsers() {
   return users.map(({isAdmin, emailVerified, _id, email, username, createdAt}) => ({
     isAdmin,
     emailVerified,
-    _id, 
+    id: _id, 
     email,
     username,
     createdAt
@@ -57,9 +57,10 @@ export async function findUserByEmail(email, restricted) {
  * Creates a new User
  * @param {string} username Username of the user, must be unique
  * @param {string} email Email of the user, must be unique
- * @param {stringq} password Password of the user
+ * @param {string} password Password of the user
+ * @param {User | undefined} reqUser Requesting User
  */
-export async function createUser(username, email, password) {
+export async function createUser(username, email, password, reqUser) {
   let newUser = new User();
   newUser.email = email;
   newUser.username = username;
@@ -106,43 +107,16 @@ export async function verifyUserEmail(emailVerificationToken) {
   return await user.save();
 }
 
-
-/**
- * Change the password of a user
- * @param {string} userId ID of the user to change password
- * @param {string} newPassword The new password
- * @param {Object} user Object containing the requesting user
- */
-export async function changePassword(userId, newPassword, user) {
-  if(!userId || !newPassword)
-    throw new Error('Missing userId or Password');
-
-  if(userId !== user._id && !user.isAdmin) {
-    log('User is not authorized');
-    return new Error('Not authorized');
-  }  
-
-  return User.findOneAndUpdate(
-    {
-      _id: userId
-    },
-    {
-      password: newPassword
-    },
-    {
-      runValidators: true,
-      context: 'query'
-    }
-  );
-}
-
 export async function updateUser(updatedUser, requestingUser) {
-  let updates = {}  
+  const user = await User.findById(updatedUser.id);
+
+  if(user == undefined)
+    throw new Error('User not found');
 
   // update username
   if(updatedUser.username) {
     if(requestingUser.isAdmin) {
-      updates.username = updatedUser.username;
+      user.username = updatedUser.username;
     } else {
       throw new Error("User not authorized");
     }
@@ -151,7 +125,7 @@ export async function updateUser(updatedUser, requestingUser) {
   // update email
   if(updatedUser.email) {
     if(requestingUser.isAdmin) {
-      updates.email = updatedUser.email;
+      user.email = updatedUser.email;
     } else {
       throw new Error("User not authorized");
     }
@@ -160,41 +134,36 @@ export async function updateUser(updatedUser, requestingUser) {
   // update password
   if(updatedUser.password) {
     if(updatedUser.id == requestingUser._id || requestingUser.isAdmin) {
-      updates.password = updatedUser.password;
+      user.password = updatedUser.password;
     } else {
       throw new Error("User not authorized");
     }
   }
 
   // update emailVerified
-  if(updatedUser.emailVerified) {
+  if(updatedUser.emailVerified != undefined) {
     if(requestingUser.isAdmin) {
-      updates.emailVerified = updatedUser.emailVerified;
+      user.emailVerified = updatedUser.emailVerified;
     } else {
       throw new Error("User not authorized");
     }
   }
 
   // update user role
-  if(updatedUser.isAdmin) {
+  if(updatedUser.isAdmin != undefined) {
     if(requestingUser.isAdmin) {
-      updates.isAdmin = updatedUser.isAdmin;
+      user.isAdmin = updatedUser.isAdmin;
     } else {
       throw new Error("User not authorized");
     }
   }
 
-  return User.findOneAndUpdate(
-    {
-      _id: updatedUser.id
-    },
-    {
-      ...updates
-    },
-    {
-      runValidators: true,
-      context: 'query',
-      returnOriginal: false
-    }
-  );
+  let savedUser = await user.save();
+  return {
+    id: savedUser._id,
+    username: savedUser.username,
+    email: savedUser.email,
+    emailVerified: savedUser.emailVerified,
+    isAdmin: savedUser.isAdmin
+  };
 }

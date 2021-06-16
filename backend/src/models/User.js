@@ -99,6 +99,7 @@ userSchema.methods.comparePassword = async function(candidatePassword){
 
 userSchema.plugin(uniqueValidator);
 
+
 userSchema.pre('findOneAndUpdate', function(next) {
   this.options.runValidators = true;
   next();

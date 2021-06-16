@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, createUser, verifyUserEmail, changePassword, updateUser, deleteUser, findUserByEmail } from './usersService'
+import { getUsers, createUser, verifyUserEmail, updateUser, deleteUser, findUserByEmail } from './usersService'
 import { createSessionToken } from '../auth/authService'
 import { isAuthenticatedMiddleware, isAdmin } from '../../services/authMiddleware';
 import debug from 'debug';
@@ -86,7 +86,7 @@ router.patch('/:userId',
     const password = req.body.password;
 
     try {
-      await updateUser({
+      const updatedUser = await updateUser({
         id,
         username,
         email,
@@ -95,7 +95,7 @@ router.patch('/:userId',
         emailVerified,
         password
       }, req.user);
-      return res.json({status: "success"});
+      return res.json(updatedUser);
     } catch(e) {
       log(e);
       return res.status(400).json({ error: e.message });

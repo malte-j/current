@@ -1,0 +1,82 @@
+.title {
+  text-align: center;
+  margin: 0 0 2rem 0; 
+  font-size: var(--font20);
+  font-weight: 500;
+}
+
+.form {
+
+
+  > *:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  .bottomButtons{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .select label, .label {
+    font-size: var(--font14);
+    font-weight: 500;
+    display: block;
+    margin-bottom: .2rem;
+  }
+
+  select {
+    font-size: var(--font14);
+    background: var(--colBgInput);
+    border: none;
+    font-family: inherit;
+    padding: .3rem 1rem .3rem .4rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: none; 
+      background: rgb(235, 235, 235);
+    }
+  }
+
+  input[type="checkbox"] {
+    appearance: none;
+    margin: 0;
+    // display: none;
+
+    &:checked + label::before {
+      background: #C4C4C4;
+    }
+
+    &:checked + label::after {
+      content: "";
+      position: absolute;
+      top: .2rem;
+      left: .1rem;
+      height: .6rem;
+      width: .6rem;
+      clip-path: polygon(30% 41%, 17% 55%, 46% 85%, 87% 37%, 73% 22%, 46% 56%);
+      background: var(--colBg);
+      border: 3px solid var(--colBg);
+      pointer-events: none;
+    }
+
+    & + label {
+      padding-left: 1.8rem;
+      position: relative;
+      user-select: none;
+      cursor: pointer;
+      
+      &::before {
+        content: "";
+        cursor: pointer;
+        position: absolute;
+        left: .1rem;
+        top: .2rem;
+        height: .6rem;
+        width: .6rem;
+        border: 3px solid #C4C4C4;
+        border-radius: 0.14rem;
+      }
+    }
+  }
+}

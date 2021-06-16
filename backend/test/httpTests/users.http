@@ -5,7 +5,7 @@ content-type: application/json
 {
   "username": "malte5",
   "password": "testPassword",
-  "email": "hello5@malts.me"
+  "email": "hello5@example.com"
 }
 
 ### Get Users

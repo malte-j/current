@@ -9,6 +9,7 @@ import './App.css'
 import Dashboard from './pages/Dashboard/Dashboard';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import MyProjects from './pages/MyProjects/MyProjects';
 import Signup from './pages/Signup/Signup';
 import Users from './pages/Users/Users';
 import { ProvideAuth } from './services/Auth';
@@ -43,6 +44,10 @@ function App() {
 
               <PrivateRoute path='/dashboard'>
                 <Dashboard/>
+              </PrivateRoute>
+
+              <PrivateRoute path='/projects'>
+                <MyProjects/>
               </PrivateRoute>
 
               <PrivateRoute path='/users'>

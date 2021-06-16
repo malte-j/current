@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useAuth } from "../../services/Auth";
 import Button from "../Button/Button";
+import Modal from "../Modal/Modal";
+import CreateUserModal from "./CreateUserModal";
 import PasswordModal from "./PasswordModal";
 import s from './UserEditor.module.scss';
 
@@ -10,17 +12,27 @@ interface TempUser extends User {
   password?: string
 }
 
+export interface NewUser extends Omit<User, 'id' | 'authToken'> {
+  password: string
+}
+
 export default function UserEditor() {
   const auth = useAuth();
   
-  const [usersRes, setUsersRes] = useState<User[]>([]);
+  const { status: usersResStatus, data: usersRes, error: usersResError } = useQuery<User[], Error>('users', fetchUsers);
   const [users, setUsers] = useState<TempUser[]>([]);
-
+  
   const [passwordModal, setPasswordModal] = useState<JSX.Element | null>(null);
+  const [addUserActive, setAddUserActive] = useState<boolean>(false);
 
-  const getUsers = async () => {
+  
+  /**
+   * Fetch every User
+   * @returns All Users
+   */
+  async function fetchUsers(): Promise<User[]> {
     if(!auth.user)
-        return;
+      throw new Error("Not signed in, this shouldn't happen");
     const res = await fetch('http://localhost:3000/users', {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -28,46 +40,19 @@ export default function UserEditor() {
         'Authorization': auth.user.authToken
       }
     })
-    let jsonRes = await res.json();
 
-    return jsonRes.map((usr:any) => ({
-      ...usr,
-      id: usr._id
-    }))
-  }  
-
-
-  /**
-   * Fetch Users on Component load
-   */
-  useEffect(()=>{
-    console.log()
-    const get = async ()=>{
-      if(!auth.user)
-        return;
-      const res = await fetch('http://localhost:3000/users', {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        headers: {
-          'Authorization': auth.user.authToken
-        }
-      })
-      let jsonRes = await res.json();
-
-      setUsersRes(jsonRes.map((usr:any) => ({
-        ...usr,
-        id: usr._id
-      })));
+    if (!res.ok) {
+      throw new Error('Fetching Users failed')
     }
 
-    get();
-    }, []
-  )
+    return res.json();
+  }
 
   /**
    * Create editable users array when fetched users changes
    */
   useEffect(() => {
+    if(usersRes)
     setUsers(usersRes.map(user => ({
       ...user,
       modified: false,
@@ -179,7 +164,7 @@ export default function UserEditor() {
   function clearModifiedUser(userId: string) {
     setUsers(users.map(user=>{
       if(user.id == userId) {
-        let originalUser = usersRes.find(user => user.id == userId) as User;
+        let originalUser = usersRes?.find(user => user.id == userId) as User;
 
         const newTempUser : TempUser = {
           ...originalUser,
@@ -231,11 +216,55 @@ export default function UserEditor() {
     }))
   }
 
+  async function deleteUser(userId: string) {
+    if(!auth.user)
+      return;
+
+    const res = await fetch(`http://localhost:3000/users/${userId}`, {
+      method: 'DELETE',
+      cache: 'no-cache',
+      headers: {
+        'Authorization': auth.user.authToken,
+      }
+    })
+
+    let jsonRes = await res.json();
+
+    setUsers(users.filter(user => user.id !== userId));
+  }
+
+  async function createUser(newUser: NewUser) {
+    if(!auth.user)
+      return;
+
+    const res = await fetch(`http://localhost:3000/users/`, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Authorization': auth.user.authToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    })
+
+    let jsonRes = await res.json();
+
+    setUsers([...users, jsonRes])
+
+    setAddUserActive(false);
+  }
+
   return (
     <div className={s.editor}>
       { 
         // The current password modal, is null unless password change requested
         passwordModal
+      }
+
+      {
+        addUserActive ?
+        <CreateUserModal closeModal={() => setAddUserActive(false)} createUser={(user) => createUser(user)} />
+        : null
       }
       
       {
@@ -247,7 +276,7 @@ export default function UserEditor() {
         ))
       }
 
-      <Button className={ s.addUser } color="light">+ Nutzer hinzufügen</Button>
+      <Button onClick={() => setAddUserActive(true)} className={ s.addUser } color="light">+ Nutzer hinzufügen</Button>
 
 
       <table>
@@ -288,7 +317,7 @@ export default function UserEditor() {
                 <td className={s.label}>ROLE</td>
                 <td className={s.label}>VERIFIED</td>
                 <td>
-                  <select name="select" onChange={(e)=>setIsAdmin(user.id, e.target.value)}>
+                  <select name="select" value={user.isAdmin ? "true" : "false"} onChange={(e)=>setIsAdmin(user.id, e.target.value)}>
                     <option value="true">Admin</option>
                     <option value="false">User</option>
                   </select>
@@ -301,7 +330,7 @@ export default function UserEditor() {
                 <td className={s.label}>PASSWORD</td>
                 <td className={s.label}></td>
                 <td><button
-                  onClick={e=> setPasswordModal(
+                  onClick={() => setPasswordModal(
                     <PasswordModal
                     closeModal={() => setPasswordModal(null)}
                     setPassword={value => {setPassword(user.id, value) ;setPasswordModal(null) }}
@@ -310,7 +339,7 @@ export default function UserEditor() {
                   ÄNDERN
                 </button></td>
                 <td className={s.deleteRow}>
-                  <button className={s.delete} onClick={e=> alert("delete!")}>LÖSCHEN</button>
+                  <button className={s.delete} onClick={() => deleteUser(user.id)}>LÖSCHEN</button>
                 </td>
               </tr>
             })

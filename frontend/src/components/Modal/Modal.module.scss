@@ -10,11 +10,12 @@
   top: 0;
   left: 0;
   z-index: 10;
+  padding: 0 1rem;
 }
 
 .inner {
   background: var(--colBg);
   padding: 2rem;
   width: 100%;
-  max-width: 500px;
+  max-width: (500px);
 }

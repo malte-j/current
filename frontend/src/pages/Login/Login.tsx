@@ -24,7 +24,7 @@ export default function Login() {
       await auth.signin(username, password);
       console.log("signin complete");
 
-      history.replace(location.state?.from || { pathname: "/" });
+      history.replace(location.state?.from || { pathname: "/dashboard" });
     } catch (e) {
       console.log(e)
       console.log("show error to user")
