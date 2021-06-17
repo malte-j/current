@@ -33,7 +33,7 @@ export default function UserEditor() {
   async function fetchUsers(): Promise<User[]> {
     if(!auth.user)
       throw new Error("Not signed in, this shouldn't happen");
-    const res = await fetch('http://localhost:3000/users', {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/users', {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
@@ -190,7 +190,7 @@ export default function UserEditor() {
     if(!userToUpdate)
       throw new Error("User that should be updated could not be found.");
 
-    const res = await fetch(`http://localhost:3000/users/${userToUpdate.id}`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${userToUpdate.id}`, {
       method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
@@ -220,7 +220,7 @@ export default function UserEditor() {
     if(!auth.user)
       return;
 
-    const res = await fetch(`http://localhost:3000/users/${userId}`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
       method: 'DELETE',
       cache: 'no-cache',
       headers: {
@@ -237,7 +237,7 @@ export default function UserEditor() {
     if(!auth.user)
       return;
 
-    const res = await fetch(`http://localhost:3000/users/`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {

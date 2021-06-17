@@ -13,7 +13,7 @@ db.init();
 app.disable('x-powered-by');  
 app.use(logger('dev'));
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Authorization'],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE"

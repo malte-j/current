@@ -18,12 +18,13 @@ function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
 const fakeAuth = {
   isAuthenticated: false,
   bearer: '',
 
   async signin(username: string, password:string):Promise<User> {
-    const res = await fetch('http://localhost:3000/auth', {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/auth', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {

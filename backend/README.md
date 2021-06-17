@@ -1,6 +1,6 @@
 <h1 align="center"><br><a href="https://current.land">current.land</a> - backend<br><br></h1>
 
-[![Backend CI](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml/badge.svg)](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml)
+[![Backend CI](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml/badge.svg)](https://github.com/SkyGuardian42/current/actions/workflows/backend.yml) [![Netlify Status](https://api.netlify.com/api/v1/badges/e3ac4634-1f6a-4c4f-a25e-5b4a099608e1/deploy-status)](https://app.netlify.com/sites/maltsme/deploys)
 
 ## Erstes Aufsetzen
 Um die Anwendung ausführen zu können, sollte erst die entsprechende Konfiguration gesetzt werden:
