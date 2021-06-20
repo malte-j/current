@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './Button.module.scss';
 
-interface ButtonProps {
+export interface ButtonProps {
   color?: 'dark' | 'light',
   size?: 'lg' | 'sm',
   type?: 'submit',

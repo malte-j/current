@@ -15,6 +15,7 @@ export default function Login() {
   const auth = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
 
   let login: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -26,8 +27,7 @@ export default function Login() {
 
       history.replace(location.state?.from || { pathname: "/dashboard" });
     } catch (e) {
-      console.log(e)
-      console.log("show error to user")
+      setError("Email oder Password ist falsch.");
     }
   };
 
@@ -60,7 +60,10 @@ export default function Login() {
               label="passwort"
               type="password"
             />
-            <Button className={s.loginButton} type='submit' color='dark' value='Login' />
+            <div className={s.bottom}>
+              <div className={s.error}>{error}</div>
+              <Button className={s.loginButton} type='submit' color='dark' value='Login' />
+            </div>
           </form>
         </div>
       </ContentWrapper>
