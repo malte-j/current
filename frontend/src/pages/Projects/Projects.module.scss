@@ -1,0 +1,9 @@
+$firstCollapse: 1100px;
+$secondCollapse: 800px;
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 300px 100fr;
+  height: 100%;
+  
+}
