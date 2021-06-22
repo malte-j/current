@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useAuth } from "../../services/Auth";
 import Button from "../Button/Button";
-import Modal from "../Modal/Modal";
 import CreateUserModal from "./CreateUserModal";
 import PasswordModal from "./PasswordModal";
 import s from './UserEditor.module.scss';
@@ -53,11 +52,11 @@ export default function UserEditor() {
    */
   useEffect(() => {
     if(usersRes)
-    setUsers(usersRes.map(user => ({
-      ...user,
-      modified: false,
-      password: undefined
-    })))
+      setUsers(usersRes.map(user => ({
+        ...user,
+        modified: false,
+        password: undefined
+      })))
   }, [usersRes])
 
 

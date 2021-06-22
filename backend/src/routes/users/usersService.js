@@ -22,6 +22,73 @@ export async function getUsers() {
 
 
 /**
+ * Finds a User by email or Id
+ * @param {string} userIdentifier
+ * @param {boolean} restricted Restricts access to save values only
+ */
+ export async function findUserByIdOrEmail(userIdentifier, restricted) {
+  try {
+    let userReq;
+    if(validator.isEmail(userIdentifier)) {
+      userReq = User.findOne({email: userIdentifier});
+
+    } else {
+      userReq = User.findOne({_id: userIdentifier})
+    }
+    
+    if(restricted)
+      userReq = userReq.select("isAdmin _id username email createdAt")
+
+    let user = await userReq.exec();
+
+    if(!user && email === config.admin.email) {
+      let adminUser = new User();
+      adminUser.username = config.admin.username;
+      adminUser.email = config.admin.email;
+      adminUser.isAdmin = true;
+      adminUser.password = config.admin.password; 
+      user = await adminUser.save();
+    }
+
+    return user;
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+}
+
+/**
+ * Finds a User by Id
+ * @param {string} email Email of the User
+ * @param {boolean} restricted Restricts access to save values only
+ */
+ export async function findUserById(userId, restricted) {
+  try {
+
+    let userReq = User.findOne({_id: userId});
+    
+    if(restricted)
+      userReq = userReq.select("isAdmin _id username email createdAt")
+
+    let user = await userReq.exec();
+
+    if(!user && email === config.admin.email) {
+      let adminUser = new User();
+      adminUser.username = config.admin.username;
+      adminUser.email = config.admin.email;
+      adminUser.isAdmin = true;
+      adminUser.password = config.admin.password; 
+      user = await adminUser.save();
+    }
+
+    return user;
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+}
+
+/**
  * Finds a User by email
  * @param {string} email Email of the User
  * @param {boolean} restricted Restricts access to save values only

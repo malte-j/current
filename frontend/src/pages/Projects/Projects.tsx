@@ -4,7 +4,8 @@ import Button from '../../components/Button/Button';
 import DashNav from '../../components/Nav/DashNav';
 import Sidebar from '../../components/Nav/Sidebar';
 import Post from '../../components/Post/Post';
-import PostEditor from '../../components/PostEditor/PostEditor';
+import PostEditor from '../../components/Post/PostEditor';
+import PostList from '../../components/PostList/PostList';
 import { useAuth } from '../../services/Auth';
 import s from './Projects.module.scss'
 
@@ -24,6 +25,8 @@ export default function Dashboard() {
             <Link to="/projects/new">
               <Button color="light">Neuen Beitrag verfassen</Button>
             </Link>
+
+            <PostList/>
           </div>
         </main>
 
@@ -33,6 +36,10 @@ export default function Dashboard() {
       </Route>
       
       <Route path={`${path}/new`}>
+        <PostEditor/>
+      </Route>
+      
+      <Route path={`${path}/:postId/edit`}>
         <PostEditor/>
       </Route>
 

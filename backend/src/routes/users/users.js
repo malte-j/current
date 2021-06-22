@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, createUser, verifyUserEmail, updateUser, deleteUser, findUserByEmail } from './usersService'
+import { getUsers, createUser, verifyUserEmail, updateUser, deleteUser, findUserByEmail, findUserByIdOrEmail } from './usersService'
 import { createSessionToken } from '../auth/authService'
 import { isAuthenticatedMiddleware, isAdmin } from '../../services/authMiddleware';
 import debug from 'debug';
@@ -24,17 +24,17 @@ isAuthenticatedMiddleware,
 
 
 /**
- * GET User by Email
+ * GET User 
  */
-router.get('/:userEmail', 
+router.get('/:userIdentifier', 
 isAuthenticatedMiddleware,
   async (req, res) => {
     try {
-      let user = await findUserByEmail(req.params.userEmail, true);
+      let user = await findUserByIdOrEmail(req.params.userIdentifier, true);
       if(!user)
         return res.sendStatus(404);
         
-      res.json({user});
+      res.json(user);
     } catch(e) {
       res.status(400).send({error: e})
     }
