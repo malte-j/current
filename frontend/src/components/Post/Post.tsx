@@ -3,7 +3,7 @@ import unified from 'unified';
 import markdown from 'remark-parse';
 import remark2rehype from 'remark-rehype';
 import rehype2react from 'rehype-react';
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuth } from "../../services/Auth";
 import s from './Post.module.scss'
@@ -14,8 +14,9 @@ const Post: React.FunctionComponent = () => {
   const { postId } = useParams<{postId?: string}>();
   const auth = useAuth();
   const location = useLocation();
+  const queryClient = useQueryClient();
 
-  const post  = useQuery<Post, Error>(['post', postId], async () => {
+  const post  = useQuery<Partial<Post>, Error>(['post', postId], async () => {
     const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
       method: 'GET',
       headers: {
@@ -27,6 +28,15 @@ const Post: React.FunctionComponent = () => {
   }, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    placeholderData: () => {
+      const previewData = queryClient.getQueryData<PostPreview[]>('posts')?.find((post) => post._id === postId)
+      return {
+        _id: previewData?._id,
+        _user: previewData?._user._id,
+        createdAt: previewData?.createdAt,
+        title: previewData?.title,
+      } 
+    }
   })
 
   const postUserId = post.data?._user;
@@ -63,7 +73,7 @@ const Post: React.FunctionComponent = () => {
             </div>
             <div className={s.content}>
               {
-                post.data ?
+                post.data?.markdownBody ?
                 processor.processSync(post.data?.markdownBody).result as React.ReactNode
                 : null
               }

@@ -28,7 +28,7 @@ const PostList:React.FunctionComponent<Props> = (props) => {
         <p>lade Projekte...</p>
         : <>
           {posts.data?.map(post => (
-            <article>
+            <article key={post._id}>
               <Link to={`/projects/${post._id}`} key={post._id}>
                 <h2>{post.title}</h2>
               </Link> 
