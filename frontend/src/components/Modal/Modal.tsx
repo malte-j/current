@@ -3,12 +3,13 @@ import s from "./Modal.module.scss";
 
 interface Props {
   closeModal(): void;
+  innerWidth?: "restricted" | "full" | "fit"
 }
 
-const Modal : FunctionComponent<Props> = (props) => {
+const Modal : FunctionComponent<Props> = ({closeModal, innerWidth, children}) => {
   function handleEsc(e: KeyboardEvent) {
     if(e.key == "Escape") {
-      props.closeModal()
+      closeModal()
     }
   }
 
@@ -19,16 +20,16 @@ const Modal : FunctionComponent<Props> = (props) => {
   
   function handleOutsideClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if(e.target === e.currentTarget) {
-      props.closeModal();
+      closeModal();
    }
   }
 
 
   return (
-    <div id="password_modal_wrapper" className={s.wrapper} onClick={e => handleOutsideClick(e)}>
-      <div className={s.inner}>
+    <div className={s.wrapper} onClick={e => handleOutsideClick(e)}>
+      <div className={`${s.inner} ${innerWidth ? s[innerWidth] : ''}`}>
       
-        { props.children }
+        { children }
 
       </div>
     </div>

@@ -52,9 +52,10 @@ router.get('/',
     const user = req.query.user;
     const skip = parseInt(req.query.skip)
     const limit = parseInt(req.query.limit);
+    const preview = req.query.preview;
 
     try {
-      const posts = await getPosts(user, skip, limit)
+      const posts = await getPosts({user, skip, limit, preview})
       return res.json(posts)
     } catch(e) {
       return res.status(400).send({

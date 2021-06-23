@@ -14,7 +14,7 @@ const Post: React.FunctionComponent = () => {
   const { postId } = useParams<{postId?: string}>();
   const auth = useAuth();
   const location = useLocation();
-  console.log(location)
+
   const post  = useQuery<Post, Error>(['post', postId], async () => {
     const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
       method: 'GET',
@@ -24,12 +24,14 @@ const Post: React.FunctionComponent = () => {
     })
 
     return await res.json();
+  }, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   })
 
   const postUserId = post.data?._user;
 
   const useReq = useUser(postUserId);
-console.log(useReq.data)
 
   const processor = unified()
     .use(markdown)
@@ -51,9 +53,13 @@ console.log(useReq.data)
                 : ""
               }</p>
               <span></span>
-              <Link to={`${location.pathname}/edit`}>
-                <Button color="light" size="sm">bearbeiten</Button>
-              </Link>
+              {
+                postUserId == auth.user?.id ?
+                <Link to={`${location.pathname}/edit`}>
+                  <Button color="light" size="s">bearbeiten</Button>
+                </Link>
+                : null
+              }
             </div>
             <div className={s.content}>
               {

@@ -5,9 +5,11 @@ import Post from '../../models/Post'
  * @param {String} user ID of the user to search for 
  * @param {number} skip how many entries should be skipped
  * @param {number} limit limit to n entries
+ * @param {number} preview limit to n entries
  */
-export async function getPosts(user, skip, limit) {
+export async function getPosts({user, skip, limit, preview}) {
   let searchSettings = {}
+  let select =  "_user title markdownBody _thumbnail createdAt";
 
   if(user)
     searchSettings.user = user;
@@ -24,7 +26,15 @@ export async function getPosts(user, skip, limit) {
   if(skip)
     sortOptions.skip = skip;
 
-  return Post.find(searchSettings, "_user title markdownBody _thumbnail createdAt", sortOptions).populate('_thumbnail', "_id format lqip").exec()
+  if(preview)
+    select = "_user title _thumbnail createdAt"
+
+  let query = Post.find(searchSettings, select, sortOptions)
+  
+  if(preview)
+    query = query.populate('_user', "username _profilePicture")
+
+  return query.populate('_thumbnail', "_id format lqip").exec()
 }
 
 

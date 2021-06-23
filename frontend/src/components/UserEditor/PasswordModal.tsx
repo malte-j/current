@@ -25,7 +25,7 @@ export default function PasswordModal(props: Props) {
   }
 
   return (
-    <Modal closeModal={ props.closeModal }>
+    <Modal innerWidth="restricted" closeModal={ props.closeModal }>
       <form className={s.form} id="passwordform" onSubmit={e => savePassword(e)}>
           <TextInput
             label="PASSWORD"

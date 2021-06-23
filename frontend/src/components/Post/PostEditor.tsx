@@ -11,6 +11,7 @@ import Button from '../Button/Button';
 import { useAuth } from '../../services/Auth';
 import { useHistory, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import Modal from '../Modal/Modal';
 
 interface Props {
   postId?: string;
@@ -39,9 +40,29 @@ const PostEditor: React.FunctionComponent = () => {
     enabled: postId ? true : false,
   })
 
+  const queryClient = useQueryClient();
+
+  const deletePost = useMutation(async () => {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': auth.user!.authToken
+      }
+    })
+
+    return res;
+  }, {
+    onSuccess: ()=>{
+      queryClient.invalidateQueries('posts');
+      history.push('/projects');
+    }
+  })
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [textAreaHeight, setTextAreaHeight] = useState("auto");
   const [parentHeight, setParentHeight] = useState("auto");
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false); 
+
 
   const history = useHistory();
   const auth = useAuth();
@@ -122,6 +143,19 @@ const PostEditor: React.FunctionComponent = () => {
       <div className={s.main}>
         <DashNav />
 
+        { deleteModalOpen ? (
+            <Modal closeModal={() => setDeleteModalOpen(false)}>
+              <p>Willst du den Post wirklich löschen?</p>
+              <div className={s.buttonBar}>
+                <Button onClick={() => setDeleteModalOpen(false)}>Abbrechen</Button>
+                <Button onClick={() => deletePost.mutate()} color="red">Löschen</Button>
+              </div>
+            </Modal>
+          )
+          : undefined
+        }
+          
+
         {(originalPostQuery && originalPostQuery.isLoading) ?
           <h2>lade post...</h2>
           : <>
@@ -162,7 +196,17 @@ const PostEditor: React.FunctionComponent = () => {
           <p>hier das thumbnail</p>
         </div>
         <div className={s.bottom}>
-          <Button>Abbrechen</Button>
+          <Button
+            color="red"
+            onClick={() => setDeleteModalOpen(true)}
+          >
+            LÖSCHEN
+          </Button>
+        </div>
+        <div className={s.bottom}>
+          <Button
+            onClick={history.goBack}
+          >Abbrechen</Button>
           <Button
             color="light"
             onClick={savePost}

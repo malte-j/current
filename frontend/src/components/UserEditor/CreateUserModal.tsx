@@ -39,7 +39,7 @@ const CreateUserModal: FunctionComponent<Props> = (props) => {
 
 
   return (
-    <Modal closeModal={props.closeModal}>
+    <Modal innerWidth="restricted" closeModal={props.closeModal}>
       <h2 className={s.title}>Nutzer hinzufügen</h2>
 
       <form className={s.form} id="passwordform" onSubmit={e => saveUser(e)}>

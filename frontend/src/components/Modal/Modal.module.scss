@@ -16,6 +16,17 @@
 .inner {
   background: var(--colBg);
   padding: 2rem;
-  width: 100%;
-  max-width: (500px);
+  
+  &.restricted {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  &.fit {
+    width: auto;
+  }
+
+  &.full {
+    width: 100%;
+  }
 }

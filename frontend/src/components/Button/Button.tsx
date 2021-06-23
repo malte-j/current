@@ -2,8 +2,8 @@ import React from 'react';
 import s from './Button.module.scss';
 
 export interface ButtonProps {
-  color?: 'dark' | 'light',
-  size?: 'lg' | 'sm',
+  color?: 'dark' | 'light' | 'red',
+  size?: 'lg' | 'm' | 's',
   type?: 'submit',
   weight?: string,
   value?: string,

@@ -21,8 +21,23 @@
     background: #fff;
   }
 
-  &.lg {
+  &.red {
+    color: #D32424;
+    background: #FFE4E4;
+
+    &:hover {
+      color: #D32424;
+      background: #ffdcdc;
+    }
+  }
+
+  &.s {
+    font-size: var(--font13);
+    padding: .4rem .5rem;
+  }
+
+  &.l {
     font-size: var(--font-16);
-    padding: 1.3rem .4rem;
+    padding: 1.3rem .7rem;
   }
 }

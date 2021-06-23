@@ -4,12 +4,15 @@
   --monospaceFont: 'IBM Plex Mono', monospace;
   --sansSerifFont: 'Inter', 'Helvetica', sans-serif;
 
+  --font28: 1.75rem;
+  --font24: 1.5rem;
   --font20: 1.25rem;
   --font18: 1.125rem;
-
   --font16: 1rem;
   --font14: .875rem;
   --font13: .8125rem;
+  --font12: .75rem;
+
 
   --colDark: #0c0c0c;
   --colFont: #222222;
