@@ -3,14 +3,19 @@ import { Story, Meta } from '@storybook/react';
 
 import Button, { ButtonProps } from './Button';
 
-import "../../App.css"
+import "../../../public/App.css"
 
 export default {
-  title: 'Example/Button',
+  title: 'Components/Button',
   component: Button,
   argTypes: {
     color: {
-      options: ["light", "dark", "red"]
+      options: ["light", "dark", "red"],
+      control: {type: "select"}
+    },
+    size: {
+      options: ["l", "m", "s"],
+      control: {type: "select"}
     },
   },
 } as Meta;
@@ -20,14 +25,13 @@ const Template: Story<ButtonProps> = (args) => <Button {...args} >Button Text</B
 export const Light = Template.bind({});
 Light.args = {
   color: "light",
-  size: "lg"
+  size: "m"
 };
 
 
 export const Dark = Template.bind({});
 Dark.args = {
   color: 'dark',
-  onClick: () => {}
-  
+  size: "m"
 };
 

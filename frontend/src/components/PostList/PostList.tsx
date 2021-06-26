@@ -8,7 +8,7 @@ interface Props {
   user?: string
 }
 
-const PostList:React.FunctionComponent<Props> = (props) => {
+const PostList: React.FunctionComponent<Props> = (props) => {
   const auth = useAuth();
   const posts = useQuery<Post[], Error>(['posts'], async () => {
     const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/?preview=true', {
@@ -24,20 +24,20 @@ const PostList:React.FunctionComponent<Props> = (props) => {
   return (
     <div className={s.postList}>
       {
-        posts.isLoading ? 
-        <p>lade Projekte...</p>
-        : <>
-          {posts.data?.map(post => (
-            <article key={post._id}>
-              <Link to={`/projects/${post._id}`} key={post._id}>
-                <h2>{post.title}</h2>
-              </Link> 
-            </article>
-          ))}
-        </>
+        posts.isLoading ?
+          <p>lade Projekte...</p>
+          : <>
+            {posts.data?.map(post => (
+              <article key={post._id}>
+                <Link to={`/projects/${post._id}`} key={post._id}>
+                  <h2>{post.title}</h2>
+                </Link>
+              </article>
+            ))}
+          </>
       }
     </div>
-  )  
+  )
 }
 
 export default PostList;

@@ -24,7 +24,7 @@ const PostEditor: React.FunctionComponent = () => {
   const [postBody, setPostBody] = useState<string>('')
   const [postTitle, setPostTitle] = useState<string>('');
 
-  let { postId } = useParams<{postId?: string}>();
+  let { postId } = useParams<{ postId?: string }>();
 
   const originalPostQuery = useQuery<Post, Error>(['post', postId], async () => {
     const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
@@ -36,9 +36,9 @@ const PostEditor: React.FunctionComponent = () => {
 
     return await res.json();
   },
-  {
-    enabled: postId ? true : false,
-  })
+    {
+      enabled: postId ? true : false,
+    })
 
   const queryClient = useQueryClient();
 
@@ -52,7 +52,7 @@ const PostEditor: React.FunctionComponent = () => {
 
     return res;
   }, {
-    onSuccess: ()=>{
+    onSuccess: () => {
       queryClient.invalidateQueries('posts');
       history.push('/projects');
     }
@@ -61,7 +61,7 @@ const PostEditor: React.FunctionComponent = () => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [textAreaHeight, setTextAreaHeight] = useState("auto");
   const [parentHeight, setParentHeight] = useState("auto");
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false); 
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
 
   const history = useHistory();
@@ -79,7 +79,7 @@ const PostEditor: React.FunctionComponent = () => {
    *  Resize textarea on input
    */
   useEffect(() => {
-    if(textAreaRef.current) {
+    if (textAreaRef.current) {
       setParentHeight(`${textAreaRef.current.scrollHeight}px`);
       setTextAreaHeight(`${textAreaRef.current.scrollHeight}px`);
     }
@@ -103,7 +103,7 @@ const PostEditor: React.FunctionComponent = () => {
 
   const savePost = async () => {
     let req;
-    if(postId) {
+    if (postId) {
       req = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
         method: 'PATCH',
         headers: {
@@ -132,7 +132,7 @@ const PostEditor: React.FunctionComponent = () => {
 
     const res = await req.json();
 
-    if(!postId)
+    if (!postId)
       history.push('/projects/' + res._id + '/edit');
   }
 
@@ -143,18 +143,18 @@ const PostEditor: React.FunctionComponent = () => {
       <div className={s.main}>
         <DashNav />
 
-        { deleteModalOpen ? (
-            <Modal closeModal={() => setDeleteModalOpen(false)}>
-              <p>Willst du den Post wirklich löschen?</p>
-              <div className={s.buttonBar}>
-                <Button onClick={() => setDeleteModalOpen(false)}>Abbrechen</Button>
-                <Button onClick={() => deletePost.mutate()} color="red">Löschen</Button>
-              </div>
-            </Modal>
-          )
+        {deleteModalOpen ? (
+          <Modal closeModal={() => setDeleteModalOpen(false)}>
+            <p>Willst du den Post wirklich löschen?</p>
+            <div className={s.buttonBar}>
+              <Button onClick={() => setDeleteModalOpen(false)}>Abbrechen</Button>
+              <Button onClick={() => deletePost.mutate()} color="red">Löschen</Button>
+            </div>
+          </Modal>
+        )
           : undefined
         }
-          
+
 
         {(originalPostQuery && originalPostQuery.isLoading) ?
           <h2>lade post...</h2>
