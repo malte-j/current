@@ -1,19 +1,56 @@
 .postList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
   margin: 2rem 0;
 
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr;
+  }
+
   article {
-    background-color: white;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 21/9;
+    flex-direction: column;
+    height: 100%;
+    // align-items: center;
+    // justify-content: center;
+
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: .4rem;
+      font-size: var(--font16);
+      font-style: italic;
+    }
+
+    
+    .content {
+      background-color: white;
+      flex: 1;
+      padding: .8rem;
+      min-height: 100px;
+    }
+
+    &[data-no-thumbnail="true"] .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    
+    }
+    
+  
+    img {
+      aspect-ratio: 16/9;
+      margin-bottom: .8rem;
+    }
 
     h2 {
-      // font-family: var(--sansSerifFont);
       font-size: var(--font16);
+      text-align: left;
+      line-height: 1;
+      margin: 0;
+      padding: 0;
       font-weight: 400;
     }
   }

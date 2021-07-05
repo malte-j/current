@@ -12,6 +12,7 @@ import { useAuth } from '../../services/Auth';
 import { useHistory, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Modal from '../Modal/Modal';
+import ImageUpload from '../ImageUpload/ImageUpload';
 
 interface Props {
   postId?: string;
@@ -23,6 +24,7 @@ const PostEditor: React.FunctionComponent = () => {
 
   const [postBody, setPostBody] = useState<string>('')
   const [postTitle, setPostTitle] = useState<string>('');
+  const [postThumbnail, setPostThumbnail] = useState<Image | null>(null);
 
   let { postId } = useParams<{ postId?: string }>();
 
@@ -88,6 +90,7 @@ const PostEditor: React.FunctionComponent = () => {
   useEffect(() => {
     if (originalPostQuery?.data) {
       setPostTitle(originalPostQuery.data.title);
+      setPostThumbnail(originalPostQuery.data._thumbnail || null);
       setPostBody(originalPostQuery.data.markdownBody);
     }
   }, [originalPostQuery?.data])
@@ -112,7 +115,8 @@ const PostEditor: React.FunctionComponent = () => {
         },
         body: JSON.stringify({
           title: postTitle,
-          markdownBody: postBody
+          markdownBody: postBody,
+          _thumbnail: postThumbnail ? postThumbnail._id : null
         })
       })
     } else {
@@ -124,7 +128,8 @@ const PostEditor: React.FunctionComponent = () => {
         },
         body: JSON.stringify({
           title: postTitle,
-          markdownBody: postBody
+          markdownBody: postBody,
+          _thumbnail: postThumbnail ? postThumbnail._id : null
         })
       })
     }
@@ -140,60 +145,61 @@ const PostEditor: React.FunctionComponent = () => {
 
   return (
     <div className={s.postEditor}>
-      <div className={s.main}>
+      {deleteModalOpen ? (
+        <Modal closeModal={() => setDeleteModalOpen(false)}>
+          <p>Willst du den Post wirklich löschen?</p>
+          <div className={s.buttonBar}>
+            <Button onClick={() => setDeleteModalOpen(false)}>Abbrechen</Button>
+            <Button onClick={() => deletePost.mutate()} color="red">Löschen</Button>
+          </div>
+        </Modal>
+      )
+        : undefined
+      }
+      <main>
         <DashNav />
-
-        {deleteModalOpen ? (
-          <Modal closeModal={() => setDeleteModalOpen(false)}>
-            <p>Willst du den Post wirklich löschen?</p>
-            <div className={s.buttonBar}>
-              <Button onClick={() => setDeleteModalOpen(false)}>Abbrechen</Button>
-              <Button onClick={() => deletePost.mutate()} color="red">Löschen</Button>
-            </div>
-          </Modal>
-        )
-          : undefined
-        }
+        <div className={s.main}>
 
 
-        {(originalPostQuery && originalPostQuery.isLoading) ?
-          <h2>lade post...</h2>
-          : <>
-            <TextInput
-              label="Titel"
-              placeholder="Ein interessanter Titel..."
-              value={postTitle}
-              onChange={e => setPostTitle(e.target.value)}
-            />
+          {(originalPostQuery.isLoading) ?
+            <h2>lade post...</h2>
+            : <>
+              <TextInput
+                label="Titel"
+                placeholder="Ein interessanter Titel..."
+                value={postTitle}
+                onChange={e => setPostTitle(e.target.value)}
+              />
 
-            <div className={s.editor}>
-              <div className="textareaWrapper"
-                style={{ minHeight: parentHeight }}
-              >
-                <textarea
-                  value={postBody}
-                  ref={textAreaRef}
-                  onChange={e => handleInput(e)}
-                  style={{ height: textAreaHeight }}
-                  placeholder="Schreibe etwas..."
+              <div className={s.editor}>
+                <div className="textareaWrapper"
+                  style={{ minHeight: parentHeight }}
                 >
-                </textarea>
+                  <textarea
+                    value={postBody}
+                    ref={textAreaRef}
+                    onChange={e => handleInput(e)}
+                    style={{ height: textAreaHeight }}
+                    placeholder="Schreibe etwas..."
+                  >
+                  </textarea>
+                </div>
+
+                <div className={s.output}>
+                  {
+                    processor.processSync(postBody).result as React.ReactNode
+                  }
+                </div>
               </div>
 
-              <div className={s.output}>
-                {
-                  processor.processSync(postBody).result as React.ReactNode
-                }
-              </div>
-            </div>
+            </>
+          }
+        </div>
+      </main>
 
-          </>
-        }
-
-      </div>
       <div className={s.sidebar}>
         <div className={s.top}>
-          <p>hier das thumbnail</p>
+          <ImageUpload currentImage={postThumbnail} setCurrentImage={setPostThumbnail} />
         </div>
         <div className={s.bottom}>
           <Button

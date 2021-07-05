@@ -12,7 +12,7 @@ router.post('/',
   async (req, res) => {
     const title = req.body.title;
     const markdownBody = req.body.markdownBody;
-    const _thumbnail = req.body.thumbnail;
+    const _thumbnail = req.body._thumbnail;
     const _user = req.user._id;
 
     try {
@@ -75,11 +75,11 @@ router.patch('/:postId',
     const postId = req.params.postId;
     const title = req.body.title;
     const markdownBody = req.body.markdownBody;
-    const _thumbnail = req.body._thumbnail;
+    const thumbnail = req.body._thumbnail;
     const user = req.user;
     
     try {
-      const post = await updatePost(postId, title, markdownBody, _thumbnail, user);
+      const post = await updatePost(postId, title, markdownBody, thumbnail, user);
       return res.json(post)
     } catch(e) {
       return res.status(400).send({

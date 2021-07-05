@@ -277,7 +277,6 @@ export default function UserEditor() {
 
       <Button onClick={() => setAddUserActive(true)} className={ s.addUser } color="light">+ Nutzer hinzufügen</Button>
 
-
       <table>
         <thead>
           <tr>

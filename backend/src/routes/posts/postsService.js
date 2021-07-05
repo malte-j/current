@@ -34,7 +34,7 @@ export async function getPosts({user, skip, limit, preview}) {
   if(preview)
     query = query.populate('_user', "username _profilePicture")
 
-  return query.populate('_thumbnail', "_id format lqip").exec()
+  return query.populate('_thumbnail', "_id format lqip url").exec()
 }
 
 
@@ -43,7 +43,8 @@ export async function getPosts({user, skip, limit, preview}) {
  * @param {string} _id id of the user
  */
 export async function getPostById(_id) {
-  return Post.findById(_id).populate('_thumbnail', "_id format lqip").exec();
+  return (await Post.findById(_id).populate('_thumbnail', "_id format lqip url").exec()).toJSON();
+
 }
 
 
@@ -107,8 +108,7 @@ export async function updatePost(_id, title, markdownBody, _thumbnail, user) {
   if(markdownBody)
     post.markdownBody = markdownBody;
 
-  if(_thumbnail)
-    post._thumbnail = _thumbnail;
+  post._thumbnail = _thumbnail;
 
   return post.save();
 }

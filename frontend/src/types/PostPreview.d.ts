@@ -5,5 +5,6 @@ interface PostPreview {
   _user: {
     _id: string,
     username: string
-  }
+  },
+  "_thumbnail"?: Image
 }

@@ -3,8 +3,8 @@ import { useAuth } from "./Auth";
 
 async function fetchUser(token: string, userId?: string ): Promise<User> {
   const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/users/' + userId, {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    method: 'GET',
+    cache: 'no-cache',
     headers: {
       'Authorization': token
     }
@@ -23,5 +23,7 @@ export const useUser = (userId?: string) => {
     ["user", userId],
     () => fetchUser(auth.user!.authToken, userId), {
       enabled: !!userId,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false
     })
 }

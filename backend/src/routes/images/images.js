@@ -48,10 +48,10 @@ router.get('/:image',
     let height  = parseInt(req.query.height);
 
     // check if width and height have correct format
-    if(!width || !height)
-      return res.sendStatus(400);
+    // if(!width || !height)
+    //   return res.sendStatus(400);
 
-    const filename = `${id}_${width}x${height}.${format}`;
+    const filename = `${id}_${width || '_'}x${height || '_'}.${format}`;
     const sendFileOptions = {
       maxAge: '1y',
       root: path.join(process.cwd(), 'public/img'),
@@ -61,14 +61,18 @@ router.get('/:image',
 
     // try sending cached image
     res.sendFile(filename, sendFileOptions, (err) => {
+      log('image found')
       // if sending didn't succeed, try generating image
       if(err) {
         log('image not found, generating...')
         // try generating resized image
         
-        const sharpOutput = sharp(path.join(process.cwd(), 'public/img/', id))
-          .resize(width, height)
-          .toFormat(format)
+        let sharpOutput = sharp(path.join(process.cwd(), 'public/img/', id))
+
+        if(width || height)
+          sharpOutput = sharpOutput.resize(width || null, height || null);
+
+        sharpOutput = sharpOutput.toFormat(format);
 
         // set content and caching headers
         res.set('Content-Type', `image/${format === 'jpg'? 'jpeg' : format}`);        

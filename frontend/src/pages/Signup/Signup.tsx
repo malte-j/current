@@ -19,7 +19,7 @@ export default function Signup() {
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
 
-  let login: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  let signup: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     if(password !== passwordRepeat)
@@ -42,7 +42,7 @@ export default function Signup() {
         <Nav />
         <div className={s.center}>
 
-          <form onSubmit={login} className={s.form}>
+          <form onSubmit={signup} className={s.form}>
             {location.state?.from ?
               <p>Um <b>{location.state.from.pathname}</b> aufrufen zu können, musst du angemeldet sein:</p>
               : undefined

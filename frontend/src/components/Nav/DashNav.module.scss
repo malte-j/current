@@ -1,14 +1,17 @@
-$hamburgerWidth: 800px;
+$hamburgerWidth: 1200px;
 
 .nav {
-  --navHeight: calc(2rem + 38px); 
+  --navHeight: calc(2rem + 38px);
   display: flex;
   position: sticky;
   justify-content: space-between;
   align-items: center;
-  top:0;
+  top: 0;
   height: var(--navHeight);
   z-index: 10;
+  background: #f2f2f21e;
+  backdrop-filter: blur(14px);
+  padding: 0 1rem;
 
   .logo {
     height: 38px;
@@ -24,19 +27,23 @@ $hamburgerWidth: 800px;
   }
 
   &.menuOpen {
-    .menu {
-      display: flex;
-    }
-
-    .hamburger {
-      .bar:first-child {
-        transform: translateY(200%) rotate(45deg);
+    @media (max-width: $hamburgerWidth) {
+      .menu {
+        display: flex;
       }
-      .bar:nth-child(2) {
-        transform: scaleX(0);
-      }
-      .bar:last-child {
-        transform: translateY(-200%) rotate(-45deg);
+  
+      .hamburger {
+        .bar:first-child {
+          transform: translateY(200%) rotate(45deg);
+        }
+  
+        .bar:nth-child(2) {
+          transform: scaleX(0);
+        }
+        
+        .bar:last-child {
+          transform: translateY(-200%) rotate(-45deg);
+        }
       }
     }
   }
@@ -48,7 +55,7 @@ $hamburgerWidth: 800px;
       display: none;
     }
   }
-  
+
   .hamburger {
     height: 22px;
     width: 24px;
@@ -63,7 +70,7 @@ $hamburgerWidth: 800px;
       background: var(--colFont);
       transform-origin: 50% 50%;
       will-change: transform;
-      transition: .2s ease-out transform;
+      transition: 0.2s ease-out transform;
     }
 
     @media (min-width: $hamburgerWidth) {
@@ -85,9 +92,9 @@ $hamburgerWidth: 800px;
     padding-top: var(--navHeight);
     z-index: -1;
     background: var(--colBg);
-    
+
     a {
-      font-size: var(--font28);
+      font-size: var(--font24);
       padding: 2rem 0;
       text-align: center;
       font-weight: 500;

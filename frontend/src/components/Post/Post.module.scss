@@ -5,6 +5,10 @@
   .content {
     line-height: 1.6;
     font-size: var(--font18);
+
+    h1 {
+      font-size: var(--font28);
+    }
   }
 }
 
@@ -17,6 +21,12 @@
 
 .title {
   font-weight: 800;
+  font-size: 30px;
+}
+
+.thumbnail {
+  aspect-ratio: 2/1;
+  overflow: hidden;
 }
 
 .infoBar {

@@ -1,37 +1,28 @@
-$firstCollapse: 1100px;
-$secondCollapse: 800px;
-
-
 .dashboard {
   display: grid;
-  grid-template-columns: 300px 1fr 280px;
+  grid-template-columns: 1fr 280px;
 
   height: 100%;
 
   main {
-    padding: 0 1rem;
     width: 100%;
-    max-width: 800px;
+  }
+
+  .content {
+    max-width: 1000px;
     margin: 0 auto;
+    padding: 0 1rem;
   }
 
   .notifications {
     border-left: 1px solid var(--colDivLines);
     padding: 2rem;
   }
-  
-  @media(max-width: $firstCollapse) {
-    grid-template-columns: 300px 1fr;
-    
-    >*:nth-child(3) {
-      display: none;
-    }
-  }
 
-  @media (max-width: $secondCollapse) {
+  @media (max-width: 1300px) {
     grid-template-columns: 1fr;
     
-    >*:nth-child(1) {
+    .notifications {
       display: none;
     }
   }

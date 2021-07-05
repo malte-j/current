@@ -1,17 +1,16 @@
 import React from 'react';
-import { createPortal } from 'react-dom';
 import { Link, NavLink } from 'react-router-dom';
 import s from './Sidebar.module.scss';
 
 interface SidebarProps {
+  className?: string
 }
 
-export default function Sidebar() {
-
+const Sidebar: React.FunctionComponent<SidebarProps> = ({className}) => {
   return (
-    <aside className={s.sidebar}>
+    <aside className={`${s.sidebar} ${className? className : ""}`}>
       <ul>
-        <li><NavLink to="/">Überblick</NavLink></li>
+        <li><NavLink to="/dashboard">Überblick</NavLink></li>
         <NavLink to='/users'>Nutzerverwaltung</NavLink>
         <li><NavLink to="/me">Mein Profil</NavLink></li>
         <li><Link to="/projects">Meine Projekte</Link>
@@ -25,3 +24,5 @@ export default function Sidebar() {
     </aside>
   )
 }
+
+export default Sidebar;

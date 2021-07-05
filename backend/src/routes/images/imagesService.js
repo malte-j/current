@@ -62,13 +62,14 @@ export async function createImage(image, user) {
     _id: new mongoose.Types.ObjectId(image.originalname),
     _user: new mongoose.Types.ObjectId(user._id),
     format: image.mimetype.split('/')[1],
+    url: config.backendUrl + '/images/' + image.filename,
     lqip: `data:image/png;base64,${lqipData.toString('base64')}`
   });
   imageDbEntry.save();
   
   return {
-    id: imageDbEntry._id,
-    url: config.backendUrl + '/img/' + image.filename,
+    _id: imageDbEntry._id,
+    url: imageDbEntry.url,
     lqip: imageDbEntry.lqip
   }
 }

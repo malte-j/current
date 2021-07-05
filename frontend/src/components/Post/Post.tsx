@@ -9,6 +9,7 @@ import { useAuth } from "../../services/Auth";
 import s from './Post.module.scss'
 import Button from "../Button/Button";
 import { useUser } from "../../services/User";
+import Image from '../Image/Image';
 
 const Post: React.FunctionComponent = () => {
   const { postId } = useParams<{postId?: string}>();
@@ -42,7 +43,7 @@ const Post: React.FunctionComponent = () => {
   const postUserId = post.data?._user;
 
   const useReq = useUser(postUserId);
-
+  
   const processor = unified()
     .use(markdown)
     .use(remark2rehype)
@@ -55,6 +56,27 @@ const Post: React.FunctionComponent = () => {
           <h1>Lade Post...</h1>
           : <>
             <h1 className={s.title}>{post.data?.title}</h1>
+
+            {
+              post.data?._thumbnail ?
+                <div className={s.thumbnail}>
+                  <Image
+                    imageMeta={post.data?._thumbnail}
+                    sizes={[
+                      "(min-width: 700px) 700px",
+                      "(max-width: 700px) 99vw"
+                    ]}
+                    widths={[
+                      1340,
+                      670,
+                      400,
+                      300
+                    ]}
+                    aspectRatio={16/9}
+                  />
+                </div>
+              : null
+            }
             <div className={s.infoBar}>
               <p className={s.user}>{useReq.data?.username}</p>
               <p className={s.date}>{

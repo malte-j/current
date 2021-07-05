@@ -5,4 +5,5 @@ interface Post {
   "_user": string,
   "createdAt": string,
   "updatedAt": string,
+  "_thumbnail"?: Image
 }

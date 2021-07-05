@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 import Button from '../../components/Button/Button';
+import Layout from '../../components/Layout/Layout';
 import DashNav from '../../components/Nav/DashNav';
 import Sidebar from '../../components/Nav/Sidebar';
 import Post from '../../components/Post/Post';
@@ -14,14 +15,13 @@ export default function Dashboard() {
   let { path, url } = useRouteMatch();
 
 
-  return (<div className={s.dashboard}>
-    <Sidebar />
-
+  //  className={s.dashboard}
+  return (<Layout>
     <Switch>
       <Route exact path={path}>
-        <main style={{padding: "0 2rem"}}>
+        <main>
           <DashNav />
-          <div className="content">
+          <div className={s.content}>
             <Link to="/projects/new">
               <Button color="light">Neuen Beitrag verfassen</Button>
             </Link>
@@ -30,9 +30,9 @@ export default function Dashboard() {
           </div>
         </main>
 
-        <div className={s.notifications} >
+        {/* <div className={s.notifications} >
           <p>Hallo, <b>{auth.user?.username}</b>!</p>
-        </div>
+        </div> */}
       </Route>
       
       <Route path={`${path}/new`}>
@@ -44,10 +44,11 @@ export default function Dashboard() {
       </Route>
 
       <Route path={`${path}/:postId`}>
+        <DashNav/>
         <Post/>
       </Route>
     </Switch>
 
 
-  </div>)
+  </Layout>)
 }

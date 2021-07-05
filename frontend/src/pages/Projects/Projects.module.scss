@@ -1,9 +1,16 @@
-$firstCollapse: 1100px;
-$secondCollapse: 800px;
+// $firstCollapse: 1100px;
+// $secondCollapse: 800px;
 
-.dashboard {
-  display: grid;
-  grid-template-columns: 300px 100fr;
-  height: 100%;
+// .dashboard {
+//   display: grid;
+//   grid-template-columns: 300px 100fr;
+//   height: 100%;
   
+//   main {
+//     width: 100%;
+//   }
+
+// }
+.content {
+  padding: 0 2rem;
 }

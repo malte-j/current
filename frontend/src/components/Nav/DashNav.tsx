@@ -29,6 +29,7 @@ export default function DashNav(props: DashNavProps) {
           <NavLink to='/dashboard'>Übersicht</NavLink>
           <NavLink to='/users'>Nutzerverwaltung</NavLink>
           <NavLink to='/profile'>Mein Profil</NavLink>
+          <NavLink to='/projects'>Meine Projekte</NavLink>
         </div>
 
         <div className={s.bottom}>

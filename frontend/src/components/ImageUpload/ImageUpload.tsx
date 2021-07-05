@@ -1,15 +1,42 @@
 import React, { useState } from "react";
+import { useAuth } from "../../services/Auth";
 import s from './ImageUpload.module.scss';
 
+interface ImageUploadProps {
+  currentImage: Image | null;
+  setCurrentImage(image: Image | null): void;
+}
 
+const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({currentImage, setCurrentImage}) => {
 
-const ImageUpload: React.FunctionComponent = () => {
-
-  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imgPreviewSrc, setImgPreviewSrc] = useState<string | null>(null);
 
-  function handleUpload(e: React.MouseEvent) {
+  const auth = useAuth();
+  /**
+   * Upload the selected Image
+   * @param e click event
+   */
+  async function handleUpload(e: React.MouseEvent) {
     e.preventDefault();
+    if(!selectedFile)
+      return;
+
+    const imageFormData = new FormData();
+    imageFormData.append('image', selectedFile);
+
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/images/', {
+      method: 'POST',
+      headers: {
+        'Authorization': auth.user!.authToken
+      },
+      body: imageFormData
+    })
+
+    let newImageMetadata = await res.json();
+    setCurrentImage(newImageMetadata);
+    setSelectedFile(null);
+    setImgPreviewSrc(null);
   }
 
   /**
@@ -17,8 +44,11 @@ const ImageUpload: React.FunctionComponent = () => {
    * @param images value from a file input
    */
   function selectImage(images: FileList | null): void {
-    if(!images) {
+    console.log(images)
+
+    if(!images || images.length == 0) {
       setImgPreviewSrc(null);
+      setSelectedFile(null);
       return;
     }
 
@@ -26,10 +56,23 @@ const ImageUpload: React.FunctionComponent = () => {
     reader.onload = e => {
       if(e.target?.result && typeof e.target.result == "string")
         setImgPreviewSrc(e.target.result);
-    }
-
+      }
+      
+    setSelectedFile(images[0]);
     reader.readAsDataURL(images[0]);
   }
+
+  if(currentImage)
+  return (
+    <div className={`${s.uploadContainer} ${s.uploadedImage}`}>
+      <div className={s.realImage}>
+        <img src={`${currentImage.url}.jpg?width=400`} alt="thumbnail for the post" />
+      </div>
+      <div className={s.bottom}>
+        <button onClick={() => setCurrentImage(null)} className={s.deleteButton}>entfernen</button> 
+      </div>
+    </div>
+  )
 
   return (
     <div className={`${s.uploadContainer} ${imgPreviewSrc ? s.fileSelected : ''}`}>
@@ -41,7 +84,7 @@ const ImageUpload: React.FunctionComponent = () => {
             id="image"
             accept="image/png, image/jpeg"
             className={s.uploadInput}
-            onChange={e => selectImage(e.target.files)}  
+            onChange={e => {selectImage(e.target.files); console.log(e)}}  
           />
 
           {
