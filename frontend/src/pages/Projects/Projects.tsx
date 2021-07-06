@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Link, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Layout from '../../components/Layout/Layout';
 import DashNav from '../../components/Nav/DashNav';
@@ -8,17 +8,18 @@ import Post from '../../components/Post/Post';
 import PostEditor from '../../components/Post/PostEditor';
 import PostList from '../../components/PostList/PostList';
 import { useAuth } from '../../services/Auth';
+import PrivateRoute from '../../services/PrivateRoute';
 import s from './Projects.module.scss'
 
 export default function Dashboard() {
   const auth = useAuth();
+  let history = useHistory();
+
   let { path, url } = useRouteMatch();
 
-
-  //  className={s.dashboard}
   return (<Layout>
     <Switch>
-      <Route exact path={path}>
+      <PrivateRoute exact path={path}>
         <main>
           <DashNav />
           <div className={s.content}>
@@ -26,22 +27,18 @@ export default function Dashboard() {
               <Button color="light">Neuen Beitrag verfassen</Button>
             </Link>
 
-            <PostList/>
+            <PostList user={auth.user?.id} />
           </div>
         </main>
-
-        {/* <div className={s.notifications} >
-          <p>Hallo, <b>{auth.user?.username}</b>!</p>
-        </div> */}
-      </Route>
+      </PrivateRoute>
       
       <Route path={`${path}/new`}>
         <PostEditor/>
       </Route>
       
-      <Route path={`${path}/:postId/edit`}>
+      <PrivateRoute path={`${path}/:postId/edit`}>
         <PostEditor/>
-      </Route>
+      </PrivateRoute>
 
       <Route path={`${path}/:postId`}>
         <DashNav/>

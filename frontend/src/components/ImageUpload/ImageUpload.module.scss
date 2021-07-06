@@ -1,5 +1,5 @@
 .uploadContainer {
-  max-width: 250px;
+  // max-width: 250px;
   position: relative;
 }
 
@@ -27,6 +27,8 @@
     padding: .4rem;
     border: none;
   }
+
+
 }
 
 .resetButton {
@@ -95,7 +97,7 @@
   user-select: none;
 }
 
-.realImage img{
+.realImage img, .previewImage {
   width: 100%;
   height: 100%;
   aspect-ratio: 16/9;

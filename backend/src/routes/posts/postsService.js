@@ -11,8 +11,10 @@ export async function getPosts({user, skip, limit, preview}) {
   let searchSettings = {}
   let select =  "_user title markdownBody _thumbnail createdAt";
 
+  console.log(user)
+
   if(user)
-    searchSettings.user = user;
+    searchSettings._user = user;
   
   let sortOptions = {
     sort: {

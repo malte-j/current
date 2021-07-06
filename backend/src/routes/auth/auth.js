@@ -24,7 +24,7 @@ router.post('/',
       ({ token, user } = await createSessionToken(username, password));
     } catch(e) {
       if(e) {
-        return res.status(403).send("authentication failed")
+        return res.status(403).send(e.message)
       }
     }
 

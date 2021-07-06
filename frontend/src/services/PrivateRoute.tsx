@@ -10,10 +10,11 @@ import {
 } from "react-router-dom";
 import { useAuth } from './Auth';
 
-export default function PrivateRoute({ children, path, ...rest }: {children: React.ReactNode, path: String}) {
+export default function PrivateRoute({ children, path, exact, ...rest }: {children: React.ReactNode, path: String, exact?: boolean}) {
   let auth = useAuth();
   return (
     <Route
+      exact={exact}
       {...rest}
       render={({ location }) =>
         auth.user ? (

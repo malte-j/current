@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './TextInput.module.scss'
 
-interface TextInputProps {
+export interface TextInputProps {
   type?: 'password' | 'text' | 'search' | 'email',
   id?: string,
   name?: string,

@@ -22,14 +22,15 @@ export default function Signup() {
   let signup: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
+    // @TODO: Hier Registrierung einbauen
     if(password !== passwordRepeat)
       throw new Error("e");
 
     try {
-      await auth.signin(username, password);
+      await auth.signup(username, email, password);
       console.log("signin complete");
 
-      history.replace(location.state?.from || { pathname: "/" });
+      history.replace(location.state?.from || { pathname: "/dashboard" });
     } catch (e) {
       console.log(e)
       console.log("show error to user")
@@ -86,7 +87,7 @@ export default function Signup() {
               type="password"
               required
             />
-            <Button className={s.signupButton} type='submit' color='dark' value='Login' />
+            <Button className={s.signupButton} type='submit' color='dark' value='Registrieren' />
           </form>
         </div>
       </ContentWrapper>

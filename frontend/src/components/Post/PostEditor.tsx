@@ -13,15 +13,10 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Modal from '../Modal/Modal';
 import ImageUpload from '../ImageUpload/ImageUpload';
-
-interface Props {
-  postId?: string;
-}
+import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 const PostEditor: React.FunctionComponent = () => {
-
   // HOOKS
-
   const [postBody, setPostBody] = useState<string>('')
   const [postTitle, setPostTitle] = useState<string>('');
   const [postThumbnail, setPostThumbnail] = useState<Image | null>(null);
@@ -35,15 +30,12 @@ const PostEditor: React.FunctionComponent = () => {
         'Authorization': auth.user!.authToken
       }
     })
-
     return await res.json();
-  },
-    {
-      enabled: postId ? true : false,
-    })
+  }, {
+    enabled: postId ? true : false,
+  })
 
   const queryClient = useQueryClient();
-
   const deletePost = useMutation(async () => {
     const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
       method: 'DELETE',
@@ -64,6 +56,8 @@ const PostEditor: React.FunctionComponent = () => {
   const [textAreaHeight, setTextAreaHeight] = useState("auto");
   const [parentHeight, setParentHeight] = useState("auto");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [currentEditorTab, setCurrentEditorTab] = useState<'editor' | 'preview'>('editor');
+  const [mobile, setMobile] = useState(window.matchMedia('(max-width: 1000px)').matches);
 
 
   const history = useHistory();
@@ -95,6 +89,15 @@ const PostEditor: React.FunctionComponent = () => {
     }
   }, [originalPostQuery?.data])
 
+  // listen to window resize
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 1000px)');
+    const resizeListener = (e: MediaQueryListEvent) => {
+      setMobile(e.matches);
+    }
+    mediaQuery.addEventListener('change', resizeListener);
+    return () => mediaQuery.removeEventListener('change', resizeListener);
+  }, [])
 
   // UTILITY FUNCTIONS
 
@@ -141,8 +144,8 @@ const PostEditor: React.FunctionComponent = () => {
       history.push('/projects/' + res._id + '/edit');
   }
 
-  // DOM
 
+// DOM
   return (
     <div className={s.postEditor}>
       {deleteModalOpen ? (
@@ -162,8 +165,21 @@ const PostEditor: React.FunctionComponent = () => {
 
 
           {(originalPostQuery.isLoading) ?
-            <h2>lade post...</h2>
+              <LoadingIndicator>lade post...</LoadingIndicator>
             : <>
+              {
+                mobile ? <div className={s.mobileEditButtons}>
+                  <Button
+                    onClick={history.goBack}
+                  >Abbrechen</Button>
+                  <Button
+                    color="light"
+                    onClick={savePost}
+                  >Speichern</Button>
+
+                </div>
+                  : null
+              }
               <TextInput
                 label="Titel"
                 placeholder="Ein interessanter Titel..."
@@ -171,8 +187,23 @@ const PostEditor: React.FunctionComponent = () => {
                 onChange={e => setPostTitle(e.target.value)}
               />
 
-              <div className={s.editor}>
-                <div className="textareaWrapper"
+              {
+                mobile ? <ImageUpload
+                currentImage={postThumbnail}
+                setCurrentImage={setPostThumbnail}
+              /> : null
+              }
+
+              {
+                mobile ? (
+                  <div className={s.tabs} data-current-tab={currentEditorTab}>
+                    <button onClick={() => setCurrentEditorTab('editor')}>Editor</button>
+                    <button onClick={() => setCurrentEditorTab('preview')}>Vorschau</button>
+                  </div>
+                ) : null
+              }
+              <div className={s.editor} data-current-tab={currentEditorTab}>
+                <div className={s.textareaWrapper}
                   style={{ minHeight: parentHeight }}
                 >
                   <textarea
@@ -180,6 +211,7 @@ const PostEditor: React.FunctionComponent = () => {
                     ref={textAreaRef}
                     onChange={e => handleInput(e)}
                     style={{ height: textAreaHeight }}
+                    rows={5}
                     placeholder="Schreibe etwas..."
                   >
                   </textarea>
@@ -191,15 +223,26 @@ const PostEditor: React.FunctionComponent = () => {
                   }
                 </div>
               </div>
-
+              {
+                mobile ? (
+                  <Button
+                    color="red"
+                    onClick={() => setDeleteModalOpen(true)}
+                    width="100%"
+                  >LÖSCHEN</Button>) : null
+              }
             </>
           }
         </div>
       </main>
-
+      
+      
       <div className={s.sidebar}>
         <div className={s.top}>
-          <ImageUpload currentImage={postThumbnail} setCurrentImage={setPostThumbnail} />
+        <ImageUpload
+          currentImage={postThumbnail}
+          setCurrentImage={setPostThumbnail}
+        />
         </div>
         <div className={s.bottom}>
           <Button

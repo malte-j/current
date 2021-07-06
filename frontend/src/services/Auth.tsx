@@ -3,7 +3,8 @@ import React, { useContext, createContext, useState, FunctionComponent } from "r
 interface AuthContext {
   user: User | undefined,
   signin: SigninFunction,
-  signout: SignoutFunction
+  signout: SignoutFunction,
+  signup(username:string, email:string, password:string): Promise<User | undefined>
 }
 
 interface SigninFunction {
@@ -25,12 +26,15 @@ const fakeAuth = {
 
   async signin(username: string, password:string):Promise<User> {
     const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/auth', {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      method: 'POST',
+      cache: 'no-cache',
       headers: {
         'Authorization': `Basic ${btoa(username + ':' + password)}`
       },
     })
+
+    if(!res.ok)
+      throw new Error(await res.json())
 
     let signedInUser = await res.json();
     fakeAuth.bearer = res.headers.get('Authorization') as string;
@@ -40,6 +44,30 @@ const fakeAuth = {
       ...signedInUser,
       authToken: fakeAuth.bearer 
     };
+  },
+  async signup(username:string, email:string, password:string):Promise<User | undefined> {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/users', {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        email: email
+      })
+    })
+
+    let newUser = await res.json();
+    fakeAuth.bearer = res.headers.get('Authorization') as string;
+    fakeAuth.isAuthenticated = true;
+
+    return {
+      ...newUser,
+      authToken: fakeAuth.bearer 
+    };
+
   },
   async signout() {
     await sleep(2000);
@@ -71,6 +99,12 @@ export const useProvideAuth = ():AuthContext => {
     return newUser;
   }
 
+  const signup = async (username:string, email:string, password:string) => {
+    const newUser = await fakeAuth.signup(username, email, password);
+    setUser(newUser);
+    return newUser;
+  }
+
   const signout = async () => {
     setUser(undefined);
     await fakeAuth.signout();
@@ -79,6 +113,7 @@ export const useProvideAuth = ():AuthContext => {
   return {
     user,
     signin,
+    signup,
     signout
   };
 }

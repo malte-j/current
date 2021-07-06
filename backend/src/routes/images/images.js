@@ -72,7 +72,25 @@ router.get('/:image',
         if(width || height)
           sharpOutput = sharpOutput.resize(width || null, height || null);
 
-        sharpOutput = sharpOutput.toFormat(format);
+        switch(format) {
+          case "avif":
+            sharpOutput = sharpOutput.avif({
+              quality: 70
+            });
+            break;
+          case "webp":
+            sharpOutput = sharpOutput.webp();
+            break;
+          case "jpg":
+            sharpOutput = sharpOutput.jpeg({
+              progressive: true
+            });
+            break;
+          case "png":
+            sharpOutput = sharpOutput.png();
+
+            break;
+        }
 
         // set content and caching headers
         res.set('Content-Type', `image/${format === 'jpg'? 'jpeg' : format}`);        

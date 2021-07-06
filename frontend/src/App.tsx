@@ -43,9 +43,9 @@ function App() {
                 <Dashboard/>
               </PrivateRoute>
 
-              <PrivateRoute path='/projects'>
+              <Route path='/projects'>
                 <Projects/>
-              </PrivateRoute>
+              </Route>
 
               <PrivateRoute path='/users'>
                 <Users/>

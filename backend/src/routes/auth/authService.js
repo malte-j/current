@@ -14,10 +14,10 @@ export async function createSessionToken(email, password) {
   if(!user)
     throw new Error("user not found")
 
-  const passwordMatch = user.comparePassword(password);
+  const passwordMatch = await user.comparePassword(password);
 
   if(!passwordMatch)
-    throw new error("password incorrect")
+    throw new Error("Username oder Passwort falsch")
 
   const expirationTime = config.jwt.expiryTime;
   const privateKey = config.jwt.privateKey;

@@ -1,6 +1,8 @@
 import express from 'express';
 import { getPosts, getPostById, createPost, deletePost, updatePost } from './postsService';
 import { isAuthenticatedMiddleware } from '../../services/authMiddleware';
+import debug from 'debug';
+const log = debug('route:posts');
 
 const router = express.Router();
 
@@ -58,6 +60,7 @@ router.get('/',
       const posts = await getPosts({user, skip, limit, preview})
       return res.json(posts)
     } catch(e) {
+      log(e);
       return res.status(400).send({
         error: e
       })

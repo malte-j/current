@@ -12,17 +12,14 @@ import { useUser } from "../../services/User";
 import Image from '../Image/Image';
 
 const Post: React.FunctionComponent = () => {
-  const { postId } = useParams<{postId?: string}>();
+  const { postId } = useParams<{ postId?: string }>();
   const auth = useAuth();
   const location = useLocation();
   const queryClient = useQueryClient();
 
-  const post  = useQuery<Partial<Post>, Error>(['post', postId], async () => {
+  const post = useQuery<Partial<Post>, Error>(['post', postId], async () => {
     const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
-      method: 'GET',
-      headers: {
-        'Authorization': auth.user!.authToken
-      }
+      method: 'GET'
     })
 
     return await res.json();
@@ -36,14 +33,15 @@ const Post: React.FunctionComponent = () => {
         _user: previewData?._user._id,
         createdAt: previewData?.createdAt,
         title: previewData?.title,
-      } 
+        _thumbnail: previewData?._thumbnail
+      }
     }
   })
 
   const postUserId = post.data?._user;
 
   const useReq = useUser(postUserId);
-  
+
   const processor = unified()
     .use(markdown)
     .use(remark2rehype)
@@ -52,7 +50,7 @@ const Post: React.FunctionComponent = () => {
   return (
     <div className={s.main}>
       <div className={s.post}>
-        {post.isLoading ? 
+        {post.isLoading ?
           <h1>Lade Post...</h1>
           : <>
             <h1 className={s.title}>{post.data?.title}</h1>
@@ -68,40 +66,40 @@ const Post: React.FunctionComponent = () => {
                     ]}
                     widths={[
                       1340,
-                      670,
+                      700,
                       400,
                       300
                     ]}
-                    aspectRatio={16/9}
+                    aspectRatio={16 / 9}
                   />
                 </div>
-              : null
+                : null
             }
             <div className={s.infoBar}>
               <p className={s.user}>{useReq.data?.username}</p>
               <p className={s.date}>{
                 post.data?.createdAt ?
-                new Intl.DateTimeFormat('de-DE').format(new Date(post.data.createdAt))
-                : ""
+                  new Intl.DateTimeFormat('de-DE').format(new Date(post.data.createdAt))
+                  : ""
               }</p>
               <span></span>
               {
                 postUserId == auth.user?.id ?
-                <Link to={`${location.pathname}/edit`}>
-                  <Button color="light" size="s">bearbeiten</Button>
-                </Link>
-                : null
+                  <Link to={`${location.pathname}/edit`}>
+                    <Button color="light" size="s">bearbeiten</Button>
+                  </Link>
+                  : null
               }
             </div>
             <div className={s.content}>
               {
                 post.data?.markdownBody ?
-                processor.processSync(post.data?.markdownBody).result as React.ReactNode
-                : null
+                  processor.processSync(post.data?.markdownBody).result as React.ReactNode
+                  : null
               }
             </div>
-          </>  
-      }
+          </>
+        }
       </div>
     </div>
   )

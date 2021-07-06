@@ -27,7 +27,7 @@ isAuthenticatedMiddleware,
  * GET User 
  */
 router.get('/:userIdentifier', 
-isAuthenticatedMiddleware,
+// isAuthenticatedMiddleware,
   async (req, res) => {
     try {
       let user = await findUserByIdOrEmail(req.params.userIdentifier, true);
