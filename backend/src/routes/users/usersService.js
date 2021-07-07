@@ -127,11 +127,23 @@ export async function findUserByEmail(email, restricted) {
  * @param {string} password Password of the user
  * @param {User | undefined} reqUser Requesting User
  */
-export async function createUser(username, email, password, reqUser) {
+export async function createUser({username, email, password, emailVerified, isAdmin}, reqUser) {
+  if(!username || !email || !password)
+    throw new Error("missing parameters for user creation");
+  if((emailVerified != undefined || isAdmin != undefined) && !reqUser.isAdmin)
+    throw new Error("you don't have permission to do that")
+
   let newUser = new User();
   newUser.email = email;
   newUser.username = username;
   newUser.password = password;
+  
+  if(emailVerified != undefined)
+    newUser.emailVerified = emailVerified;
+
+  if(isAdmin != undefined)
+    newUser.isAdmin = isAdmin
+
   const createdUser = await newUser.save();
   sendEmailVerification(createdUser);
   return createdUser;

@@ -4,10 +4,7 @@ import { useAuth } from "./Auth";
 async function fetchUser(token?: string, userId?: string ): Promise<User> {
   const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/users/' + userId, {
     method: 'GET',
-    cache: 'no-cache',
-    // headers: {
-    //   'Authorization': token
-    // }
+    cache: 'no-cache'
   })
 
   if (!res.ok) {

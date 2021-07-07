@@ -11,10 +11,11 @@ export interface TextInputProps {
   value?: string,
   minLength?: number,
   className?: string,
+  autocomplete?: boolean,
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-export default function TextInput({type = "text", id, minLength, name, required, placeholder, label, value, onChange, className = ""}:TextInputProps) {
+export default function TextInput({type = "text", id, minLength, name, required, placeholder, label, value, onChange, className = "", autocomplete}:TextInputProps) {
   return <div className={`${s[type]} ${className}`}>
     {
       type == 'search' ? 
@@ -37,6 +38,7 @@ export default function TextInput({type = "text", id, minLength, name, required,
       value={value}
       onChange={onChange}
       minLength={minLength}
+      autoComplete={autocomplete != undefined ? autocomplete ? 'true' : 'off' : 'on'}
     />
   </div>
 }

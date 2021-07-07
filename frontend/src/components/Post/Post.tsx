@@ -8,8 +8,9 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuth } from "../../services/Auth";
 import s from './Post.module.scss'
 import Button from "../Button/Button";
-import { useUser } from "../../services/User";
+import { useUser } from "../../services/Users.service";
 import Image from '../Image/Image';
+import { getPost } from "../../services/Posts.service";
 
 const Post: React.FunctionComponent = () => {
   const { postId } = useParams<{ postId?: string }>();
@@ -17,13 +18,7 @@ const Post: React.FunctionComponent = () => {
   const location = useLocation();
   const queryClient = useQueryClient();
 
-  const post = useQuery<Partial<Post>, Error>(['post', postId], async () => {
-    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/posts/' + postId, {
-      method: 'GET'
-    })
-
-    return await res.json();
-  }, {
+  const post = useQuery<Partial<Post>, Error>(['post', postId], getPost, {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     placeholderData: () => {

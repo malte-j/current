@@ -5,7 +5,7 @@ import { useAuth } from "../../services/Auth";
 import TextInput from '../../components/TextInput/TextInput'
 
 import s from './Signup.module.scss';
-import Nav from "../../components/Nav/Nav";
+import NavBar from "../../components/Nav/NavBar";
 import Button from "../../components/Button/Button";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 
@@ -40,7 +40,7 @@ export default function Signup() {
   return (
     <div className={s.wrapper}>
       <ContentWrapper className={s.main}>
-        <Nav />
+        <NavBar />
         <div className={s.center}>
 
           <form onSubmit={signup} className={s.form}>

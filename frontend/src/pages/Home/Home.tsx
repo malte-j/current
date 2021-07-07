@@ -1,21 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Button from "../../components/Button/Button";
-import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
-import Nav from "../../components/Nav/Nav";
+import Layout from "../../components/Layout/Layout";
+import NavBar from "../../components/Nav/NavBar";
 import PostList from "../../components/PostList/PostList";
 import s from './Home.module.scss';
 
 
 export default function Home() {
-  return <div className={s.home}>
-    <ContentWrapper>
-      <Nav/>
-      {/* <Button color="light">
-        <Link to="/dashboard">Zum Dashboard</Link>
-      </Button> */}
-      <PostList/>
-    </ContentWrapper>
-    
-  </div>
+  return <Layout>
+    <div className={s.home}>
+      <NavBar />
+      <div className={s.posts}>
+        <PostList/>
+      </div>
+    </div>
+  </Layout>
 }

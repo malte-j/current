@@ -51,6 +51,7 @@ const CreateUserModal: FunctionComponent<Props> = (props) => {
           value={username}
           required
           onChange={e => setUsername(e.target.value)}
+          autocomplete={false}
         />
         <TextInput
           label="EMAIL"
@@ -58,6 +59,7 @@ const CreateUserModal: FunctionComponent<Props> = (props) => {
           placeholder="mail@example.com"
           value={email}
           required
+          autocomplete={false}
           onChange={e => setEmail(e.target.value)}
         />
         

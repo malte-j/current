@@ -18,7 +18,7 @@ export async function getPosts({user, skip, limit, preview}) {
   
   let sortOptions = {
     sort: {
-      date: "desc"
+      createdAt: "desc",
     }
   } 
   

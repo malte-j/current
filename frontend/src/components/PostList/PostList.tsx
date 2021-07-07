@@ -1,35 +1,23 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../services/Auth';
 import s from './PostList.module.scss';
 import Image from '../Image/Image';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
+import { getPosts } from '../../services/Posts.service';
 
 interface Props {
   user?: string
 }
 
 const PostList: React.FunctionComponent<Props> = (props) => {
-  const auth = useAuth();
-
   const queryKey = props.user ? ['posts', {user: props.user}] : ['posts'] 
   let params = new URLSearchParams();
   params.set('preview', 'true');
   if(props.user)
     params.set('user', props.user);
 
-  const posts = useQuery<PostPreview[], Error>(queryKey, async () => {
-
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts?${params.toString()}` , {
-      method: 'GET',
-      headers: {
-        'Authorization': auth.user ? auth.user?.authToken: ""
-      }
-    })
-
-    return await res.json();
-  }, {
+  const posts = useQuery<PostPreview[], Error>(queryKey, getPosts, {
     refetchOnWindowFocus: false
   })
 
@@ -80,7 +68,6 @@ const PostList: React.FunctionComponent<Props> = (props) => {
           : <>
           <p>Keine Posts gefunden</p>
           </> 
-
       }
     </div>
   )

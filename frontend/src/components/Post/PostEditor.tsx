@@ -3,7 +3,7 @@ import unified from 'unified'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import rehype2react from 'rehype-react'
-import DashNav from '../Nav/DashNav';
+import NavBar from '../Nav/NavBar';
 import TextInput from '../TextInput/TextInput';
 
 import s from './PostEditor.module.scss';
@@ -160,7 +160,7 @@ const PostEditor: React.FunctionComponent = () => {
         : undefined
       }
       <main>
-        <DashNav />
+        <NavBar />
         <div className={s.main}>
 
 

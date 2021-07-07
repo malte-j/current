@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import { Link, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Layout from '../../components/Layout/Layout';
-import DashNav from '../../components/Nav/DashNav';
-import Sidebar from '../../components/Nav/Sidebar';
+import NavBar from '../../components/Nav/NavBar';
 import Post from '../../components/Post/Post';
 import PostEditor from '../../components/Post/PostEditor';
 import PostList from '../../components/PostList/PostList';
@@ -13,7 +12,6 @@ import s from './Projects.module.scss'
 
 export default function Dashboard() {
   const auth = useAuth();
-  let history = useHistory();
 
   let { path, url } = useRouteMatch();
 
@@ -21,7 +19,7 @@ export default function Dashboard() {
     <Switch>
       <PrivateRoute exact path={path}>
         <main>
-          <DashNav />
+          <NavBar />
           <div className={s.content}>
             <Link to="/projects/new">
               <Button color="light">Neuen Beitrag verfassen</Button>
@@ -41,7 +39,7 @@ export default function Dashboard() {
       </PrivateRoute>
 
       <Route path={`${path}/:postId`}>
-        <DashNav/>
+        <NavBar/>
         <Post/>
       </Route>
     </Switch>

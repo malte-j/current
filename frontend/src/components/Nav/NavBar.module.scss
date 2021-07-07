@@ -13,6 +13,15 @@ $hamburgerWidth: 1200px;
   backdrop-filter: blur(14px);
   padding: 0 1rem;
 
+  &[data-signed-in="false"] {
+    justify-content: space-between;
+
+    .loginButtons {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+
   .logo {
     height: 38px;
 
@@ -55,6 +64,13 @@ $hamburgerWidth: 1200px;
       display: none;
     }
   }
+  @media (max-width: $hamburgerWidth) {
+    &[data-signed-in="false"] {
+      .loginButtons, .searchBar {
+        display: none;
+      }
+    }
+  }
 
   .hamburger {
     height: 22px;
@@ -92,6 +108,20 @@ $hamburgerWidth: 1200px;
     padding-top: var(--navHeight);
     z-index: -1;
     background: var(--colBg);
+
+    [data-signed-in="false"] & {
+      justify-content: stretch;
+
+      .top {
+        flex: 1;
+        gap: 1rem;
+        padding: 0 1.1rem;
+        justify-content: center;
+        a {
+          font-size: var(--font16);
+        }
+      }
+    }
 
     a {
       font-size: var(--font24);

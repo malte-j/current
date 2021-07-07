@@ -1,7 +1,7 @@
 import express from 'express';
 import { getUsers, createUser, verifyUserEmail, updateUser, deleteUser, findUserByEmail, findUserByIdOrEmail } from './usersService'
 import { createSessionToken } from '../auth/authService'
-import { isAuthenticatedMiddleware, isAdmin } from '../../services/authMiddleware';
+import { isAuthenticatedMiddleware, possibleAuthenticationMiddleware } from '../../services/authMiddleware';
 import debug from 'debug';
 const log = debug('route:users');
 
@@ -46,16 +46,22 @@ router.get('/:userIdentifier',
  * CREATE New User
  */
 router.post('/',
+  possibleAuthenticationMiddleware,
   async (req, res) => {
     const email = req.body.email;
     const username = req.body.username;
-    const unencryptedPassword = req.body.password;
+    const password = req.body.password;
+    const emailVerified = req.body.emailVerified;
+    const isAdmin = req.body.isAdmin;
 
     try {
-      const newUser = await createUser(username, email, unencryptedPassword);
-      
+      const newUser = await createUser({username, email, password, emailVerified, isAdmin}, req.user);
+      console.log(newUser.email)
+      console.log(newUser.password)
+
+
       // Log user in after account creation
-      const { token } = await createSessionToken(newUser.email, newUser.password);
+      const { token } = await createSessionToken(newUser.email, password);
       res.header("Authorization", "Bearer " + token)
 
       return res.json({
@@ -66,6 +72,7 @@ router.post('/',
         emailVerified: newUser.emailVerified
       });
     } catch (e) {
+      log(e)
       return res.status(400).json(e.message)
     }
   }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../services/Auth";
+import { uploadImage } from "../../services/Images.service";
 import s from './ImageUpload.module.scss';
 
 interface ImageUploadProps {
@@ -22,18 +23,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({currentImage, s
     if(!selectedFile)
       return;
 
-    const imageFormData = new FormData();
-    imageFormData.append('image', selectedFile);
-
-    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/images/', {
-      method: 'POST',
-      headers: {
-        'Authorization': auth.user!.authToken
-      },
-      body: imageFormData
-    })
-
-    let newImageMetadata = await res.json();
+    const newImageMetadata = await uploadImage(auth.user!.authToken, selectedFile);
     setCurrentImage(newImageMetadata);
     setSelectedFile(null);
     setImgPreviewSrc(null);
@@ -66,6 +56,7 @@ const ImageUpload: React.FunctionComponent<ImageUploadProps> = ({currentImage, s
   return (
     <div className={`${s.uploadContainer} ${s.uploadedImage}`}>
       <div className={s.realImage}>
+        {/* @TODO: use Image component here */}
         <img src={`${currentImage.url}.jpg?width=400`} alt="thumbnail for the post" />
       </div>
       <div className={s.bottom}>

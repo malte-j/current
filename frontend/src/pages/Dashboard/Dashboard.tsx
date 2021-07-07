@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout/Layout';
-import DashNav from '../../components/Nav/DashNav';
+import NavBar from '../../components/Nav/NavBar';
 import PostList from '../../components/PostList/PostList';
 import { useAuth } from '../../services/Auth';
 import s from './Dashboard.module.scss'
@@ -12,7 +12,7 @@ export default function Dashboard() {
     <Layout>
       <div className={s.dashboard}>
         <main>
-          <DashNav />
+          <NavBar />
           <div className={s.content}>
             <PostList/>
           </div>

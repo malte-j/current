@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from '../../services/Auth';
 import s from './Sidebar.module.scss';
 
 interface SidebarProps {
@@ -7,11 +8,17 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = ({className}) => {
+  const auth = useAuth();
+
   return (
-    <aside className={`${s.sidebar} ${className? className : ""}`}>
-      <ul>
+    <aside className={`${s.sidebar} ${className? className : ""}`} >
+      <ul className={s.top}>
         <li><NavLink to="/dashboard">Überblick</NavLink></li>
-        <NavLink to='/users'>Nutzerverwaltung</NavLink>
+        {
+          auth.user?.isAdmin ? 
+          <li><NavLink to='/users'>Nutzerverwaltung</NavLink></li>
+          : null
+        }
         <li><NavLink to="/me">Mein Profil</NavLink></li>
         <li><Link to="/projects">Meine Projekte</Link>
           <ul>
@@ -21,6 +28,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({className}) => {
           </ul>
         </li>
       </ul>
+      <div className={s.bottom}>
+        <a href="#" onClick={e=>{e.preventDefault(); auth.signout()}}>Abmelden</a>
+      </div>
     </aside>
   )
 }

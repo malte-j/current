@@ -4,6 +4,14 @@
   display: grid;
   grid-template-columns: 300px 1fr;
 
+  &[data-signed-in="false"] {
+    grid-template-columns: 1fr;
+    
+    .sidebar {
+      display: none;
+    } 
+  }
+
   .main {
     height: 100%;
     width: 100%;
