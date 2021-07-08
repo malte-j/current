@@ -15,6 +15,8 @@ import Users from './pages/Users/Users';
 
 import PrivateRoute from './services/PrivateRoute';
 import RedirectOnAuth from './services/RedirectOnAuth';
+import { Verify } from 'crypto';
+import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 
 
 const queryClient = new QueryClient();
@@ -50,6 +52,10 @@ function App() {
               <PrivateRoute path='/users'>
                 <Users/>
               </PrivateRoute>
+
+              <Route path='/verifyEmail'>
+                <VerifyEmail/>
+              </Route>
 
               <Route path="*">
                 <div>404: nicht Seite existiert nicht</div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import ImageUpload from './ImageUpload';
+import ImageUpload, { ImageUploadProps } from './ImageUpload';
 
 import "../../../public/App.css"
 
@@ -15,9 +15,11 @@ export default {
   },
 } as Meta;
 
-const Template: Story = (args) => <ImageUpload/>;
+const Template: Story<ImageUploadProps> = (args) => <ImageUpload {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
+  currentImage: null,
+  setCurrentImage: (image) => {}
 };
 

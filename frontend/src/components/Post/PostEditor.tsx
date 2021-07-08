@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import unified from 'unified'
-import markdown from 'remark-parse'
+import parse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import rehype2react from 'rehype-react'
+import sanitize from 'rehype-sanitize';
 import NavBar from '../Nav/NavBar';
 import TextInput from '../TextInput/TextInput';
 
@@ -64,9 +65,12 @@ const PostEditor: React.FunctionComponent = () => {
   const auth = useAuth();
 
   const processor = unified()
-    .use(markdown)
+    .use(parse)
     .use(remark2rehype)
-    .use(rehype2react, { createElement: React.createElement })
+    .use(sanitize)
+    .use(rehype2react, {
+      createElement: React.createElement,
+    })
 
 
   // EFFECTS  
@@ -144,8 +148,14 @@ const PostEditor: React.FunctionComponent = () => {
       history.push('/projects/' + res._id + '/edit');
   }
 
+    let result = null;
+    try {
+      result = processor.processSync(postBody)
+    } catch(e) {
+      console.log(e)
+    }  
 
-// DOM
+  // DOM
   return (
     <div className={s.postEditor}>
       {deleteModalOpen ? (
@@ -219,7 +229,7 @@ const PostEditor: React.FunctionComponent = () => {
 
                 <div className={s.output}>
                   {
-                    processor.processSync(postBody).result as React.ReactNode
+                    result ? result.result as React.ReactNode: null
                   }
                 </div>
               </div>

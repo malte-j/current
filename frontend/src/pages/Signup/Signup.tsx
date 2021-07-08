@@ -28,8 +28,6 @@ export default function Signup() {
 
     try {
       await auth.signup(username, email, password);
-      console.log("signin complete");
-
       history.replace(location.state?.from || { pathname: "/dashboard" });
     } catch (e) {
       console.log(e)

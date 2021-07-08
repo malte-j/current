@@ -22,7 +22,7 @@ export default function Dashboard() {
           <NavBar />
           <div className={s.content}>
             <Link to="/projects/new">
-              <Button color="light">Neuen Beitrag verfassen</Button>
+              <Button color="light">Neues Projekt erstellen</Button>
             </Link>
 
             <PostList user={auth.user?.id} />

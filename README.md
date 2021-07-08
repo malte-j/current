@@ -13,4 +13,6 @@ Installationsanweisungen siehe `backend/README.md`.
 
 ## Docker
 
+! Docker funktioniert aktuell aufgrund eines Bugs in der Markdown-Bibliothek nicht, um current zum Laufen zu bekommen muss für das Frontend der lokale Entwicklungsserver gestartet werden.
+
 Für ein Beispielsetup mit Docker ist eine `docker-compose.yml` Datei vorbereitet. Der komplette Stack für current kann mit dem Befehlt `docker-compose up` gestartet werden. Das Adminlogin lässt sich in Umgebungsvariablen für das Backend in der `docker-compose.yml` Datei finden.

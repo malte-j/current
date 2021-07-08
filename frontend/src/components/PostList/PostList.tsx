@@ -66,7 +66,7 @@ const PostList: React.FunctionComponent<Props> = (props) => {
             ))}
           </>
           : <>
-          <p>Keine Posts gefunden</p>
+          <p>Keine Projekte gefunden...</p>
           </> 
       }
     </div>

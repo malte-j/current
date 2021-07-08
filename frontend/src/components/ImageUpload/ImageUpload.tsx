@@ -3,7 +3,7 @@ import { useAuth } from "../../services/Auth";
 import { uploadImage } from "../../services/Images.service";
 import s from './ImageUpload.module.scss';
 
-interface ImageUploadProps {
+export interface ImageUploadProps {
   currentImage: Image | null;
   setCurrentImage(image: Image | null): void;
 }
