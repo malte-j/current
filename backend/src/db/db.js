@@ -11,7 +11,7 @@ export function init() {
   const password = config.db.password;
 
   if(!hostname || !port) {
-    throw new Error("Missing MongoDB environment variables");
+    throw new Error("Missing MongoDB environment variables" + `Connecting to DB: mongodb://${hostname}:${port}/${dbName}`);
   }
   log(`Connecting to DB: mongodb://${hostname}:${port}/${dbName}`)
 
@@ -20,6 +20,7 @@ export function init() {
 
   try {
     mongoose.connect(`mongodb://${hostname}:${port}/${dbName}`, {
+      useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
       user: username,

@@ -71,16 +71,6 @@ export async function getUsers() {
       userReq = userReq.select("isAdmin _id username email createdAt")
 
     let user = await userReq.exec();
-
-    if(!user && email === config.admin.email) {
-      let adminUser = new User();
-      adminUser.username = config.admin.username;
-      adminUser.email = config.admin.email;
-      adminUser.isAdmin = true;
-      adminUser.password = config.admin.password; 
-      user = await adminUser.save();
-    }
-
     return user;
   } catch (e) {
     console.error(e);
@@ -114,8 +104,8 @@ export async function findUserByEmail(email, restricted) {
 
     return user;
   } catch (e) {
-    console.error(e);
-    return;
+    console.log(e, email, config.admin.email);
+    throw new Error(e.message)
   }
 }
 
@@ -144,9 +134,13 @@ export async function createUser({username, email, password, emailVerified, isAd
   if(isAdmin != undefined)
     newUser.isAdmin = isAdmin
 
-  const createdUser = await newUser.save();
-  sendEmailVerification(createdUser);
-  return createdUser;
+  try {
+    const createdUser = await newUser.save();
+    sendEmailVerification(createdUser);
+    return createdUser;
+  } catch (e) {
+    throw new Error(e.message);
+  }
 }
 
 /**

@@ -2,10 +2,11 @@
   "name": "current",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "start": "node --require dotenv/config --experimental-specifier-resolution=node ./src/bin/www",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --forceExit",
-    "local-test": "npm run local-pretest && DOTENV_CONFIG_PATH=.env.test node --experimental-vm-modules --require dotenv/config node_modules/.bin/jest --forceExit ; npm run local-cleanup",
+    "start": "DOTENV_CONFIG_PATH=../.env node --require dotenv/config --experimental-specifier-resolution=node ./src/bin/www",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "local-test": "npm run local-pretest && DOTENV_CONFIG_PATH=../.env.test node --experimental-vm-modules --require dotenv/config node_modules/.bin/jest --verbose false; npm run local-cleanup",
     "local-pretest": "node ./test/startTest.js",
     "local-cleanup": "node ./test/endTest.js"
   },
@@ -29,7 +30,6 @@
     "jest": "^26.5.3",
     "supertest": "^6.1.3"
   },
-  "type": "module",
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [

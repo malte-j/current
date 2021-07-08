@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 
-exec('docker-compose --env-file .env.test up -d', (e, stdout, stderr) => {
+exec('docker-compose --env-file ./../.env.test up -d backend db', (e, stdout, stderr) => {
   if (e) {
     console.log(`error: ${e.message}`);
     return;

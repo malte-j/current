@@ -59,6 +59,9 @@ export function isAdmin(req) {
  * @param {string} authorizationHeader Raw value of the authorization header
  */
 function decodeHeader(authorizationHeader) {
+  if(!authorizationHeader)
+    return undefined;
+    
   let token = authorizationHeader.split(" ")[1];
   return verifyToken(token);
 }

@@ -22,7 +22,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({className}) => {
         <li><NavLink to="/me">Mein Profil</NavLink></li>
         <li><Link to="/projects">Meine Projekte</Link>
           <ul>
-            <li><a href="#">Projekt hinzufügen</a></li>
+            <li><NavLink to="/projects/new">+ Projekt hinzufügen</NavLink></li>
             <li><a href="#">Elektronikkram und so anderer kram</a></li>
             <li><a href="#">Sehr gutes Projekt</a></li>
           </ul>

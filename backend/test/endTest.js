@@ -1,6 +1,6 @@
 import { exec } from "child_process";
 
-exec("docker-compose --env-file .env.test down -v", (e, stdout, stderr) => {
+exec("docker-compose --env-file ./../.env.test down -v", (e, stdout, stderr) => {
   if (e) {
     console.log(`error: ${error.message}`);
     return;

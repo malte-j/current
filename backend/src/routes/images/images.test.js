@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../../bin/www";
+import mongoose from 'mongoose';
 import config from '../../config';
 
 let agent = request.agent(app)
@@ -13,6 +14,7 @@ describe("", () => {
       // @TODO change to config
       .auth(config.admin.email, config.admin.password)
       .send()
+
     expect(res.statusCode).toEqual(200)
     expect(res.header).toHaveProperty('authorization');
     expect(res.header.authorization.split(' ')[0]).toEqual('Bearer')
@@ -30,3 +32,8 @@ describe("", () => {
     expect(res.statusCode).toEqual(200)
   })
 })
+
+afterAll(async () => {
+  app.close();
+  mongoose.connection.close();
+});

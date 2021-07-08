@@ -56,9 +56,6 @@ router.post('/',
 
     try {
       const newUser = await createUser({username, email, password, emailVerified, isAdmin}, req.user);
-      console.log(newUser.email)
-      console.log(newUser.password)
-
 
       // Log user in after account creation
       const { token } = await createSessionToken(newUser.email, password);
